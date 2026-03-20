@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Meta -->
+  <title>Fabric - Enterprise-Grade Solana RPC Infrastructure | Dedicated Nodes & API</title>
+  <meta name="description" content="Enterprise-grade Solana RPC infrastructure built by data center operators. Dedicated nodes, shared API, co-location services, and enhanced data feeds with 99.9% uptime SLA.">
+  <meta name="keywords" content="Solana RPC, Solana API, Solana dedicated nodes, blockchain infrastructure, RPC provider, Solana node management, enterprise blockchain, co-location crypto, Solana data feeds">
+  <meta name="author" content="Fabric">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Fabric - Enterprise-Grade Solana RPC Infrastructure">
+  <meta property="og:description" content="The reliability, security, and performance your Solana applications demand - backed by a decade of mission-critical data center operations.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fabric.dev">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fabric - Enterprise-Grade Solana RPC Infrastructure">
+  <meta name="twitter:description" content="Enterprise-grade Solana RPC infrastructure built by data center operators. Dedicated nodes, API, co-location, and data feeds.">
+
+  <!-- Favicon placeholder -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2300e5c8'/><text x='8' y='23' font-family='sans-serif' font-weight='bold' font-size='20' fill='%23060a14'>F</text></svg>">
+
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+</head>
+<body>
+
+  <!-- ==================== NAVIGATION (TitanGate layout) ==================== -->
+  <section class="hero" id="hero">
+    <!-- Nav wrapper - logo centered, CTA top-right -->
+    <nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+      <div class="nav-wrapper">
+        <a href="#" class="nav-logo" aria-label="Fabric home">
+          <span class="nav-logo-icon">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 3h5v5H3V3zm7 0h5v5h-5V3zM3 10h5v5H3v-5zm7 2.5L12.5 10 15 12.5 12.5 15 10 12.5z" fill="currentColor"/>
+            </svg>
+          </span>
+          Fabric
+        </a>
+        <a href="https://www.sidechainsecurity.com/" class="nav-cta-btn" target="_blank" rel="noopener" id="hero-cta-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+          Get Started
+        </a>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile nav panel -->
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#why">Why Fabric</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://www.sidechainsecurity.com/" target="_blank" rel="noopener">Get Started</a></li>
+    </ul>
+
+    <!-- Spline 3D Background -->
+    <div class="hero-spline">
+      <div class="spline-grid">
+        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      </div>
+    </div>
+
+    <!-- Hero content - centered vertically -->
+    <div class="hero-content">
+      <div class="hero-subline">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Solana RPC Infrastructure
+        </div>
+      </div>
+
+      <h1>
+        Enterprise-Grade<br>Solana Infrastructure
+      </h1>
+
+      <!-- Inline section nav bar (TitanGate style) -->
+      <div class="hero-nav-bar">
+        <a href="#products" class="hero-nav-link">Products</a>
+        <span class="hero-nav-sep">/</span>
+        <a href="#why" class="hero-nav-link">Why Fabric</a>
+        <span class="hero-nav-sep">/</span>
+        <a href="#pricing" class="hero-nav-link">Pricing</a>
+        <span class="hero-nav-sep">/</span>
+        <a href="#contact" class="hero-nav-link">Contact</a>
+      </div>
+    </div>
+
+    <!-- Bottom tagline (TitanGate style) -->
+    <div class="hero-bottom">
+      <h2 class="hero-bottom-heading">Built by Infrastructure Operators.</h2>
+      <p class="hero-bottom-sub"><span class="text-dim">The reliability, security, and performance your Solana applications demand,</span></p>
+      <p class="hero-bottom-sub"><span class="text-dim">backed by a decade of mission-critical data center operations.</span></p>
+    </div>
+  </section>
+
+
+  <!-- ==================== PRODUCTS ==================== -->
+  <section class="products" id="products">
+    <div class="products-bg"></div>
+    <div class="container container-relative">
+      <div class="products-header reveal">
+        <div class="products-badge">
+          <span class="pulse-dot"></span>
+          From Prototyping to Production
+        </div>
+        <h2 class="products-title">
+          Solana RPC Infrastructure,<br/>
+          <span class="text-gradient">Without Compromise.</span>
+        </h2>
+        <p class="products-desc">
+          Engineered for every stage of your Solana journey. Production-ready API endpoints, exclusive hardware, and absolute reliability.
+        </p>
+      </div>
+
+      <div class="products-grid">
+        <!-- 01 Shared -->
+        <div class="product-card reveal reveal-delay-1" id="product-shared-rpc">
+          <div class="product-card-top">
+            <div class="product-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="product-num">01</div>
+          </div>
+          <div class="product-card-body">
+            <h3>Shared</h3>
+            <p>Production-ready API endpoints with rate limiting, load balancing, and 99.9% uptime.</p>
+          </div>
+          <div class="product-card-glow"></div>
+        </div>
+
+        <!-- 02 Dedicated -->
+        <div class="product-card reveal reveal-delay-2" id="product-dedicated-nodes">
+          <div class="product-card-top">
+            <div class="product-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>
+            </div>
+            <div class="product-num">02</div>
+          </div>
+          <div class="product-card-body">
+            <h3>Dedicated</h3>
+            <p>Exclusive hardware and private endpoints. Zero noisy neighbors during market events.</p>
+          </div>
+          <div class="product-card-glow"></div>
+        </div>
+
+        <!-- 03 Co-Location -->
+        <div class="product-card reveal reveal-delay-3" id="product-colocation">
+          <div class="product-card-top">
+            <div class="product-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 7v14M21 7v14M6 7V4a1 1 0 011-1h10a1 1 0 011 1v3M9 21v-4a2 2 0 012-2h2a2 2 0 012 2v4"/><line x1="9" y1="10" x2="9" y2="10"/><line x1="15" y1="10" x2="15" y2="10"/><line x1="9" y1="13" x2="9" y2="13"/><line x1="15" y1="13" x2="15" y2="13"/></svg>
+            </div>
+            <div class="product-num">03</div>
+          </div>
+          <div class="product-card-body">
+            <h3>Co-Location</h3>
+            <p>Bring your servers to our Vegas data center. Enterprise power, cooling, and security.</p>
+          </div>
+          <div class="product-card-glow"></div>
+        </div>
+
+        <!-- 04 Data Feeds -->
+        <div class="product-card reveal reveal-delay-4" id="product-data-feeds">
+          <div class="product-card-top">
+            <div class="product-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="product-num">04</div>
+          </div>
+          <div class="product-card-body">
+            <h3>Data Feeds</h3>
+            <p>Real-time enriched intelligence. Token launches, wallet alerts, and simulations.</p>
+          </div>
+          <div class="product-card-glow"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== WHY FABRIC (TitanGate Style) ==================== -->
+  <section class="why-titan" id="why">
+    <div class="why-titan-bg"></div>
+    <div class="container container-relative why-titan-content">
+      
+      <div class="why-titan-text reveal">
+        <h2 class="why-titan-heading">
+          Infrastructure-Native<br>
+          <span class="text-dim">vs Crypto-Native.</span>
+        </h2>
+      </div>
+
+      <div class="why-titan-points reveal reveal-delay-2">
+        <div class="why-titan-point">
+          <h3><span class="why-bullet"></span> Security-First</h3>
+          <p>Cybersecurity-hardened from day one. SOC 2 compliance posture. Hardening competitors lack.</p>
+        </div>
+        <div class="why-titan-point">
+          <h3><span class="why-bullet"></span> Predictable Pricing</h3>
+          <p>Flat monthly rates, no usage-based surprises. Enterprise clarity, not complexity.</p>
+        </div>
+        <div class="why-titan-point">
+          <h3><span class="why-bullet"></span> Physical Infrastructure</h3>
+          <p>We own the hardware. Tour our Vegas data center. See the servers you run on.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- ==================== TESTIMONIALS (Shuffle Cards) ==================== -->
+  <section class="testimonials-titan" id="testimonials">
+    <div class="container container-relative">
+      <div class="testimonials-shuffle-layout">
+
+        <!-- Left: title + hint -->
+        <div class="testimonials-titan-header reveal">
+          <h2 class="testimonials-titan-title">
+            Trusted by Teams That <span class="text-dim">Can't Afford Downtime.</span>
+          </h2>
+          <p class="shuffle-hint">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Drag to explore
+          </p>
+        </div>
+
+        <!-- Right: stacked shuffle cards -->
+        <div class="shuffle-cards-outer">
+          <div class="shuffle-cards-stage" id="shuffle-cards">
+
+            <div class="shuffle-card" data-index="0">
+              <img src="https://i.pravatar.cc/128?img=11" alt="Marcus R." class="shuffle-card-avatar">
+              <p class="shuffle-card-quote">"Their infrastructure-native approach isn't just marketing — you feel the difference in reliability."</p>
+              <div class="shuffle-card-author">
+                <span class="shuffle-card-name">Marcus R.</span>
+                <span class="shuffle-card-role">Head of Infrastructure, DeFi Protocol</span>
+              </div>
+            </div>
+
+            <div class="shuffle-card" data-index="1">
+              <img src="https://i.pravatar.cc/128?img=5" alt="Sarah K." class="shuffle-card-avatar">
+              <p class="shuffle-card-quote">"Fabric's dedicated nodes with flat pricing gave us exactly what we needed: no surprises on our bill or latency."</p>
+              <div class="shuffle-card-author">
+                <span class="shuffle-card-name">Sarah K.</span>
+                <span class="shuffle-card-role">CTO, Quantitative Trading Firm</span>
+              </div>
+            </div>
+
+            <div class="shuffle-card" data-index="2">
+              <img src="https://i.pravatar.cc/128?img=33" alt="James L." class="shuffle-card-avatar">
+              <p class="shuffle-card-quote">"The proactive security assessment they ran uncovered vulnerabilities in our setup. Unmatched expertise."</p>
+              <div class="shuffle-card-author">
+                <span class="shuffle-card-name">James L.</span>
+                <span class="shuffle-card-role">VP Engineering, Crypto Exchange</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="logo-carousel reveal">
+        <div class="logo-carousel-label">Trusted by Leading Organizations</div>
+        <div class="logo-marquee">
+          <div class="logo-track">
+            <!-- Set 1 -->
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><rect width="18" height="18" x="3" y="3" rx="4" stroke="currentColor" stroke-width="1.5"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Ledger</span>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Jupiter</span>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 3S3 8 3 14c0 3 4 7 9 7s9-4 9-7c0-6-9-11-9-11z" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Phantom</span>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M5 8h14v12H5zM8 4h8v4H8z" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Backpack</span>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 3l8 6-8 12-8-12 8-6z" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Pyth</span>
+            </div>
+            <!-- Set 2 (Clone for infinite scroll) -->
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><rect width="18" height="18" x="3" y="3" rx="4" stroke="currentColor" stroke-width="1.5"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Ledger</span>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Jupiter</span>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 3S3 8 3 14c0 3 4 7 9 7s9-4 9-7c0-6-9-11-9-11z" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Phantom</span>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M5 8h14v12H5zM8 4h8v4H8z" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Backpack</span>
+            </div>
+            <div class="logo-item">
+              <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 3l8 6-8 12-8-12 8-6z" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Pyth</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>  <!-- ==================== PRICING ==================== -->
+  <section class="pricing" id="pricing">
+    <div class="container container-relative">
+      <div class="pricing-header reveal">
+        <span class="section-label">Pricing</span>
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <p class="section-subtitle">No complexity premiums. No usage-based surprises. Choose the plan that fits - upgrade anytime.</p>
+        
+        <div class="pricing-banner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="banner-icon"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          ALL MONTHLY PLANS INCLUDE ZERO-DOWNTIME ROLLOVER AND 24/7 SUPPORT
+        </div>
+      </div>
+
+      <div class="pricing-grid reveal reveal-delay-2">
+        <!-- Starter -->
+        <div class="pricing-card">
+          <div class="plan-name">Starter</div>
+          <div class="plan-price">$49<span>/mo</span></div>
+          <p class="plan-desc">For solo builders and side projects getting off the ground.</p>
+          <ul class="plan-features">
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 1M requests/day</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Shared endpoints</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Standard SLA</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Community support</li>
+          </ul>
+          <button class="btn btn-secondary pricing-btn">GET STARTED</button>
+        </div>
+
+        <!-- Professional -->
+        <div class="pricing-card">
+          <div class="plan-name">Professional</div>
+          <div class="plan-price">$299<span>/mo</span></div>
+          <p class="plan-desc">For active traders and small teams scaling their apps.</p>
+          <ul class="plan-features">
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 10M requests/day</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Priority routing</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Enhanced SLA</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Email support</li>
+          </ul>
+          <button class="btn btn-secondary pricing-btn">GET STARTED</button>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="pricing-card pricing-card-featured">
+          <div class="plan-badge">MOST POPULAR</div>
+          <div class="plan-name">Enterprise</div>
+          <div class="plan-price">$999<span>/mo</span></div>
+          <p class="plan-desc">For trading firms and production applications demanding reliability.</p>
+          <ul class="plan-features">
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Unlimited requests</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> SLA guarantee</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Priority node access</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Dedicated Slack support</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Free security assessment</li>
+          </ul>
+          <button class="btn btn-primary pricing-btn">GET STARTED</button>
+        </div>
+
+        <!-- Custom -->
+        <div class="pricing-card">
+          <div class="plan-name">Custom</div>
+          <div class="plan-price">Custom</div>
+          <p class="plan-desc">Dedicated nodes, co-location, and white-glove onboarding for institutional needs.</p>
+          <ul class="plan-features">
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Dedicated hardware</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Private endpoints</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Co-location available</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Migration assistance</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Quarterly business reviews</li>
+          </ul>
+          <button class="btn btn-secondary pricing-btn">CONTACT SALES</button>
+        </div>
+      </div>
+
+      <div class="founding-callout reveal reveal-delay-3">
+        <div class="founding-icon">🏛️</div>
+        <div class="founding-content">
+          <h3>Founding Client Program</h3>
+          <p>Lock in current pricing for the life of your contract. Limited to the next 50 founding clients. Don't let infrastructure costs stop you. <a href="#contact">Apply now →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT US ==================== -->
+  <section class="about" id="about">
+    <div class="container container-relative">
+      <div class="about-grid">
+        <div class="about-story reveal">
+          <span class="section-label">About Us</span>
+          <h2 class="section-title">Built Different.<br>By Design.</h2>
+
+          <p>We came into this from <strong>cybersecurity and enterprise data centers</strong>. We've been running mission-critical infrastructure for companies that can't afford downtime for over a decade.</p>
+
+          <p>When we looked at the Solana infrastructure market, we saw a gap that surprised us: every major provider was built by crypto-native software teams who learned infrastructure along the way. Nobody was approaching this from the other direction - from <strong>deep infrastructure experience into crypto</strong>.</p>
+
+          <p>We already had the hardware, the facilities, the security posture, and a relationship with <strong>Ledger</strong> - one of the most recognized names in crypto. We asked ourselves: what is stopping us from doing for Solana what we've done for our enterprise clients in every other sector?</p>
+
+          <p>The answer was nothing. <strong>So we built it.</strong></p>
+        </div>
+
+        <div class="about-stats reveal reveal-delay-2">
+          <div class="about-stat-card">
+            <div class="about-stat-value">10+</div>
+            <div class="about-stat-label">Years in Infrastructure Operations</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="about-stat-value">3.6TB</div>
+            <div class="about-stat-label">RAM - Enterprise-Grade Capacity</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="about-stat-value">10Gbps</div>
+            <div class="about-stat-label">Network Uplinks</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="about-stat-value">24/7</div>
+            <div class="about-stat-label">Data Center Operations</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section class="contact" id="contact">
+    <div class="container container-relative">
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <span class="section-label">Contact</span>
+          <h2 class="section-title">Let's Build<br>Together</h2>
+          <p class="contact-desc">Whether you're evaluating Solana RPC providers, planning a migration, or exploring enterprise infrastructure - we'd love to hear from you. Our team responds within 24 hours.</p>
+
+          <ul class="contact-perks">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" class="perk-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div><strong>Free Security Assessment</strong> – We'll review your current Solana infrastructure and identify vulnerabilities. No strings attached.</div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" class="perk-icon"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div><strong>Parallel Trial Program</strong> – Point 5-10% of your traffic at our endpoint. Compare side-by-side with your current provider. 30 days, zero risk.</div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" class="perk-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/></svg>
+              <div><strong>White-Glove Migration</strong> – Switching from another provider? We handle the entire migration process - configuration review, test environment, parallel validation, and coordinated cutover. Zero cost.</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="contact-form-wrapper reveal reveal-delay-2">
+          <form id="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="contact-name">Name</label>
+                <input type="text" id="contact-name" name="name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="contact-email">Email</label>
+                <input type="email" id="contact-email" name="email" placeholder="you@company.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="contact-company">Company</label>
+              <input type="text" id="contact-company" name="company" placeholder="Your company name">
+            </div>
+            <div class="form-group">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="message" placeholder="Tell us about your infrastructure needs..." required></textarea>
+            </div>
+            <div class="form-submit">
+              <button type="submit" class="btn btn-primary" id="contact-submit">
+                GET IN TOUCH →
+              </button>
+            </div>
+          </form>
+          <div class="form-success" id="form-success">
+            ✓ Message sent! We'll get back to you within 24 hours.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer-titan">
+    <div class="container footer-titan-inner">
+      <a href="#" class="footer-titan-logo">
+        <span class="nav-logo-icon" style="width:24px;height:24px;border-radius:6px;">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:13px;height:13px;">
+            <path d="M3 3h5v5H3V3zm7 0h5v5h-5V3zM3 10h5v5H3v-5zm7 2.5L12.5 10 15 12.5 12.5 15 10 12.5z" fill="#060a14"/>
+          </svg>
+        </span>
+        Fabric
+      </a>
+      <span class="footer-titan-copy">&copy; 2025 Fabric. All rights reserved.</span>
+      <ul class="footer-titan-links">
+        <li><a href="https://www.sidechainsecurity.com/" target="_blank" rel="noopener">SideChain Security</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
