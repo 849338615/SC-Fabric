@@ -386,20 +386,32 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
-.spline-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  width: 100%;
-  height: 100%;
+/* Spline tiles — individually positioned for full coverage */
+.spline-tile {
+  position: absolute;
+  width: 33%;
+  height: 38%;
+  pointer-events: auto;
+  display: block;
 }
 
-.spline-grid spline-viewer {
-  display: block;
-  width: 100%;
-  height: 100%;
-  pointer-events: auto;
-}
+/* Row 1: top — 4 tiles */
+.spline-t1 { top: -5%;   left: -5%; }
+.spline-t2 { top: -5%;   left: 22%; }
+.spline-t3 { top: -5%;   left: 48%; }
+.spline-t4 { top: -5%;   left: 74%; }
+
+/* Row 2: middle — 4 tiles */
+.spline-t5 { top: 30%;  left: -5%; }
+.spline-t6 { top: 30%;  left: 22%; }
+.spline-t7 { top: 30%;  left: 48%; }
+.spline-t8 { top: 30%;  left: 74%; }
+
+/* Row 3: bottom — 4 tiles */
+.spline-t9  { top: 65%;  left: -5%; }
+.spline-t10 { top: 65%;  left: 22%; }
+.spline-t11 { top: 65%;  left: 48%; }
+.spline-t12 { top: 65%;  left: 74%; }
 
 /* Hero content - centered */
 .hero-content {
@@ -901,146 +913,178 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =============================================
-   TESTIMONIALS — Shuffle Cards
+   TESTIMONIALS — 3D Marquee
    ============================================= */
-.testimonials-titan {
-  padding: var(--space-3xl) 0;
+.testimonials-marquee {
+  padding: var(--space-3xl) 0 0;
   position: relative;
   background: var(--color-bg);
 }
 
-.testimonials-shuffle-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3xl);
-  align-items: center;
-  margin-bottom: var(--space-3xl);
+.testimonials-marquee-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
 }
 
-.testimonials-titan-header {
-  max-width: 640px;
-}
-
-.testimonials-titan-title {
+.testimonials-marquee-title {
   font-size: clamp(1.9rem, 3.4vw, 2.9rem);
   font-weight: 300;
   line-height: 1.25;
   letter-spacing: -0.03em;
   color: var(--color-text-primary);
-  margin-bottom: var(--space-lg);
 }
 
-.shuffle-hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-text-tertiary);
-}
-
-/* Cards stage */
-.shuffle-cards-outer {
+.marquee-3d-viewport {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  perspective: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 3rem 2rem 1rem;
+  position: relative;
 }
 
-.shuffle-cards-stage {
+.marquee-3d-inner {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-start;
   position: relative;
-  width: 350px;
-  height: 450px;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 2rem;
+  transform: translateX(-60px) translateY(0px) translateZ(-60px) rotateX(18deg) rotateY(-8deg) rotateZ(16deg);
+}
+
+.marquee-col {
+  flex: 1;
+  overflow: hidden;
+  height: 500px;
+  min-width: 0;
+}
+
+.marquee-track {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.marquee-track--up {
+  animation: marquee-vert-up 30s linear infinite;
+}
+
+.marquee-track--down {
+  animation: marquee-vert-down 32s linear infinite;
+}
+
+.marquee-3d-inner:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-vert-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
+@keyframes marquee-vert-down {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+
+/* Testimonial Card */
+.t-card {
+  background: rgba(8, 12, 30, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  user-select: none;
   flex-shrink: 0;
 }
 
-.shuffle-card {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 350px;
-  height: 450px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(8, 12, 30, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  padding: 2rem 1.75rem;
+.t-card-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  user-select: none;
-  will-change: transform;
+  gap: 0.75rem;
 }
 
-.shuffle-card[data-pos="front"] {
-  z-index: 2;
-  transform: rotate(-6deg) translateX(0px);
-  cursor: grab;
-}
-
-.shuffle-card[data-pos="front"]:active {
-  cursor: grabbing;
-}
-
-.shuffle-card[data-pos="middle"] {
-  z-index: 1;
-  transform: rotate(0deg) translateX(115px);
-}
-
-.shuffle-card[data-pos="back"] {
-  z-index: 0;
-  transform: rotate(6deg) translateX(231px);
-}
-
-.shuffle-card-avatar {
-  width: 96px;
-  height: 96px;
+.t-card-avatar {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  pointer-events: none;
   flex-shrink: 0;
 }
 
-.shuffle-card-quote {
-  font-size: 0.95rem;
-  line-height: 1.65;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.65);
-  text-align: center;
+.t-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.t-card-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.t-card-role {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.t-card-quote {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
   font-style: italic;
-  pointer-events: none;
   margin: 0;
 }
 
-.shuffle-card-author {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
+/* Marquee edge fades */
+.marquee-fade {
+  position: absolute;
   pointer-events: none;
+  z-index: 10;
 }
 
-.shuffle-card-name {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--color-accent);
-  letter-spacing: -0.01em;
+.marquee-fade--top {
+  inset: 0 0 auto 0;
+  height: 30%;
+  background: linear-gradient(to bottom, var(--color-bg) 15%, transparent);
 }
 
-.shuffle-card-role {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-tertiary);
-  text-align: center;
+.marquee-fade--bottom {
+  inset: auto 0 0 0;
+  height: 30%;
+  background: linear-gradient(to top, var(--color-bg) 15%, transparent);
+}
+
+.marquee-fade--left {
+  inset: 0 auto 0 0;
+  width: 15%;
+  background: linear-gradient(to right, var(--color-bg), transparent);
+}
+
+.marquee-fade--right {
+  inset: 0 0 0 auto;
+  width: 15%;
+  background: linear-gradient(to left, var(--color-bg), transparent);
 }
 
 /* =============================================
@@ -1519,15 +1563,14 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .testimonials-shuffle-layout {
-    grid-template-columns: 1fr;
-    gap: var(--space-2xl);
+  .marquee-3d-viewport {
+    height: 380px;
   }
 
-  .shuffle-cards-outer {
-    justify-content: flex-start;
-    padding-left: 0;
+  .marquee-col {
+    height: 380px;
   }
+
   .about-grid,
   .contact-grid {
     grid-template-columns: 1fr;
@@ -1596,6 +1639,19 @@ h1, h2, h3, h4, h5, h6 {
   .why-titan-content {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .marquee-3d-viewport {
+    height: 320px;
+  }
+
+  .marquee-col {
+    height: 320px;
+  }
+
+  .marquee-col:nth-child(3),
+  .marquee-col:nth-child(4) {
+    display: none;
   }
 
   .pricing-grid,

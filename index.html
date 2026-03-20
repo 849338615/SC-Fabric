@@ -68,14 +68,19 @@
 
     <!-- Spline 3D Background -->
     <div class="hero-spline">
-      <div class="spline-grid">
-        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
-        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
-        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
-        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
-        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
-        <spline-viewer url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
-      </div>
+      <!-- 12 viewers in 3×4 grid for full hero coverage -->
+      <spline-viewer class="spline-tile spline-t1" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t2" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t3" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t4" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t5" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t6" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t7" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t8" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t9" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t10" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t11" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
+      <spline-viewer class="spline-tile spline-t12" url="https://prod.spline.design/OPAml0E7l0rOhKxy/scene.splinecode"></spline-viewer>
     </div>
 
     <!-- Hero content - centered vertically -->
@@ -227,58 +232,96 @@
 
 
 
-  <!-- ==================== TESTIMONIALS (Shuffle Cards) ==================== -->
-  <section class="testimonials-titan" id="testimonials">
+  <!-- ==================== TESTIMONIALS (3D Marquee) ==================== -->
+  <section class="testimonials-marquee" id="testimonials">
     <div class="container container-relative">
-      <div class="testimonials-shuffle-layout">
+      <div class="testimonials-marquee-header reveal">
+        <span class="section-label">Social Proof</span>
+        <h2 class="testimonials-marquee-title">Trusted by Teams That <span class="text-dim">Can't Afford Downtime.</span></h2>
+      </div>
+    </div>
 
-        <!-- Left: title + hint -->
-        <div class="testimonials-titan-header reveal">
-          <h2 class="testimonials-titan-title">
-            Trusted by Teams That <span class="text-dim">Can't Afford Downtime.</span>
-          </h2>
-          <p class="shuffle-hint">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Drag to explore
-          </p>
-        </div>
+    <div class="marquee-3d-viewport">
+      <div class="marquee-3d-inner">
 
-        <!-- Right: stacked shuffle cards -->
-        <div class="shuffle-cards-outer">
-          <div class="shuffle-cards-stage" id="shuffle-cards">
-
-            <div class="shuffle-card" data-index="0">
-              <img src="https://i.pravatar.cc/128?img=11" alt="Marcus R." class="shuffle-card-avatar">
-              <p class="shuffle-card-quote">"Their infrastructure-native approach isn't just marketing — you feel the difference in reliability."</p>
-              <div class="shuffle-card-author">
-                <span class="shuffle-card-name">Marcus R.</span>
-                <span class="shuffle-card-role">Head of Infrastructure, DeFi Protocol</span>
-              </div>
-            </div>
-
-            <div class="shuffle-card" data-index="1">
-              <img src="https://i.pravatar.cc/128?img=5" alt="Sarah K." class="shuffle-card-avatar">
-              <p class="shuffle-card-quote">"Fabric's dedicated nodes with flat pricing gave us exactly what we needed: no surprises on our bill or latency."</p>
-              <div class="shuffle-card-author">
-                <span class="shuffle-card-name">Sarah K.</span>
-                <span class="shuffle-card-role">CTO, Quantitative Trading Firm</span>
-              </div>
-            </div>
-
-            <div class="shuffle-card" data-index="2">
-              <img src="https://i.pravatar.cc/128?img=33" alt="James L." class="shuffle-card-avatar">
-              <p class="shuffle-card-quote">"The proactive security assessment they ran uncovered vulnerabilities in our setup. Unmatched expertise."</p>
-              <div class="shuffle-card-author">
-                <span class="shuffle-card-name">James L.</span>
-                <span class="shuffle-card-role">VP Engineering, Crypto Exchange</span>
-              </div>
-            </div>
-
+        <!-- Column 1: scrolls down -->
+        <div class="marquee-col">
+          <div class="marquee-track marquee-track--down">
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"Their infrastructure-native approach isn't just marketing — you feel the difference in reliability."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=47" alt="Nina T." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Nina T.</span><span class="t-card-role">Infrastructure Lead, Web3 Studio</span></div></div><p class="t-card-quote">"Migration was zero-friction. They handled everything end to end and we never missed a beat."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=64" alt="Kevin P." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Kevin P.</span><span class="t-card-role">DevOps Engineer, NFT Platform</span></div></div><p class="t-card-quote">"The flat pricing model let us scale without bill shock. Enterprise clarity from day one."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James L." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James L.</span><span class="t-card-role">VP Engineering, Crypto Exchange</span></div></div><p class="t-card-quote">"The proactive security assessment uncovered vulnerabilities in our setup. Unmatched expertise."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=8" alt="Tom W." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Tom W.</span><span class="t-card-role">Head of Engineering, Blockchain Studio</span></div></div><p class="t-card-quote">"Dedicated Slack support means real humans respond in minutes, not hours. Game changer."</p></div>
+            <!-- duplicate for seamless loop -->
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"Their infrastructure-native approach isn't just marketing — you feel the difference in reliability."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=47" alt="Nina T." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Nina T.</span><span class="t-card-role">Infrastructure Lead, Web3 Studio</span></div></div><p class="t-card-quote">"Migration was zero-friction. They handled everything end to end and we never missed a beat."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=64" alt="Kevin P." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Kevin P.</span><span class="t-card-role">DevOps Engineer, NFT Platform</span></div></div><p class="t-card-quote">"The flat pricing model let us scale without bill shock. Enterprise clarity from day one."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James L." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James L.</span><span class="t-card-role">VP Engineering, Crypto Exchange</span></div></div><p class="t-card-quote">"The proactive security assessment uncovered vulnerabilities in our setup. Unmatched expertise."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=8" alt="Tom W." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Tom W.</span><span class="t-card-role">Head of Engineering, Blockchain Studio</span></div></div><p class="t-card-quote">"Dedicated Slack support means real humans respond in minutes, not hours. Game changer."</p></div>
           </div>
         </div>
 
-      </div>
+        <!-- Column 2: scrolls up -->
+        <div class="marquee-col">
+          <div class="marquee-track marquee-track--up">
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah K.</span><span class="t-card-role">CTO, Quantitative Trading Firm</span></div></div><p class="t-card-quote">"Fabric's dedicated nodes with flat pricing gave us no surprises — on our bill or latency."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"Priority node access is a game changer for latency-sensitive trades. Sub-millisecond matters."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Rachel S." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Rachel S.</span><span class="t-card-role">CTO, Crypto Asset Manager</span></div></div><p class="t-card-quote">"Security posture here is enterprise-grade, not startup-grade. SOC 2 compliance out of the box."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Alex M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Alex M.</span><span class="t-card-role">Lead Dev, Trading Bot Team</span></div></div><p class="t-card-quote">"99.99% uptime during peak market events. Nothing else comes close. We stress-tested everything."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"We toured their Vegas data center. Seeing the actual hardware builds trust that no SLA document can."</p></div>
+            <!-- duplicate for seamless loop -->
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah K.</span><span class="t-card-role">CTO, Quantitative Trading Firm</span></div></div><p class="t-card-quote">"Fabric's dedicated nodes with flat pricing gave us no surprises — on our bill or latency."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"Priority node access is a game changer for latency-sensitive trades. Sub-millisecond matters."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Rachel S." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Rachel S.</span><span class="t-card-role">CTO, Crypto Asset Manager</span></div></div><p class="t-card-quote">"Security posture here is enterprise-grade, not startup-grade. SOC 2 compliance out of the box."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Alex M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Alex M.</span><span class="t-card-role">Lead Dev, Trading Bot Team</span></div></div><p class="t-card-quote">"99.99% uptime during peak market events. Nothing else comes close. We stress-tested everything."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"We toured their Vegas data center. Seeing the actual hardware builds trust that no SLA document can."</p></div>
+          </div>
+        </div>
 
+        <!-- Column 3: scrolls down -->
+        <div class="marquee-col">
+          <div class="marquee-track marquee-track--down">
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=64" alt="Kevin P." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Kevin P.</span><span class="t-card-role">DevOps Engineer, NFT Platform</span></div></div><p class="t-card-quote">"Onboarding was painless. Their team handled DNS, config, and parallel validation without us lifting a finger."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=8" alt="Tom W." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Tom W.</span><span class="t-card-role">Head of Engineering, Blockchain Studio</span></div></div><p class="t-card-quote">"Switched from a major provider and cut our p99 latency by 40%. The hardware ownership shows."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Rachel S." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Rachel S.</span><span class="t-card-role">CTO, Crypto Asset Manager</span></div></div><p class="t-card-quote">"Our compliance team signed off immediately. Having an infrastructure partner with a security-first posture is rare."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"We ran the parallel trial for two weeks. The performance delta was undeniable. We migrated everything."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=47" alt="Nina T." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Nina T.</span><span class="t-card-role">Infrastructure Lead, Web3 Studio</span></div></div><p class="t-card-quote">"Co-location in their Vegas facility gave us proximity to the validators we needed. Huge latency win."</p></div>
+            <!-- duplicate for seamless loop -->
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=64" alt="Kevin P." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Kevin P.</span><span class="t-card-role">DevOps Engineer, NFT Platform</span></div></div><p class="t-card-quote">"Onboarding was painless. Their team handled DNS, config, and parallel validation without us lifting a finger."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=8" alt="Tom W." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Tom W.</span><span class="t-card-role">Head of Engineering, Blockchain Studio</span></div></div><p class="t-card-quote">"Switched from a major provider and cut our p99 latency by 40%. The hardware ownership shows."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Rachel S." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Rachel S.</span><span class="t-card-role">CTO, Crypto Asset Manager</span></div></div><p class="t-card-quote">"Our compliance team signed off immediately. Having an infrastructure partner with a security-first posture is rare."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"We ran the parallel trial for two weeks. The performance delta was undeniable. We migrated everything."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=47" alt="Nina T." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Nina T.</span><span class="t-card-role">Infrastructure Lead, Web3 Studio</span></div></div><p class="t-card-quote">"Co-location in their Vegas facility gave us proximity to the validators we needed. Huge latency win."</p></div>
+          </div>
+        </div>
+
+        <!-- Column 4: scrolls up -->
+        <div class="marquee-col">
+          <div class="marquee-track marquee-track--up">
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Alex M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Alex M.</span><span class="t-card-role">Lead Dev, Trading Bot Team</span></div></div><p class="t-card-quote">"Their SLA guarantee is actually backed by hardware they own. Most providers can't say that."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James L." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James L.</span><span class="t-card-role">VP Engineering, Crypto Exchange</span></div></div><p class="t-card-quote">"Cybersecurity background means they caught issues our previous provider never flagged. Worth every dollar."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah K.</span><span class="t-card-role">CTO, Quantitative Trading Firm</span></div></div><p class="t-card-quote">"Data feeds are real-time and deeply enriched. Our alpha generation improved materially within weeks."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"During a major market event, every other provider we've used has had incidents. Fabric held firm."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"Being a founding client locked in pricing for life. It was the easiest infrastructure decision we've made."</p></div>
+            <!-- duplicate for seamless loop -->
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Alex M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Alex M.</span><span class="t-card-role">Lead Dev, Trading Bot Team</span></div></div><p class="t-card-quote">"Their SLA guarantee is actually backed by hardware they own. Most providers can't say that."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James L." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James L.</span><span class="t-card-role">VP Engineering, Crypto Exchange</span></div></div><p class="t-card-quote">"Cybersecurity background means they caught issues our previous provider never flagged. Worth every dollar."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah K.</span><span class="t-card-role">CTO, Quantitative Trading Firm</span></div></div><p class="t-card-quote">"Data feeds are real-time and deeply enriched. Our alpha generation improved materially within weeks."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"During a major market event, every other provider we've used has had incidents. Fabric held firm."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"Being a founding client locked in pricing for life. It was the easiest infrastructure decision we've made."</p></div>
+          </div>
+        </div>
+
+        <!-- Gradient edge fades -->
+        <div class="marquee-fade marquee-fade--top"></div>
+        <div class="marquee-fade marquee-fade--bottom"></div>
+        <div class="marquee-fade marquee-fade--left"></div>
+        <div class="marquee-fade marquee-fade--right"></div>
+
+      </div>
+    </div>
+
+    <div class="container container-relative">
       <div class="logo-carousel reveal">
         <div class="logo-carousel-label">Trusted by Leading Organizations</div>
         <div class="logo-marquee">
