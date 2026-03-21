@@ -129,4 +129,13 @@
     });
   }
 
+
+  // ─── TESTIMONIAL MARQUEE — CLICK TO PAUSE ─────────
+  const marqueeInner = document.querySelector('.marquee-3d-inner');
+  if (marqueeInner) {
+    marqueeInner.addEventListener('click', () => {
+      marqueeInner.classList.toggle('paused');
+    });
+  }
+
 })();

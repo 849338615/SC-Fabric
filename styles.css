@@ -978,7 +978,7 @@ h1, h2, h3, h4, h5, h6 {
   animation: marquee-vert-down 32s linear infinite;
 }
 
-.marquee-3d-inner:hover .marquee-track {
+.marquee-3d-inner.paused .marquee-track {
   animation-play-state: paused;
 }
 
@@ -1197,9 +1197,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin-bottom: 4rem;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .pricing-card {
   background-color: rgba(255, 255, 255, 0.02);
@@ -1280,6 +1283,31 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
   margin-top: 2px;
 }
+.plan-features--usage {
+  gap: 0;
+}
+.usage-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1rem 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.07);
+  margin-bottom: 0 !important;
+}
+.usage-row:first-child {
+  padding-top: 0;
+}
+.usage-label {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+.usage-rate {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.02em;
+}
 .pricing-btn {
   width: 100%;
   margin-top: auto;
@@ -1319,6 +1347,7 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 1px solid rgba(255,255,255,0.3);
   padding-bottom: 2px;
   transition: border-color 0.3s ease;
+  white-space: nowrap;
 }
 .founding-content a:hover {
   border-color: var(--color-text-primary);
