@@ -1,0 +1,13 @@
+{
+  "name": "sc-fabric",
+  "version": "1.0.0",
+  "description": "Enterprise-Grade Solana RPC Infrastructure",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'No build step required for static HTML site'",
+    "test": "echo 'No tests configured'"
+  },
+  "author": "Fabric",
+  "license": "UNLICENSED"
+}
