@@ -3190,6 +3190,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 0;
   left: 0;
   width: 100%;
+  min-height: 260px;
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -3263,11 +3264,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .signal-content .challenge-highlight {
-  font-size: 3.5rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #00e5c8;
-  letter-spacing: -0.5px;
-  margin-top: 0.25rem;
 }
 
 /* Progress Pips */
