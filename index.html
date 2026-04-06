@@ -3,49 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="favicon.png?v=2">
 
   <!-- SEO Meta -->
-  <title>Fabric - Enterprise-Grade Solana RPC Infrastructure | Dedicated Nodes & API</title>
-  <meta name="description" content="Enterprise-grade Solana RPC infrastructure built by data center operators. Dedicated nodes, shared API, co-location services, and enhanced data feeds with 99.9% uptime SLA.">
-  <meta name="keywords" content="Solana RPC, Solana API, Solana dedicated nodes, blockchain infrastructure, RPC provider, Solana node management, enterprise blockchain, co-location crypto, Solana data feeds">
-  <meta name="author" content="Fabric">
+  <title>Sidechain Security | Managed Security Services for Regulated Industries</title>
+  <meta name="description" content="Sidechain Security delivers fully managed cybersecurity programs for regulated industries. Compliance-ready, expert-led MSSP services built on deep data security expertise.">
+  <meta name="keywords" content="MSSP, managed security services, cybersecurity, HIPAA compliance, PCI-DSS, endpoint detection, data encryption, key management, HSM, vulnerability assessment">
+  <meta name="author" content="Sidechain Security">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Fabric - Enterprise-Grade Solana RPC Infrastructure">
-  <meta property="og:description" content="The reliability, security, and performance your Solana applications demand - backed by a decade of mission-critical data center operations.">
+  <meta property="og:title" content="Sidechain Security | Managed Security Services for Regulated Industries">
+  <meta property="og:description" content="Fully managed cybersecurity programs that protect your entire organization. Compliance-ready, expert-led, and built on deep data security expertise.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://fabric.dev">
+  <meta property="og:url" content="https://sidechainsecurity.com">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Fabric - Enterprise-Grade Solana RPC Infrastructure">
-  <meta name="twitter:description" content="Enterprise-grade Solana RPC infrastructure built by data center operators. Dedicated nodes, API, co-location, and data feeds.">
+  <meta name="twitter:title" content="Sidechain Security | Managed Security Services">
+  <meta name="twitter:description" content="Fully managed cybersecurity for regulated industries. HIPAA, PCI-DSS, NY-DFS compliant. Built on Fortune 500 data security expertise.">
 
-  <!-- Favicon placeholder -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2300e5c8'/><text x='8' y='23' font-family='sans-serif' font-weight='bold' font-size='20' fill='%23060a14'>F</text></svg>">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%234a7cff'/><text x='7' y='23' font-family='sans-serif' font-weight='bold' font-size='20' fill='%23fff'>S</text></svg>">
 
   <link rel="stylesheet" href="styles.css">
-  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+  <!-- React -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 </head>
 <body>
 
-  <!-- ==================== NAVIGATION (TitanGate layout) ==================== -->
+  <!-- ==================== HERO ==================== -->
   <section class="hero" id="hero">
-    <!-- Nav wrapper - logo centered, CTA top-right -->
     <nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
       <div class="nav-wrapper">
-        <a href="#" class="nav-logo" aria-label="Fabric home">
-          <span class="nav-logo-icon">
-            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 3h5v5H3V3zm7 0h5v5h-5V3zM3 10h5v5H3v-5zm7 2.5L12.5 10 15 12.5 12.5 15 10 12.5z" fill="currentColor"/>
-            </svg>
-          </span>
-          Fabric
+        <a href="#" class="nav-logo" aria-label="Sidechain Security home">
+          <img src="assets/sidechain-logo.png" alt="Sidechain Security Logo" style="height: 22px; filter: brightness(0) invert(1); opacity: 0.95;">
         </a>
-        <a href="https://www.sidechainsecurity.com/" class="nav-cta-btn" target="_blank" rel="noopener" id="hero-cta-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-          Get Started
+        <a href="#contact" class="nav-cta-btn" id="hero-cta-primary">
+          Contact Us
         </a>
         <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
           <span></span>
@@ -57,38 +53,37 @@
 
     <!-- Mobile nav panel -->
     <ul class="nav-links" id="nav-links">
-      <li><a href="#products">Products</a></li>
-      <li><a href="#why">Why Fabric</a></li>
-      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#data-security">Why Sidechain</a></li>
+      <li><a href="#compliance">Compliance</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="https://www.sidechainsecurity.com/" target="_blank" rel="noopener">Get Started</a></li>
+      <li><a href="#contact">Contact Us</a></li>
     </ul>
 
-    <!-- Spline 3D Background — single viewer overscanned to fill canvas cleanly -->
-    <div class="hero-spline">
-      <spline-viewer url="https://prod.spline.design/57Ie73dZERMKEdK0/scene.splinecode" events-target="global"></spline-viewer>
-    </div>
+    <!-- React Cyber Background Mount Point -->
+    <div id="hero-react-bg"></div>
 
-    <!-- Hero content - centered vertically -->
+    <!-- Hero content -->
     <div class="hero-content">
       <div class="hero-subline">
         <div class="hero-badge">
           <span class="hero-badge-dot"></span>
-          Solana RPC Infrastructure
+          Sidechain Defense: Active
         </div>
       </div>
 
       <h1>
-        Enterprise-Grade<br>Solana Infrastructure
+        The Security Experts<br>Regulated Industries Trust.
       </h1>
 
-      <!-- Inline section nav bar (TitanGate style) -->
+      <!-- Inline section nav bar -->
       <div class="hero-nav-bar">
-        <a href="#products" class="hero-nav-link">Products</a>
+        <a href="#services" class="hero-nav-link">Services</a>
         <span class="hero-nav-sep">/</span>
-        <a href="#why" class="hero-nav-link">Why Fabric</a>
+        <a href="#data-security" class="hero-nav-link">Why Sidechain</a>
+        <span class="hero-nav-sep">/</span>
+        <a href="#compliance" class="hero-nav-link">Compliance</a>
         <span class="hero-nav-sep">/</span>
         <a href="#pricing" class="hero-nav-link">Pricing</a>
         <span class="hero-nav-sep">/</span>
@@ -96,187 +91,482 @@
       </div>
     </div>
 
-    <!-- Bottom tagline (TitanGate style) -->
+    <!-- Bottom tagline -->
     <div class="hero-bottom">
-      <h2 class="hero-bottom-heading">Built by Infrastructure Operators.</h2>
-      <p class="hero-bottom-sub"><span class="text-dim">The reliability, security, and performance your Solana applications demand,</span></p>
-      <p class="hero-bottom-sub"><span class="text-dim">backed by a decade of mission-critical data center operations.</span></p>
+      <h2 class="hero-bottom-heading">Security You Can Defend.</h2>
+      <p class="hero-bottom-sub"><span class="text-dim">We built our reputation managing encryption and data security for Fortune 500 companies.</span></p>
+      <p class="hero-bottom-sub"><span class="text-dim">Today, we deliver fully managed cybersecurity programs, compliance-ready and expert-led.</span></p>
     </div>
   </section>
 
 
-  <!-- ==================== TRUSTED BY (social proof bar) ==================== -->
+  <!-- ==================== TRUST BAR ==================== -->
   <div class="trust-bar">
-    <div class="trust-bar-label">Trusted by Leading Organizations</div>
+    <div class="trust-bar-label">Trusted by Organizations in</div>
     <div class="logo-marquee">
       <div class="logo-track">
         <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><rect width="18" height="18" x="3" y="3" rx="4" stroke="currentColor" stroke-width="1.5"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Ledger</span>
+          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 2a9 9 0 00-9 9v1a9 9 0 009 9h0a9 9 0 009-9v-1a9 9 0 00-9-9z" stroke="currentColor" stroke-width="1.5"/><path d="M8 13h8M12 9v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Healthcare</span>
         </div>
         <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Jupiter</span>
+          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Financial Services</span>
         </div>
         <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 3S3 8 3 14c0 3 4 7 9 7s9-4 9-7c0-6-9-11-9-11z" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Phantom</span>
+          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Insurance</span>
         </div>
         <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M5 8h14v12H5zM8 4h8v4H8z" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Backpack</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 3l8 6-8 12-8-12 8-6z" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Pyth</span>
+          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Retail</span>
         </div>
         <!-- Clone for seamless loop -->
         <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><rect width="18" height="18" x="3" y="3" rx="4" stroke="currentColor" stroke-width="1.5"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Ledger</span>
+          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 2a9 9 0 00-9 9v1a9 9 0 009 9h0a9 9 0 009-9v-1a9 9 0 00-9-9z" stroke="currentColor" stroke-width="1.5"/><path d="M8 13h8M12 9v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Healthcare</span>
         </div>
         <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Jupiter</span>
+          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Financial Services</span>
         </div>
         <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 3S3 8 3 14c0 3 4 7 9 7s9-4 9-7c0-6-9-11-9-11z" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Phantom</span>
+          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Insurance</span>
         </div>
         <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M5 8h14v12H5zM8 4h8v4H8z" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Backpack</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 3l8 6-8 12-8-12 8-6z" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Pyth</span>
+          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Retail</span>
         </div>
       </div>
     </div>
   </div>
 
 
-  <!-- ==================== PRODUCTS ==================== -->
-  <section class="products" id="products">
+  <!-- ==================== THE CHALLENGE ==================== -->
+  <section class="challenge" id="why">
+    <div class="container container-relative">
+      <div class="challenge-content reveal">
+        <span class="section-label">The Reality</span>
+        <h2 class="section-title">Security Is Complex. <span class="text-dim">Regulated Industries Can't Afford to Figure It Out Alone.</span></h2>
+        <div class="challenge-body">
+          <p>Healthcare organizations face OCR audits and HIPAA enforcement. Financial services firms navigate NY-DFS and PCI-DSS requirements. Insurers carry significant data liability. Retailers handle sensitive payment data every hour of every day.</p>
+          <p>For businesses in these industries, a security breach isn't just an IT problem. It's a regulatory event, a reputational crisis, and a financial exposure. You need a security partner who understands both the threat landscape and the compliance environment you operate in.</p>
+          <p class="challenge-highlight">That's what Sidechain Security was built for.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== ASSESSMENTS (Entry Point) ==================== -->
+  <section class="products" id="assess">
     <div class="products-bg"></div>
     <div class="container container-relative">
       <div class="products-header reveal">
         <div class="products-badge">
           <span class="pulse-dot"></span>
-          From Prototyping to Production
+          Threat Assessment
         </div>
         <h2 class="products-title">
-          Solana RPC Infrastructure,<br/>
-          <span class="text-gradient">Without Compromise.</span>
+          Not Sure Where You Stand?<br/>
+          <span class="text-gradient">Start Here.</span>
         </h2>
         <p class="products-desc">
-          Engineered for every stage of your Solana journey. Production-ready API endpoints, exclusive hardware, and absolute reliability.
+          Before you can manage security, you need to understand your current risk. Our one-time assessment services give you a clear, expert-led picture of your vulnerabilities and compliance gaps.
         </p>
       </div>
 
       <div class="products-grid">
-        <!-- 01 Shared -->
-        <div class="product-card reveal reveal-delay-1" id="product-shared-rpc">
+        <!-- Vulnerability Assessment -->
+        <div class="product-card reveal reveal-delay-1" id="assess-vuln">
           <div class="product-card-top">
             <div class="product-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
             </div>
-            <div class="product-num">01</div>
           </div>
           <div class="product-card-body">
-            <h3>Shared</h3>
-            <p>Production-ready API endpoints with rate limiting, load balancing, and 99.9% uptime.</p>
+            <h3>Vulnerability Assessment</h3>
+            <p>A systematic scan and expert analysis of your environment to identify security weaknesses before attackers find them. You receive a prioritized remediation roadmap.</p>
+            <a href="#contact" class="card-cta-link">Schedule an Assessment →</a>
           </div>
           <div class="product-card-glow"></div>
         </div>
 
-        <!-- 02 Dedicated -->
-        <div class="product-card reveal reveal-delay-2" id="product-dedicated-nodes">
+        <!-- Cyber Risk Evaluation -->
+        <div class="product-card reveal reveal-delay-2" id="assess-risk">
           <div class="product-card-top">
             <div class="product-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
             </div>
-            <div class="product-num">02</div>
           </div>
           <div class="product-card-body">
-            <h3>Dedicated</h3>
-            <p>Exclusive hardware and private endpoints. Zero noisy neighbors during market events.</p>
+            <h3>Cyber Risk Evaluation</h3>
+            <p>A structured review of your overall security posture, including policies, controls, people, and technology, mapped against industry frameworks.</p>
+            <a href="#contact" class="card-cta-link">Schedule an Evaluation →</a>
           </div>
           <div class="product-card-glow"></div>
         </div>
 
-        <!-- 03 Co-Location -->
-        <div class="product-card reveal reveal-delay-3" id="product-colocation">
+        <!-- HIPAA Cyber Risk Assessment -->
+        <div class="product-card reveal reveal-delay-3" id="assess-hipaa">
           <div class="product-card-top">
             <div class="product-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 7v14M21 7v14M6 7V4a1 1 0 011-1h10a1 1 0 011 1v3M9 21v-4a2 2 0 012-2h2a2 2 0 012 2v4"/><line x1="9" y1="10" x2="9" y2="10"/><line x1="15" y1="10" x2="15" y2="10"/><line x1="9" y1="13" x2="9" y2="13"/><line x1="15" y1="13" x2="15" y2="13"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a9 9 0 00-9 9v1a9 9 0 009 9h0a9 9 0 009-9v-1a9 9 0 00-9-9z"/><path d="M8 13h8M12 9v8"/></svg>
             </div>
-            <div class="product-num">03</div>
           </div>
           <div class="product-card-body">
-            <h3>Co-Location</h3>
-            <p>Bring your servers to our Vegas data center. Enterprise power, cooling, and security.</p>
+            <h3>HIPAA Cyber Risk Assessment</h3>
+            <p>Required by the HIPAA Security Rule, this assessment identifies risks to ePHI confidentiality, integrity, and availability. Audit-ready documentation included.</p>
+            <a href="#contact" class="card-cta-link">Schedule an Assessment →</a>
           </div>
           <div class="product-card-glow"></div>
         </div>
+      </div>
 
-        <!-- 04 Data Feeds -->
-        <div class="product-card reveal reveal-delay-4" id="product-data-feeds">
-          <div class="product-card-top">
-            <div class="product-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            </div>
-            <div class="product-num">04</div>
-          </div>
-          <div class="product-card-body">
-            <h3>Data Feeds</h3>
-            <p>Real-time enriched intelligence. Token launches, wallet alerts, and simulations.</p>
-          </div>
-          <div class="product-card-glow"></div>
+      <p class="assess-footnote reveal reveal-delay-4">Each assessment is a standalone engagement. Many clients use them as the starting point for ongoing managed security.</p>
+    </div>
+  </section>
+
+
+  <!-- ==================== MANAGED SECURITY SERVICES (5 Pillars - Orbital) ==================== -->
+  <section class="orbital-section" id="services">
+    <div class="products-bg"></div>
+    <div class="container container-relative">
+      <div class="products-header reveal">
+        <div class="products-badge">
+          <span class="pulse-dot"></span>
+          24/7 Managed Defense
         </div>
+        <h2 class="products-title">
+          Complete Security Management,<br/>
+          <span class="text-gradient">Built Around Five Core Pillars</span>
+        </h2>
+        <p class="products-desc">
+          Our managed security program addresses the most common causes of breaches in regulated industries. Together, these five services form a defensible, documented security program.
+        </p>
+      </div>
+    </div>
+
+    <!-- Orbital Timeline -->
+    <div class="orbital-viewport reveal" id="orbital-container">
+      <!-- Orbit ring -->
+      <div class="orbital-ring"></div>
+      <div class="orbital-ring orbital-ring--inner"></div>
+
+      <!-- Central core -->
+      <div class="orbital-core">
+        <div class="orbital-core-ping"></div>
+        <div class="orbital-core-ping orbital-core-ping--delayed"></div>
+        <div class="orbital-core-inner"></div>
+        <span class="orbital-core-label">Security<br>Program</span>
+      </div>
+
+      <!-- Node 1: EDR -->
+      <div class="orbital-node" data-node="0" data-related="1,4">
+        <div class="orbital-node-glow"></div>
+        <div class="orbital-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="orbital-node-label">EDR</div>
+
+        <!-- Expanded card -->
+        <div class="orbital-card">
+          <div class="orbital-card-stem"></div>
+          <div class="orbital-card-header">
+            <span class="orbital-card-badge orbital-card-badge--active">ACTIVE</span>
+            <span class="orbital-card-num">01</span>
+          </div>
+          <h3 class="orbital-card-title">Endpoint Detection &amp; Response</h3>
+          <p class="orbital-card-desc">We deploy and manage EDR across your environment with continuous monitoring, real-time threat detection, and rapid containment. Expert eyes on every endpoint.</p>
+
+        </div>
+      </div>
+
+      <!-- Node 2: Email -->
+      <div class="orbital-node" data-node="1" data-related="0,2">
+        <div class="orbital-node-glow"></div>
+        <div class="orbital-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="orbital-node-label">Email</div>
+
+        <div class="orbital-card">
+          <div class="orbital-card-stem"></div>
+          <div class="orbital-card-header">
+            <span class="orbital-card-badge orbital-card-badge--active">ACTIVE</span>
+            <span class="orbital-card-num">02</span>
+          </div>
+          <h3 class="orbital-card-title">Email Security &amp; Phishing Protection</h3>
+          <p class="orbital-card-desc">Advanced email filtering, anti-spoofing controls, and security awareness training to dramatically reduce your exposure to the #1 cause of breaches.</p>
+
+        </div>
+      </div>
+
+      <!-- Node 3: Patch -->
+      <div class="orbital-node" data-node="2" data-related="1,3">
+        <div class="orbital-node-glow"></div>
+        <div class="orbital-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><path d="M12 12v9"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+        </div>
+        <div class="orbital-node-label">Patch</div>
+
+        <div class="orbital-card">
+          <div class="orbital-card-stem"></div>
+          <div class="orbital-card-header">
+            <span class="orbital-card-badge orbital-card-badge--active">ACTIVE</span>
+            <span class="orbital-card-num">03</span>
+          </div>
+          <h3 class="orbital-card-title">Patch Management &amp; Vulnerability Remediation</h3>
+          <p class="orbital-card-desc">Managed patching across OS and applications, prioritizing critical vulnerabilities with documented remediation history. No more scrambling after a CVE drops.</p>
+
+        </div>
+      </div>
+
+      <!-- Node 4: SIEM -->
+      <div class="orbital-node" data-node="3" data-related="2,4">
+        <div class="orbital-node-glow"></div>
+        <div class="orbital-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="orbital-node-label">SIEM</div>
+
+        <div class="orbital-card">
+          <div class="orbital-card-stem"></div>
+          <div class="orbital-card-header">
+            <span class="orbital-card-badge orbital-card-badge--active">ACTIVE</span>
+            <span class="orbital-card-num">04</span>
+          </div>
+          <h3 class="orbital-card-title">SIEM &amp; Threat Monitoring</h3>
+          <p class="orbital-card-desc">Log aggregation, anomaly detection, and real-time alerting. Monthly threat summaries and immediate escalation for anything that requires attention.</p>
+
+        </div>
+      </div>
+
+      <!-- Node 5: Backup & IR -->
+      <div class="orbital-node" data-node="4" data-related="3,0">
+        <div class="orbital-node-glow"></div>
+        <div class="orbital-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="orbital-node-label">Backup</div>
+
+        <div class="orbital-card">
+          <div class="orbital-card-stem"></div>
+          <div class="orbital-card-header">
+            <span class="orbital-card-badge orbital-card-badge--active">ACTIVE</span>
+            <span class="orbital-card-num">05</span>
+          </div>
+          <h3 class="orbital-card-title">Backup Integrity &amp; Incident Response</h3>
+          <p class="orbital-card-desc">Backup monitoring, restore validation, incident response planning, and a tested playbook for when (not if) something happens. Not a panic.</p>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-relative">
+      <div class="services-cta-bar reveal">
+        <a href="#contact" class="btn btn-primary">Schedule a Free Consultation <span class="btn-arrow">→</span></a>
       </div>
     </div>
   </section>
 
 
-  <!-- ==================== WHY FABRIC (TitanGate Style) ==================== -->
-  <section class="why-titan" id="why">
+  <!-- ==================== DATA SECURITY DIFFERENTIATOR ==================== -->
+  <section class="why-titan" id="data-security">
     <div class="why-titan-bg"></div>
     <div class="container container-relative why-titan-content">
       
       <div class="why-titan-text reveal">
+        <!-- Cinematic Three.js Data Core Mount -->
+        <div style="position: relative; width: 100%; height: 280px; margin-bottom: 2rem;">
+          <div id="three-cyber-core" style="position: absolute; top: -20px; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 100vh; pointer-events: none; z-index: -1;"></div>
+        </div>
+        
+        <span class="section-label">Our Differentiator</span>
         <h2 class="why-titan-heading">
-          Infrastructure-Native<br>
-          <span class="text-dim">vs Crypto-Native.</span>
+          Security<br>
+          <span class="text-dim">From the Data Up.</span>
         </h2>
+        <p class="diff-body">Most MSSPs start at the perimeter. We started at the data itself. Before we were a full-service MSSP, Sidechain Security spent years as a specialized data security firm, deploying encryption, key management, and HSMs for Fortune 500 companies.</p>
       </div>
 
       <div class="why-titan-points reveal reveal-delay-2">
         <div class="why-titan-point">
-          <h3><span class="why-bullet"></span> Security-First</h3>
-          <p>Cybersecurity-hardened from day one. SOC 2 compliance posture. Hardening competitors lack.</p>
+          <h3><span class="why-bullet"></span> Encryption &amp; Key Management</h3>
+          <p>Full lifecycle management of encryption keys. We support Thales CipherTrust, Entrust, Utimaco, Fortanix, AWS KMS, Azure Key Vault, and Google Cloud KMS.</p>
         </div>
         <div class="why-titan-point">
-          <h3><span class="why-bullet"></span> Predictable Pricing</h3>
-          <p>Flat monthly rates, no usage-based surprises. Enterprise clarity, not complexity.</p>
+          <h3><span class="why-bullet"></span> Managed HSM</h3>
+          <p>Hardware Security Module hosting at FIPS 140-2 Level 3. Enterprise-grade key protection without the hardware complexity.</p>
         </div>
         <div class="why-titan-point">
-          <h3><span class="why-bullet"></span> Physical Infrastructure</h3>
-          <p>We own the hardware. Tour our Vegas data center. See the servers you run on.</p>
+          <h3><span class="why-bullet"></span> Cloud Data Protection</h3>
+          <p>BYOK and HYOK solutions for data sovereignty across AWS, Azure, and Google Cloud without surrendering control of your keys.</p>
         </div>
       </div>
 
     </div>
   </section>
 
+
+  <!-- ==================== COMPLIANCE & INDUSTRIES ==================== -->
+  <section class="compliance" id="compliance">
+    <div class="container container-relative">
+      <div class="compliance-header reveal">
+        <span class="section-label">Compliance Expertise</span>
+        <h2 class="section-title">Built for the Industries <span class="text-dim">With the Most at Stake</span></h2>
+        <p class="section-subtitle">We design security programs that satisfy auditors, not just defend against threats.</p>
+      </div>
+
+      <div class="compliance-grid reveal reveal-delay-1">
+        <div class="compliance-card">
+          <div class="compliance-icon">⚕️</div>
+          <h3>Healthcare</h3>
+          <p>HIPAA Security Rule compliance, required risk assessments, ePHI protection, and OCR-ready documentation. Our HIPAA Cyber Risk Assessment satisfies 45 CFR § 164.308.</p>
+        </div>
+        <div class="compliance-card">
+          <div class="compliance-icon">🏛️</div>
+          <h3>Financial Services &amp; Insurance</h3>
+          <p>NY-DFS Part 500 compliance, PCI-DSS, and SOC 2 readiness. We serve banks, credit unions, RIAs, insurers, and financial entities navigating overlapping requirements.</p>
+        </div>
+        <div class="compliance-card">
+          <div class="compliance-icon">🛒</div>
+          <h3>Retail</h3>
+          <p>PCI-DSS compliance, payment data security, and endpoint protection across distributed locations, from flagship stores to remote POS systems.</p>
+        </div>
+        <div class="compliance-card">
+          <div class="compliance-icon">💼</div>
+          <h3>Other Regulated Industries</h3>
+          <p>Our expertise extends to any organization handling sensitive data under regulatory oversight. If you have compliance requirements you're struggling to meet, we'd like to talk.</p>
+        </div>
+      </div>
+
+      <div class="frameworks-bar reveal reveal-delay-2">
+        <span class="frameworks-label">Frameworks We Support:</span>
+        <div class="frameworks-tags">
+          <span class="framework-tag">HIPAA</span>
+          <span class="framework-tag">PCI-DSS</span>
+          <span class="framework-tag">NY-DFS Part 500</span>
+          <span class="framework-tag">GDPR</span>
+          <span class="framework-tag">SOC 2</span>
+          <span class="framework-tag">NIST CSF</span>
+          <span class="framework-tag">ISO 27001</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== PRICING ==================== -->
+  <section class="pricing" id="pricing">
+    <div class="container container-relative">
+      <div class="pricing-header reveal">
+        <span class="section-label">Pricing</span>
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <p class="section-subtitle">Complete security management as a flat monthly program, or à la carte services. No hidden fees, no usage-based surprises.</p>
+      </div>
+
+      <div class="pricing-grid reveal reveal-delay-2">
+        <!-- Complete Security Management -->
+        <div class="pricing-card pricing-card-featured">
+          <div class="spotlight-glow"></div>
+          <span class="plan-badge">★ RECOMMENDED</span>
+          <div class="plan-name">Complete Security Management</div>
+          <div class="plan-price">$3,000<span>/mo</span></div>
+          <p class="plan-desc">Everything you need for a fully managed security program.</p>
+          <ul class="plan-features">
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Endpoint Detection &amp; Response (EDR)</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Email Security &amp; Phishing Protection</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Patch Management &amp; Vulnerability Remediation</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> SIEM &amp; Threat Monitoring</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Backup Integrity &amp; Incident Response</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Dedicated named security engineer</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Monthly security reporting</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Compliance-ready documentation</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary pricing-btn">SCHEDULE A CONSULTATION</a>
+        </div>
+
+        <!-- Custom -->
+        <div class="pricing-card">
+          <div class="spotlight-glow"></div>
+          <div class="plan-name">Custom</div>
+          <div class="plan-price">Contact Sales</div>
+          <p class="plan-desc">Build a security program around your specific needs and budget.</p>
+          <ul class="plan-features">
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Any individual managed security service</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> One-time assessments (Vulnerability, Cyber Risk, HIPAA)</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Data security services (encryption, key mgmt, HSM)</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Compliance consulting &amp; audit preparation</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Incident response planning</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Security awareness training</li>
+          </ul>
+          <a href="#contact" class="btn btn-secondary pricing-btn">CONTACT SALES</a>
+        </div>
+      </div>
+
+      <div class="pricing-banner reveal reveal-delay-3">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="banner-icon"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        One-time assessments are available as standalone engagements and are not included in the monthly package.
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== WHY SIDECHAIN SECURITY (About) ==================== -->
+  <section class="about" id="about">
+    <div class="container container-relative">
+      <div class="about-grid">
+        <div class="about-story reveal">
+          <span class="section-label">Why Sidechain Security</span>
+          <h2 class="section-title">What Sets Us Apart</h2>
+
+          <div class="about-differentiators">
+            <div class="about-diff-card">
+              <h3>🧬 Data Security Is Our DNA</h3>
+              <p>We didn't add encryption as a feature. We built our entire business on it. That depth gives us a different lens when managing your security, one that starts at the data layer.</p>
+            </div>
+            <div class="about-diff-card">
+              <h3>📋 Compliance Is In Our Vocabulary</h3>
+              <p>We work exclusively in regulated industries. HIPAA, PCI-DSS, NY-DFS: we know what auditors look for and build programs that hold up under scrutiny.</p>
+            </div>
+            <div class="about-diff-card">
+              <h3>👤 Named Engineers, Not Help Desk</h3>
+              <p>Every client gets a dedicated engineer who knows your environment, your history, and your team. You'll never explain your setup from scratch.</p>
+            </div>
+            <div class="about-diff-card">
+              <h3>🏢 Enterprise Experience, SMB Delivery</h3>
+              <p>We've managed data security for Fortune 500 companies. We bring that caliber of expertise to mid-market and SMB clients at a price point that works.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-stats reveal reveal-delay-2">
+          <div class="about-stat-card">
+            <div class="about-stat-value">250+</div>
+            <div class="about-stat-label">Satisfied Customers</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="about-stat-value">10+</div>
+            <div class="about-stat-label">Years Data Security Expertise</div>
+          </div>
+          <div class="about-stat-card">
+            <div class="about-stat-value">100%</div>
+            <div class="about-stat-label">Satisfaction Guarantee</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
   <!-- ==================== TESTIMONIALS (3D Marquee) ==================== -->
   <section class="testimonials-marquee" id="testimonials">
     <div class="container container-relative">
       <div class="testimonials-marquee-header reveal">
-        <span class="section-label">Social Proof</span>
-        <h2 class="testimonials-marquee-title">Trusted by Teams That <span class="text-dim">Can't Afford Downtime.</span></h2>
+        <span class="section-label">Client Testimonials</span>
+        <h2 class="testimonials-marquee-title">Don't Take Our Word <span class="text-dim">for It.</span></h2>
       </div>
     </div>
 
@@ -286,68 +576,52 @@
         <!-- Column 1: scrolls down -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--down">
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"Their infrastructure-native approach isn't just marketing — you feel the difference in reliability."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=47" alt="Nina T." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Nina T.</span><span class="t-card-role">Infrastructure Lead, Web3 Studio</span></div></div><p class="t-card-quote">"Migration was zero-friction. They handled everything end to end and we never missed a beat."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=64" alt="Kevin P." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Kevin P.</span><span class="t-card-role">DevOps Engineer, NFT Platform</span></div></div><p class="t-card-quote">"The flat pricing model let us scale without bill shock. Enterprise clarity from day one."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James L." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James L.</span><span class="t-card-role">VP Engineering, Crypto Exchange</span></div></div><p class="t-card-quote">"The proactive security assessment uncovered vulnerabilities in our setup. Unmatched expertise."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=8" alt="Tom W." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Tom W.</span><span class="t-card-role">Head of Engineering, Blockchain Studio</span></div></div><p class="t-card-quote">"Dedicated Slack support means real humans respond in minutes, not hours. Game changer."</p></div>
-            <!-- duplicate for seamless loop -->
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"Their infrastructure-native approach isn't just marketing — you feel the difference in reliability."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=47" alt="Nina T." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Nina T.</span><span class="t-card-role">Infrastructure Lead, Web3 Studio</span></div></div><p class="t-card-quote">"Migration was zero-friction. They handled everything end to end and we never missed a beat."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=64" alt="Kevin P." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Kevin P.</span><span class="t-card-role">DevOps Engineer, NFT Platform</span></div></div><p class="t-card-quote">"The flat pricing model let us scale without bill shock. Enterprise clarity from day one."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James L." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James L.</span><span class="t-card-role">VP Engineering, Crypto Exchange</span></div></div><p class="t-card-quote">"The proactive security assessment uncovered vulnerabilities in our setup. Unmatched expertise."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=8" alt="Tom W." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Tom W.</span><span class="t-card-role">Head of Engineering, Blockchain Studio</span></div></div><p class="t-card-quote">"Dedicated Slack support means real humans respond in minutes, not hours. Game changer."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <!-- duplicate for loop -->
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
           </div>
         </div>
 
         <!-- Column 2: scrolls up -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--up">
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah K.</span><span class="t-card-role">CTO, Quantitative Trading Firm</span></div></div><p class="t-card-quote">"Fabric's dedicated nodes with flat pricing gave us no surprises — on our bill or latency."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"Priority node access is a game changer for latency-sensitive trades. Sub-millisecond matters."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Rachel S." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Rachel S.</span><span class="t-card-role">CTO, Crypto Asset Manager</span></div></div><p class="t-card-quote">"Security posture here is enterprise-grade, not startup-grade. SOC 2 compliance out of the box."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Alex M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Alex M.</span><span class="t-card-role">Lead Dev, Trading Bot Team</span></div></div><p class="t-card-quote">"99.99% uptime during peak market events. Nothing else comes close. We stress-tested everything."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"We toured their Vegas data center. Seeing the actual hardware builds trust that no SLA document can."</p></div>
-            <!-- duplicate for seamless loop -->
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah K.</span><span class="t-card-role">CTO, Quantitative Trading Firm</span></div></div><p class="t-card-quote">"Fabric's dedicated nodes with flat pricing gave us no surprises — on our bill or latency."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"Priority node access is a game changer for latency-sensitive trades. Sub-millisecond matters."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Rachel S." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Rachel S.</span><span class="t-card-role">CTO, Crypto Asset Manager</span></div></div><p class="t-card-quote">"Security posture here is enterprise-grade, not startup-grade. SOC 2 compliance out of the box."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Alex M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Alex M.</span><span class="t-card-role">Lead Dev, Trading Bot Team</span></div></div><p class="t-card-quote">"99.99% uptime during peak market events. Nothing else comes close. We stress-tested everything."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"We toured their Vegas data center. Seeing the actual hardware builds trust that no SLA document can."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <!-- duplicate for loop -->
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
           </div>
         </div>
 
         <!-- Column 3: scrolls down -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--down">
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=64" alt="Kevin P." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Kevin P.</span><span class="t-card-role">DevOps Engineer, NFT Platform</span></div></div><p class="t-card-quote">"Onboarding was painless. Their team handled DNS, config, and parallel validation without us lifting a finger."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=8" alt="Tom W." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Tom W.</span><span class="t-card-role">Head of Engineering, Blockchain Studio</span></div></div><p class="t-card-quote">"Switched from a major provider and cut our p99 latency by 40%. The hardware ownership shows."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Rachel S." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Rachel S.</span><span class="t-card-role">CTO, Crypto Asset Manager</span></div></div><p class="t-card-quote">"Our compliance team signed off immediately. Having an infrastructure partner with a security-first posture is rare."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"We ran the parallel trial for two weeks. The performance delta was undeniable. We migrated everything."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=47" alt="Nina T." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Nina T.</span><span class="t-card-role">Infrastructure Lead, Web3 Studio</span></div></div><p class="t-card-quote">"Co-location in their Vegas facility gave us proximity to the validators we needed. Huge latency win."</p></div>
-            <!-- duplicate for seamless loop -->
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=64" alt="Kevin P." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Kevin P.</span><span class="t-card-role">DevOps Engineer, NFT Platform</span></div></div><p class="t-card-quote">"Onboarding was painless. Their team handled DNS, config, and parallel validation without us lifting a finger."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=8" alt="Tom W." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Tom W.</span><span class="t-card-role">Head of Engineering, Blockchain Studio</span></div></div><p class="t-card-quote">"Switched from a major provider and cut our p99 latency by 40%. The hardware ownership shows."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Rachel S." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Rachel S.</span><span class="t-card-role">CTO, Crypto Asset Manager</span></div></div><p class="t-card-quote">"Our compliance team signed off immediately. Having an infrastructure partner with a security-first posture is rare."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"We ran the parallel trial for two weeks. The performance delta was undeniable. We migrated everything."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=47" alt="Nina T." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Nina T.</span><span class="t-card-role">Infrastructure Lead, Web3 Studio</span></div></div><p class="t-card-quote">"Co-location in their Vegas facility gave us proximity to the validators we needed. Huge latency win."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <!-- duplicate for loop -->
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
           </div>
         </div>
 
         <!-- Column 4: scrolls up -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--up">
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Alex M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Alex M.</span><span class="t-card-role">Lead Dev, Trading Bot Team</span></div></div><p class="t-card-quote">"Their SLA guarantee is actually backed by hardware they own. Most providers can't say that."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James L." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James L.</span><span class="t-card-role">VP Engineering, Crypto Exchange</span></div></div><p class="t-card-quote">"Cybersecurity background means they caught issues our previous provider never flagged. Worth every dollar."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah K.</span><span class="t-card-role">CTO, Quantitative Trading Firm</span></div></div><p class="t-card-quote">"Data feeds are real-time and deeply enriched. Our alpha generation improved materially within weeks."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"During a major market event, every other provider we've used has had incidents. Fabric held firm."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"Being a founding client locked in pricing for life. It was the easiest infrastructure decision we've made."</p></div>
-            <!-- duplicate for seamless loop -->
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Alex M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Alex M.</span><span class="t-card-role">Lead Dev, Trading Bot Team</span></div></div><p class="t-card-quote">"Their SLA guarantee is actually backed by hardware they own. Most providers can't say that."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James L." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James L.</span><span class="t-card-role">VP Engineering, Crypto Exchange</span></div></div><p class="t-card-quote">"Cybersecurity background means they caught issues our previous provider never flagged. Worth every dollar."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah K.</span><span class="t-card-role">CTO, Quantitative Trading Firm</span></div></div><p class="t-card-quote">"Data feeds are real-time and deeply enriched. Our alpha generation improved materially within weeks."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Marcus R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Marcus R.</span><span class="t-card-role">Head of Infrastructure, DeFi Protocol</span></div></div><p class="t-card-quote">"During a major market event, every other provider we've used has had incidents. Fabric held firm."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="David C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">David C.</span><span class="t-card-role">Co-founder, Solana DEX</span></div></div><p class="t-card-quote">"Being a founding client locked in pricing for life. It was the easiest infrastructure decision we've made."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <!-- duplicate for loop -->
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
           </div>
         </div>
 
@@ -362,195 +636,180 @@
 
   </section>
 
-  <!-- ==================== PRICING ==================== -->
-  <section class="pricing" id="pricing">
-    <div class="container container-relative">
-      <div class="pricing-header reveal">
-        <span class="section-label">Pricing</span>
-        <h2 class="section-title">Simple, Transparent Pricing</h2>
-        <p class="section-subtitle">No complexity premiums. No usage-based surprises. Choose the plan that fits - upgrade anytime.</p>
-        
-        <div class="pricing-banner">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="banner-icon"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          ALL MONTHLY PLANS INCLUDE ZERO-DOWNTIME ROLLOVER AND 24/7 SUPPORT
-        </div>
-      </div>
-
-      <div class="pricing-grid reveal reveal-delay-2">
-        <!-- Dedicated Nodes — Flat Fee -->
-        <div class="pricing-card pricing-card-featured">
-          <div class="spotlight-glow"></div>
-          <div class="plan-name">Dedicated Nodes</div>
-          <div class="plan-price">$3,000<span>/mo</span></div>
-          <p class="plan-desc">A single flat monthly rate. No metering, no overage, no surprises — just your dedicated node, running at full capacity.</p>
-          <ul class="plan-features">
-            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Unmetered streaming services</li>
-            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Full Yellowstone suite &amp; advanced APIs</li>
-            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Custom geolocated deployment</li>
-            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Isolated performance, dedicated to your traffic</li>
-            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> GeoDNS routing &amp; automatic failover</li>
-            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 1-1 support from senior engineers</li>
-          </ul>
-          <button class="btn btn-primary pricing-btn">GET STARTED</button>
-        </div>
-
-        <!-- Utilization Pricing — Pay per GB -->
-        <div class="pricing-card">
-          <div class="spotlight-glow"></div>
-          <div class="plan-name">Utilization Pricing</div>
-          <div class="plan-price">Pay as you go</div>
-          <p class="plan-desc">Only pay for what you use. Billed per GB of bandwidth consumed, with per-call rates for advanced APIs.</p>
-          <ul class="plan-features plan-features--usage">
-            <li class="usage-row">
-              <span class="usage-label">Standard RPC, indexed accounts, ledger queries</span>
-              <span class="usage-rate">$0.08 / GB &nbsp;+&nbsp; $10 / M calls</span>
-            </li>
-            <li class="usage-row">
-              <span class="usage-label">Streaming services, Titan Prime API</span>
-              <span class="usage-rate">$0.08 / GB bandwidth</span>
-            </li>
-            <li class="usage-row">
-              <span class="usage-label">Metaplex, Photon APIs</span>
-              <span class="usage-rate">$0.08 / GB &nbsp;+&nbsp; $50 / M calls</span>
-            </li>
-            <li class="usage-row">
-              <span class="usage-label">Metis API</span>
-              <span class="usage-rate">$0.08 / GB &nbsp;+&nbsp; $80 / M calls</span>
-            </li>
-            <li class="usage-row">
-              <span class="usage-label">Titan API</span>
-              <span class="usage-rate">$0.08 / GB &nbsp;+&nbsp; $80 / M calls</span>
-            </li>
-          </ul>
-          <button class="btn btn-secondary pricing-btn">CONTACT SALES</button>
-        </div>
-      </div>
-
-      <div class="founding-callout reveal reveal-delay-3">
-        <div class="founding-icon">🏛️</div>
-        <div class="founding-content">
-          <h3>Founding Client Program</h3>
-          <p>Lock in current pricing for the life of your contract. Limited to the next 50 founding clients. Don't let infrastructure costs stop you. <a href="#contact">Apply now →</a></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== ABOUT US ==================== -->
-  <section class="about" id="about">
-    <div class="container container-relative">
-      <div class="about-grid">
-        <div class="about-story reveal">
-          <span class="section-label">About Us</span>
-          <h2 class="section-title">Built Different.<br>By Design.</h2>
-
-          <p>We came into this from <strong>cybersecurity and enterprise data centers</strong>. We've been running mission-critical infrastructure for companies that can't afford downtime for over a decade.</p>
-
-          <p>When we looked at the Solana infrastructure market, we saw a gap: every major provider was built by crypto-native software teams who learned infrastructure along the way. Nobody was approaching this from the other direction — from <strong>deep infrastructure experience into crypto</strong>.</p>
-
-          <p>We already had the hardware, the facilities, and the security posture. <strong>So we built it.</strong></p>
-        </div>
-
-        <div class="about-stats reveal reveal-delay-2">
-          <div class="about-stat-card">
-            <div class="about-stat-value">10+</div>
-            <div class="about-stat-label">Years in Infrastructure Operations</div>
-          </div>
-          <div class="about-stat-card">
-            <div class="about-stat-value">3.6TB</div>
-            <div class="about-stat-label">RAM - Enterprise-Grade Capacity</div>
-          </div>
-          <div class="about-stat-card">
-            <div class="about-stat-value">10Gbps</div>
-            <div class="about-stat-label">Network Uplinks</div>
-          </div>
-          <div class="about-stat-card">
-            <div class="about-stat-value">24/7</div>
-            <div class="about-stat-label">Data Center Operations</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ==================== CONTACT ==================== -->
   <section class="contact" id="contact">
     <div class="container container-relative">
       <div class="contact-grid">
         <div class="contact-info reveal">
-          <span class="section-label">Contact</span>
-          <h2 class="section-title">Let's Build<br>Together</h2>
-          <p class="contact-desc">Whether you're evaluating Solana RPC providers, planning a migration, or exploring enterprise infrastructure - we'd love to hear from you. Our team responds within 24 hours.</p>
+          <span class="section-label">Get in Touch</span>
+          <h2 class="section-title">Let's Talk About<br>Your Security Program.</h2>
+          <p class="contact-desc">Whether you're starting from scratch, navigating a compliance deadline, or looking to replace a security provider that isn't delivering, we'd like to hear from you. Our team responds within one business day.</p>
 
           <ul class="contact-perks">
             <li>
               <svg viewBox="0 0 24 24" fill="none" class="perk-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div><strong>Free Security Assessment</strong> – We'll review your current Solana infrastructure and identify vulnerabilities. No strings attached.</div>
+              <div><strong>Free 30-minute consultation</strong>, no sales pressure, just a conversation about your situation.</div>
             </li>
             <li>
-              <svg viewBox="0 0 24 24" fill="none" class="perk-icon"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div><strong>Parallel Trial Program</strong> – Point 5-10% of your traffic at our endpoint. Compare side-by-side with your current provider. 30 days, zero risk.</div>
+              <svg viewBox="0 0 24 24" fill="none" class="perk-icon"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <div><strong>Request a one-time assessment</strong> to understand your current risk.</div>
             </li>
             <li>
-              <svg viewBox="0 0 24 24" fill="none" class="perk-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/></svg>
-              <div><strong>White-Glove Migration</strong> – Switching from another provider? We handle the entire migration process - configuration review, test environment, parallel validation, and coordinated cutover. Zero cost.</div>
+              <svg viewBox="0 0 24 24" fill="none" class="perk-icon"><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <div><strong>Ask about the $3,000/month</strong> Complete Security Management package.</div>
             </li>
           </ul>
+
+          <div class="contact-details">
+            <p><strong>Sidechain Security</strong></p>
+            <p>252 3rd St. Suite 200, Lake Oswego, OR 97035</p>
+            <p><a href="mailto:info@sidechainsecurity.com">info@sidechainsecurity.com</a></p>
+            <p><a href="tel:+18337441421">+1 (833) 744-1421</a></p>
+          </div>
         </div>
 
         <div class="contact-form-wrapper reveal reveal-delay-2">
           <form id="contact-form" novalidate>
             <div class="form-row">
               <div class="form-group">
-                <label for="contact-name">Name</label>
+                <label for="contact-name">Name *</label>
                 <input type="text" id="contact-name" name="name" placeholder="Your name" required>
               </div>
               <div class="form-group">
-                <label for="contact-email">Email</label>
+                <label for="contact-company">Company *</label>
+                <input type="text" id="contact-company" name="company" placeholder="Your company" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="contact-email">Email *</label>
                 <input type="email" id="contact-email" name="email" placeholder="you@company.com" required>
+              </div>
+              <div class="form-group">
+                <label for="contact-phone">Phone</label>
+                <input type="tel" id="contact-phone" name="phone" placeholder="(optional)">
               </div>
             </div>
             <div class="form-group">
-              <label for="contact-company">Company</label>
-              <input type="text" id="contact-company" name="company" placeholder="Your company name">
-            </div>
-            <div class="form-group">
-              <label for="contact-message">Message</label>
-              <textarea id="contact-message" name="message" placeholder="Tell us about your infrastructure needs..." required></textarea>
+              <label for="contact-message">What can we help with? *</label>
+              <textarea id="contact-message" name="message" placeholder="Tell us about your security needs..." required></textarea>
             </div>
             <div class="form-submit">
               <button type="submit" class="btn btn-primary" id="contact-submit">
-                GET IN TOUCH →
+                SCHEDULE A CONSULTATION →
               </button>
             </div>
           </form>
           <div class="form-success" id="form-success">
-            ✓ Message sent! We'll get back to you within 24 hours.
+            ✓ Message sent! We'll get back to you within one business day.
           </div>
         </div>
       </div>
     </div>
   </section>
 
+
   <!-- ==================== FOOTER ==================== -->
-  <footer class="footer-titan">
-    <div class="container footer-titan-inner">
-      <a href="#" class="footer-titan-logo">
-        <span class="nav-logo-icon" style="width:24px;height:24px;border-radius:6px;">
-          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:13px;height:13px;">
-            <path d="M3 3h5v5H3V3zm7 0h5v5h-5V3zM3 10h5v5H3v-5zm7 2.5L12.5 10 15 12.5 12.5 15 10 12.5z" fill="#060a14"/>
-          </svg>
-        </span>
-        Fabric
-      </a>
-      <span class="footer-titan-copy">&copy; 2025 Fabric. All rights reserved.</span>
-      <ul class="footer-titan-links">
-        <li><a href="https://www.sidechainsecurity.com/" target="_blank" rel="noopener">SideChain Security</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+  <footer class="footer-sc">
+    <div class="footer-bg-gradient"></div>
+    <div class="container footer-content">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="footer-logo">
+            <img src="assets/sidechain-logo.png" alt="Sidechain Security Logo" style="height: 28px; filter: brightness(0) invert(1); opacity: 0.95; margin-bottom: 0.5rem;">
+          </a>
+          <p class="footer-tagline">Security You Can Defend.</p>
+          <div class="footer-address">
+            <p>252 3rd St. Suite 200</p>
+            <p>Lake Oswego, OR 97035</p>
+            <p><a href="mailto:info@sidechainsecurity.com">info@sidechainsecurity.com</a></p>
+            <p><a href="tel:+18337441421">+1 (833) 744-1421</a></p>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Managed Services</h4>
+          <ul>
+            <li><a href="#services">Endpoint Detection &amp; Response</a></li>
+            <li><a href="#services">Email Security &amp; Phishing</a></li>
+            <li><a href="#services">Patch Management</a></li>
+            <li><a href="#services">SIEM &amp; Threat Monitoring</a></li>
+            <li><a href="#services">Backup &amp; Incident Response</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Assessments &amp; Data</h4>
+          <ul>
+            <li><a href="#assess">Vulnerability Assessment</a></li>
+            <li><a href="#assess">Cyber Risk Evaluation</a></li>
+            <li><a href="#assess">HIPAA Cyber Risk Assessment</a></li>
+            <li><a href="#data-security">Data Encryption</a></li>
+            <li><a href="#data-security">Key Management</a></li>
+            <li><a href="#data-security">Managed HSM</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#compliance">Compliance</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="https://www.linkedin.com/company/sidechainsecurity" target="_blank" rel="noopener">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Sidechain Security. All rights reserved.</span>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SVG Text Hover Effect -->
+    <div class="footer-hover-text">
+      <svg id="footer-hover-svg" width="100%" height="100%" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="footerTextGradient" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#eab308" />
+            <stop offset="25%" stop-color="#ef4444" />
+            <stop offset="50%" stop-color="#80eeb4" />
+            <stop offset="75%" stop-color="#06b6d4" />
+            <stop offset="100%" stop-color="#8b5cf6" />
+          </linearGradient>
+          <radialGradient id="footerRevealMask" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="20%">
+            <stop offset="0%" stop-color="white" />
+            <stop offset="100%" stop-color="black" />
+          </radialGradient>
+          <mask id="footerTextMask">
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#footerRevealMask)" />
+          </mask>
+        </defs>
+        <!-- Outline ghost text (visible on hover) -->
+        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="footer-svg-ghost">SIDECHAIN</text>
+        <!-- Animated stroke text -->
+        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="footer-svg-stroke">SIDECHAIN</text>
+        <!-- Gradient reveal text (masked) -->
+        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" stroke="url(#footerTextGradient)" stroke-width="0.3" mask="url(#footerTextMask)" class="footer-svg-gradient">SIDECHAIN</text>
+      </svg>
     </div>
   </footer>
 
+  <!-- GSAP Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Three.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  
   <script src="script.js"></script>
+  <script src="react-bg.js"></script>
+  <script src="three-core.js"></script>
 </body>
 </html>
