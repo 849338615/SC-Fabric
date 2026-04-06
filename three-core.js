@@ -16,59 +16,104 @@ document.addEventListener('DOMContentLoaded', () => {
   container.appendChild(renderer.domElement);
 
   // 4. Geometry & Materials
-  // Inner glowing core
-  const coreGeometry = new THREE.IcosahedronGeometry(1.0, 1);
-  const coreMaterial = new THREE.MeshPhongMaterial({
-    color: 0x4a7cff,
-    emissive: 0x4a7cff,
-    emissiveIntensity: 0.3,
-    shininess: 100,
-    flatShading: true,
+  // A. Core: Smooth Liquid Glass Shell
+  const coreGeometry = new THREE.SphereGeometry(0.8, 64, 64);
+  const coreMaterial = new THREE.MeshPhysicalMaterial({
+    color: 0x1e6ca0, // Vibrant blue base
+    emissive: 0x0a3c8a,
+    emissiveIntensity: 0.7,
+    roughness: 0.0, // Perfectly smooth glass
+    metalness: 0.2, // Lower metalness allows more internal light out
+    transmission: 0.95,
+    thickness: 2.0,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.0,
+    transparent: true,
+    opacity: 1.0
+  });
+  const core = new THREE.Mesh(coreGeometry, coreMaterial);
+
+  // B. High-Energy Nucleus (Intensely glowing orb inside the glass)
+  const innerGeometry = new THREE.SphereGeometry(0.65, 32, 32);
+  const innerMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00e5c8,
     transparent: true,
     opacity: 0.9
   });
-  const core = new THREE.Mesh(coreGeometry, coreMaterial);
-  
-  // Outer Wireframe Shell
-  const shellGeometry = new THREE.IcosahedronGeometry(1.6, 1);
-  const shellMaterial = new THREE.MeshBasicMaterial({
-    color: 0x00e5c8,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.3
-  });
-  const shell = new THREE.Mesh(shellGeometry, shellMaterial);
+  const innerCore = new THREE.Mesh(innerGeometry, innerMaterial);
+  core.add(innerCore); // Anchored inside so the glass refracts it
 
-  // Particle Vector Orbit - Enlarged vastly to spill outside
-  const particleCount = 500;
+  // C. Inner Quantum Rings (Sleek tech gyroscope lines)
+  const ringGroup = new THREE.Group();
+  for (let i = 0; i < 3; i++) {
+    const ringGeo = new THREE.TorusGeometry(1.2 + i * 0.15, 0.008, 16, 120);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0x00e5c8,
+      transparent: true,
+      opacity: 0.8 - (i * 0.1),
+      blending: THREE.AdditiveBlending
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.random() * Math.PI;
+    ring.rotation.y = Math.random() * Math.PI;
+    ring.userData = { 
+      speedX: (Math.random() - 0.5) * 0.012, 
+      speedY: (Math.random() - 0.5) * 0.012 
+    };
+    ringGroup.add(ring);
+  }
+
+  // D. Subtle Outer Holographic Grid (High Res Wireframe Sphere)
+  const gridGeo = new THREE.SphereGeometry(1.6, 32, 32);
+  const edges = new THREE.EdgesGeometry(gridGeo);
+  const gridMat = new THREE.LineBasicMaterial({
+    color: 0x4a7cff,
+    transparent: true,
+    opacity: 0.45,
+    blending: THREE.AdditiveBlending
+  });
+  const shell = new THREE.LineSegments(edges, gridMat); // Retaining 'shell' variable binding for GSAP
+
+  // D. Particle Vector Orbit - High Density Structured Cloud
+  const particleCount = 2000;
   const particleGeometry = new THREE.BufferGeometry();
   const particlePositions = new Float32Array(particleCount * 3);
   
   for(let i = 0; i < particleCount; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    // creating a sphere distribution of particles around the core
-    const u = Math.random();
-    const v = Math.random();
-    const theta = u * 2.0 * Math.PI;
-    const phi = Math.acos(2.0 * v - 1.0);
-    const r = 2.5 + Math.random() * 8.5; // Massive orbital radius
+    // Distribute precisely on defined orbital volumes for structured 'data shell' look
+    const isInnerShell = Math.random() > 0.6;
+    const r = isInnerShell ? (1.8 + Math.random() * 0.3) : (2.5 + Math.random() * 6.5);
+    const theta = Math.random() * 2 * Math.PI;
+    const phi = Math.acos((Math.random() * 2) - 1.0);
     
-    
-    const x = r * Math.sin(phi) * Math.cos(theta);
-    const y = r * Math.sin(phi) * Math.sin(theta);
-    const z = r * Math.cos(phi);
-    
-    particlePositions[i * 3] = x;
-    particlePositions[i * 3 + 1] = y;
-    particlePositions[i * 3 + 2] = z;
+    particlePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+    particlePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    particlePositions[i * 3 + 2] = r * Math.cos(phi);
   }
   
+  // Helper explicitly renders perfect circular particles instead of default squares
+  const createCircleTexture = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 32;
+    canvas.height = 32;
+    const context = canvas.getContext('2d');
+    const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
+    gradient.addColorStop(0, 'rgba(255,255,255,1)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 32, 32);
+    return new THREE.CanvasTexture(canvas);
+  };
+
   particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
   const particleMaterial = new THREE.PointsMaterial({
-    color: 0x00e5c8,
-    size: 0.04,
+    color: 0x00e5c8, // Shifted to vibrant cyan
+    size: 0.07, // Enlarged slightly for higher visibility
+    map: createCircleTexture(),
     transparent: true,
-    opacity: 0.8
+    opacity: 0.9,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
   });
   const particles = new THREE.Points(particleGeometry, particleMaterial);
 
@@ -78,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const particleGroup = new THREE.Group();
   
   dataCoreGroup.add(core); // Core remains fixed scale
+  dataCoreGroup.add(ringGroup); // Rings rotate internally
   
   shellGroup.add(shell);
   particleGroup.add(particles);
@@ -89,17 +135,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Shrink the entire payload slightly relative to standard size scale as requested
   dataCoreGroup.scale.set(0.85, 0.85, 0.85);
 
-  // 5. Lighting
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+  // 5. Lighting - Upgraded for Glass Refractions
+  const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
   scene.add(ambientLight);
 
-  const pointLight = new THREE.PointLight(0x4a7cff, 2, 10);
-  pointLight.position.set(3, 3, 3);
+  const hemiLight = new THREE.HemisphereLight(0xffffff, 0x4a7cff, 4);
+  scene.add(hemiLight);
+
+  const pointLight = new THREE.PointLight(0x00e5c8, 30, 20);
+  pointLight.position.set(0, 0, 0); // Ignites the glass core from the inside out
   scene.add(pointLight);
 
-  const pointLight2 = new THREE.PointLight(0x00e5c8, 2, 10);
-  pointLight2.position.set(-3, -3, -3);
-  scene.add(pointLight2);
+  const keyLight = new THREE.PointLight(0xffffff, 20, 20);
+  keyLight.position.set(4, 5, 6);
+  scene.add(keyLight);
 
   // 6. Animation Loop (Passive Rotation)
   const clock = new THREE.Clock();
@@ -109,18 +158,24 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const elapsedTime = clock.getElapsedTime();
     
-    // Subtle idle rotations
-    core.rotation.y = elapsedTime * 0.3;
-    core.rotation.x = elapsedTime * 0.15;
+    // Smooth, premium idle rotations
+    core.rotation.y = elapsedTime * 0.08;
+    core.rotation.x = elapsedTime * 0.04;
     
-    shell.rotation.y = -elapsedTime * 0.1;
-    shell.rotation.z = elapsedTime * 0.05;
+    // Rotate internal rings independently
+    ringGroup.children.forEach(ring => {
+      ring.rotation.x += ring.userData.speedX;
+      ring.rotation.y += ring.userData.speedY;
+    });
     
-    particles.rotation.y = elapsedTime * 0.05;
-    particles.rotation.z = Math.sin(elapsedTime * 0.2) * 0.1;
+    shell.rotation.y = -elapsedTime * 0.05;
+    shell.rotation.z = elapsedTime * 0.02;
+    
+    particles.rotation.y = elapsedTime * 0.03;
+    particles.rotation.z = Math.sin(elapsedTime * 0.1) * 0.05;
     
     // Core breathing effect
-    const scaleBreathing = 1 + Math.sin(elapsedTime * 2) * 0.05;
+    const scaleBreathing = 1 + Math.sin(elapsedTime * 1.5) * 0.015;
     core.scale.set(scaleBreathing, scaleBreathing, scaleBreathing);
     
     // Ambient floating
