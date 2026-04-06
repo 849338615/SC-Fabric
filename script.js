@@ -100,6 +100,126 @@
         });
       });
     }
+    // ── Gradient Beam riding horizontal + vertical divider lines ──
+    var caseRowsContainer = document.querySelector('.case-rows');
+    var caseRows = document.querySelectorAll('.case-row');
+    if (caseRowsContainer && caseRows.length) {
+      caseRowsContainer.style.position = 'relative';
+
+      function buildBeamPath() {
+        var W = caseRowsContainer.offsetWidth;
+        var points = [];
+
+        for (var i = 0; i < caseRows.length; i++) {
+          var row = caseRows[i];
+          // Use offset-based positions (relative to offsetParent = case-rows)
+          var topY = row.offsetTop;
+          var bottomY = row.offsetTop + row.offsetHeight;
+
+          // Vertical divider = border-right on .case-content
+          var content = row.querySelector('.case-content');
+          var divX = content.offsetLeft + content.offsetWidth;
+
+          var goingRight = (i % 2 === 0);
+
+          if (goingRight) {
+            points.push({ x: 0, y: topY });
+            points.push({ x: divX, y: topY });
+            points.push({ x: divX, y: bottomY });
+            points.push({ x: W, y: bottomY });
+          } else {
+            points.push({ x: W, y: topY });
+            points.push({ x: divX, y: topY });
+            points.push({ x: divX, y: bottomY });
+            points.push({ x: 0, y: bottomY });
+          }
+        }
+
+        // Remove duplicate points at row boundaries
+        var clean = [points[0]];
+        for (var j = 1; j < points.length; j++) {
+          var prev = clean[clean.length - 1];
+          if (Math.abs(points[j].x - prev.x) > 1 || Math.abs(points[j].y - prev.y) > 1) {
+            clean.push(points[j]);
+          }
+        }
+
+        var d = 'M ' + clean[0].x + ' ' + clean[0].y;
+        for (var k = 1; k < clean.length; k++) {
+          d += ' L ' + clean[k].x + ' ' + clean[k].y;
+        }
+        return d;
+      }
+
+      // Create SVG
+      var svgNS = 'http://www.w3.org/2000/svg';
+      var svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('class', 'beam-svg');
+
+      // Gradient
+      var defs = document.createElementNS(svgNS, 'defs');
+      var grad = document.createElementNS(svgNS, 'linearGradient');
+      grad.setAttribute('id', 'beamGradient');
+      grad.setAttribute('gradientUnits', 'userSpaceOnUse');
+      var stop1 = document.createElementNS(svgNS, 'stop');
+      stop1.setAttribute('offset', '0%');
+      stop1.setAttribute('stop-color', '#4a7cff');
+      var stop2 = document.createElementNS(svgNS, 'stop');
+      stop2.setAttribute('offset', '50%');
+      stop2.setAttribute('stop-color', '#2dd4bf');
+      var stop3 = document.createElementNS(svgNS, 'stop');
+      stop3.setAttribute('offset', '100%');
+      stop3.setAttribute('stop-color', '#4a7cff');
+      grad.appendChild(stop1);
+      grad.appendChild(stop2);
+      grad.appendChild(stop3);
+      defs.appendChild(grad);
+      svg.appendChild(defs);
+
+      var path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('class', 'beam-path');
+      svg.appendChild(path);
+      caseRowsContainer.appendChild(svg);
+
+      function initBeam() {
+        var W = caseRowsContainer.offsetWidth;
+        var H = caseRowsContainer.offsetHeight;
+        svg.setAttribute('width', W);
+        svg.setAttribute('height', H);
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+        var d = buildBeamPath();
+        path.setAttribute('d', d);
+
+        var totalLength = path.getTotalLength();
+        var beamLength = 300;
+
+        path.style.strokeDasharray = beamLength + ' ' + (totalLength + beamLength);
+        path.style.strokeDashoffset = beamLength;
+
+        gsap.killTweensOf(path);
+
+        gsap.timeline({
+          scrollTrigger: { trigger: caseRowsContainer, start: 'top 80%' },
+          repeat: -1,
+          repeatDelay: 3,
+          delay: 0.8
+        }).fromTo(path,
+          { strokeDashoffset: beamLength },
+          { strokeDashoffset: -(totalLength + beamLength), duration: 6, ease: 'power1.inOut' }
+        );
+      }
+
+      // Wait for layout to fully settle before measuring
+      setTimeout(initBeam, 100);
+
+      var resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initBeam, 200);
+      });
+    }
+
     // 4. The Challenge — Auto-Rotating Signal Showcase
     const challengeSection = document.querySelector('.challenge-pin-wrapper');
     if (challengeSection) {

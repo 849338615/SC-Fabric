@@ -737,39 +737,33 @@ h1, h2, h3, h4, h5, h6 {
   content: '';
   position: absolute;
   inset: 0;
+  aspect-ratio: 1;
+  width: 100%;
+  height: 100%;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(
-    var(--gradient-angle, 0deg),
-    rgba(168, 85, 247, 0.85),
-    rgba(74, 124, 255, 0.85),
-    rgba(45, 212, 191, 0.85),
-    rgba(74, 124, 255, 0.85),
-    rgba(168, 85, 247, 0.85)
-  );
+  background-image: radial-gradient(transparent, transparent, #4a7cff, #2dd4bf, transparent, transparent);
+  background-size: 300% 300%;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
   z-index: 3;
-  animation: gradient-rotate 6s linear infinite;
+  animation: shine-border 14s infinite linear;
+  will-change: background-position;
 }
 
-@property --gradient-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-@keyframes gradient-rotate {
-  to { --gradient-angle: 360deg; }
+@keyframes shine-border {
+  0%   { background-position: 0% 0%; }
+  50%  { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
 }
 
 /* Stagger the animation per card */
-.product-card:nth-child(2)::after { animation-delay: -1.5s; }
-.product-card:nth-child(3)::after { animation-delay: -3s; }
-.product-card:nth-child(4)::after { animation-delay: -4.5s; }
+.product-card:nth-child(2)::after { animation-delay: -3.5s; }
+.product-card:nth-child(3)::after { animation-delay: -7s; }
+.product-card:nth-child(4)::after { animation-delay: -10.5s; }
 
 .product-card:hover {
   transform: translateY(-4px);
@@ -778,15 +772,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .product-card:hover::after {
-  background: linear-gradient(
-    var(--gradient-angle, 0deg),
-    #a855f7,
-    #4a7cff,
-    #2dd4bf,
-    #4a7cff,
-    #a855f7
-  );
-  filter: drop-shadow(0 0 8px rgba(74, 124, 255, 0.5));
+  filter: brightness(1.4) drop-shadow(0 0 10px rgba(74, 124, 255, 0.4));
 }
 
 .product-card-top {
@@ -1615,6 +1601,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .case-row {
+  position: relative;
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 3rem;
@@ -1650,6 +1637,26 @@ h1, h2, h3, h4, h5, h6 {
 
 .case-row--reversed .case-content {
   border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Beam animation on divider lines */
+.beam-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  overflow: visible;
+}
+
+.beam-svg .beam-path {
+  fill: none;
+  stroke: url(#beamGradient);
+  stroke-width: 2;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(74, 124, 255, 0.6)) drop-shadow(0 0 12px rgba(45, 212, 191, 0.3));
 }
 
 .case-icon-wrap {
@@ -3166,10 +3173,6 @@ h1, h2, h3, h4, h5, h6 {
   background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(30, 60, 160, 0.12), transparent 70%);
 }
 
-.challenge-header .section-title {
-  font-size: 3rem;
-  line-height: 1.1;
-}
 
 .challenge-narrative {
   display: flex;
