@@ -1992,7 +1992,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 1);
   text-decoration: none;
   background: linear-gradient(110deg, #000103, 45%, #1e2631, 55%, #000103);
   background-size: 200% 100%;
@@ -2883,7 +2883,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-address {
-  color: var(--color-text-tertiary);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.8rem;
   line-height: 1.8;
 }
@@ -2920,7 +2920,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer-col a {
   font-size: 0.82rem;
-  color: var(--color-text-tertiary);
+  color: rgba(255, 255, 255, 0.6);
   transition: color var(--dur-fast) var(--ease-out);
 }
 
@@ -2938,7 +2938,7 @@ h1, h2, h3, h4, h5, h6 {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  color: var(--color-text-tertiary);
+  color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.05em;
 }
 
@@ -2948,7 +2948,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-legal a {
-  color: var(--color-text-tertiary);
+  color: rgba(255, 255, 255, 0.55);
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
