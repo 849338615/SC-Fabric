@@ -28,6 +28,48 @@
       );
     });
 
+    // 1.5. Stat Bars animated fill & counter
+    document.querySelectorAll('.stat-bar-group').forEach((group) => {
+      const fill = group.querySelector('.stat-bar-fill');
+      const valEl = group.querySelector('.stat-bar-value');
+      if (!fill || !valEl) return;
+      
+      const targetWidth = "100%";
+      const targetVal = parseInt(valEl.getAttribute('data-target'), 10) || 0;
+      
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: group,
+          start: "top 90%",
+          toggleActions: "play none none none"
+        }
+      });
+      
+      // Animate the bar width
+      tl.fromTo(fill, 
+        { width: "0%" },
+        { width: targetWidth, duration: 1.6, ease: "power3.out" },
+        0
+      );
+      
+      // Animate the number counter
+      valEl.counter = 0;
+      tl.fromTo(valEl, 
+        { counter: 0 },
+        { 
+          counter: targetVal,
+          duration: 1.6, 
+          ease: "power3.out",
+          onUpdate: () => {
+            valEl.textContent = Math.round(valEl.counter) + "%";
+          }
+        },
+        0
+      );
+      
+      group.statTimeline = tl;
+    });
+
     // 2. High-end Staggered Reveals for Products Grid
     const grids = document.querySelectorAll('.products-grid, .compliance-grid, .about-differentiators');
     grids.forEach(grid => {
@@ -307,15 +349,80 @@
   }
 
 
-  // ─── NAV SCROLL STATE ───────────────────────────────
+  // ─── NAV SCROLL STATE — Seamless Hero-to-Sticky Handoff ───
   const nav = document.getElementById('main-nav');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 60) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
+  const heroNavBar = document.getElementById('hero-nav-bar');
+  const navStickyLinks = document.getElementById('nav-sticky-links');
+
+  // Cache the hero-nav-bar's resting position (after page load + animations settle)
+  let heroNavBarOffsetTop = 0;
+  const recalcHeroNavPos = () => {
+    if (heroNavBar) {
+      const rect = heroNavBar.getBoundingClientRect();
+      heroNavBarOffsetTop = rect.top + window.scrollY;
     }
-  }, { passive: true });
+  };
+  
+  let stickyLinksActive = false;
+
+  const handleNavScroll = () => {
+    const scrollY = window.scrollY;
+
+    // Phase 2 logic: trigger when hero-nav-bar physically reaches the fixed nav position
+    if (heroNavBar && navStickyLinks) {
+      const heroNavBarHeight = heroNavBar.getBoundingClientRect().height || 50;
+      // 32px is the approximate vertical center of the fixed sticky links from the top viewport
+      const triggerPoint = heroNavBarOffsetTop + (heroNavBarHeight / 2) - 32;
+
+      if (scrollY > triggerPoint && triggerPoint > 0) {
+        // Hero nav bar has scrolled past → activate sticky global nav
+        if (!stickyLinksActive) {
+          stickyLinksActive = true;
+          nav.classList.add('scrolled');
+          nav.classList.remove('leaving');
+          heroNavBar.classList.add('faded');
+          navStickyLinks.classList.add('visible');
+        }
+      } else {
+        // Hero nav bar is visible → deactivate sticky global nav
+        if (stickyLinksActive) {
+          stickyLinksActive = false;
+          nav.classList.remove('scrolled');
+          nav.classList.add('leaving');
+          heroNavBar.classList.remove('faded');
+          navStickyLinks.classList.remove('visible');
+          
+          // Remove the leaving class after animation concludes so the nav can naturally reset to the very top
+          setTimeout(() => {
+            if (!stickyLinksActive) {
+              nav.classList.remove('leaving');
+            }
+          }, 400);
+        }
+      }
+    }
+  };
+
+  window.addEventListener('scroll', handleNavScroll, { passive: true });
+  window.addEventListener('resize', () => {
+    recalcHeroNavPos();
+    handleNavScroll();
+  });
+
+  // Execute immediately so state is correct on reload without waiting for scroll
+  recalcHeroNavPos();
+  handleNavScroll();
+
+  // Remove preload class after a tiny delay so initial position applies without transition
+  setTimeout(() => {
+    if (nav) nav.classList.remove('preload');
+  }, 50);
+
+  // Recalculate after initial layout/animations settle completely
+  setTimeout(() => {
+    recalcHeroNavPos();
+    handleNavScroll();
+  }, 1500);
 
 
   // ─── HAMBURGER MENU ─────────────────────────────────
@@ -584,7 +691,16 @@
       }
     });
 
-    // Initial position and start rotation
+    // Only run the orbital interval while the section is visible
+    const orbIO = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (autoRotate && !rotationTimer) startRotation();
+      } else {
+        stopRotation();
+      }
+    }, { threshold: 0 });
+    orbIO.observe(orbitalContainer);
+
     positionNodes();
     startRotation();
   }
@@ -599,13 +715,7 @@
     quote.parentNode.insertBefore(starsEl, quote);
   });
 
-  // ─── TESTIMONIAL MARQUEE — CLICK TO PAUSE ─────────
-  const marqueeInner = document.querySelector('.marquee-3d-inner');
-  if (marqueeInner) {
-    marqueeInner.addEventListener('click', () => {
-      marqueeInner.classList.toggle('paused');
-    });
-  }
+  // ─── TESTIMONIAL MARQUEE — column pause handled via CSS :hover ─────────
 
   // ─── FOOTER SVG TEXT HOVER EFFECT ─────────────────
   const footerSvg = document.getElementById('footer-hover-svg');
@@ -710,13 +820,17 @@
       yoyo: true,
       repeat: -1,
     });
-    // Icon brightness pulse
-    gsap.to(icon, {
+    // Icon brightness pulse — use drop-shadow on both ends so the yoyo
+    // never interpolates through the entry animation's blur() filter.
+    gsap.fromTo(icon, {
+      filter: `drop-shadow(0 0 0px rgba(${orbColor}, 0))`,
+    }, {
       filter: `drop-shadow(0 0 12px rgba(${orbColor}, 0.5))`,
       duration: 2,
       ease: 'sine.inOut',
       yoyo: true,
       repeat: -1,
+      delay: 1,
     });
 
     // 5. Orb container — very subtle scale breathe
@@ -804,6 +918,14 @@
     // Build GSAP orb animation for new panel
     const tl = buildOrbTimeline(panel);
     if (tl) orbTimelines.set(panel, tl);
+
+    // Restart stat bars if they exist in this panel
+    const statGroups = panel.querySelectorAll('.stat-bar-group');
+    statGroups.forEach(group => {
+      if (group.statTimeline) {
+        group.statTimeline.restart();
+      }
+    });
   }
 
   if (indSwitches.length && indPanels.length) {

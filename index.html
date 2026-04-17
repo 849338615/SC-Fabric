@@ -26,6 +26,18 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3E%3Cg stroke='%23ffffff' stroke-width='18' fill='none' stroke-linecap='butt'%3E%3Cline x1='50' y1='75' x2='50' y2='125'/%3E%3Cline x1='175' y1='250' x2='225' y2='250'/%3E%3Cline x1='167.68' y1='67.68' x2='232.32' y2='132.32'/%3E%3Cline x1='67.68' y1='167.68' x2='132.32' y2='232.32'/%3E%3Ccircle cx='50' cy='50' r='25'/%3E%3Ccircle cx='150' cy='50' r='25'/%3E%3Ccircle cx='250' cy='50' r='25'/%3E%3Ccircle cx='50' cy='150' r='25'/%3E%3Ccircle cx='150' cy='150' r='25'/%3E%3Ccircle cx='250' cy='150' r='25'/%3E%3Ccircle cx='50' cy='250' r='25'/%3E%3Ccircle cx='150' cy='250' r='25'/%3E%3Ccircle cx='250' cy='250' r='25'/%3E%3C/g%3E%3C/svg%3E">
 
   <link rel="stylesheet" href="styles.css">
+  <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.addEventListener('pagehide', function () {
+      sessionStorage.setItem('scrollY', String(window.scrollY));
+    });
+    window.addEventListener('load', function () {
+      var y = parseInt(sessionStorage.getItem('scrollY') || '0', 10);
+      if (!y || window.location.hash) return;
+      window.scrollTo(0, y);
+      setTimeout(function () { window.scrollTo(0, y); }, 300);
+    });
+  </script>
   <!-- React -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -34,7 +46,7 @@
 
   <!-- ==================== HERO ==================== -->
   <section class="hero" id="hero">
-    <nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+    <nav class="nav preload" id="main-nav" role="navigation" aria-label="Main navigation">
       <div class="nav-wrapper">
         <a href="#" class="nav-logo" aria-label="Sidechain Security home" style="text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.3rem;">
           <span class="nav-logo-icon">
@@ -70,6 +82,14 @@
           <span></span>
           <span></span>
         </button>
+        <!-- Sticky nav links — clone of hero-nav-bar, shown when scrolled past hero -->
+        <div class="nav-sticky-links" id="nav-sticky-links">
+          <a href="#services" class="nav-sticky-link">Services</a>
+          <a href="#data-security" class="nav-sticky-link">Why</a>
+          <a href="#compliance" class="nav-sticky-link">Compliance</a>
+          <a href="#pricing" class="nav-sticky-link">Pricing</a>
+          <a href="#contact" class="nav-sticky-link">Contact</a>
+        </div>
       </div>
     </nav>
 
@@ -100,15 +120,11 @@
       </h1>
 
       <!-- Inline section nav bar -->
-      <div class="hero-nav-bar">
+      <div class="hero-nav-bar" id="hero-nav-bar">
         <a href="#services" class="hero-nav-link">Services</a>
-        <span class="hero-nav-sep">/</span>
-        <a href="#data-security" class="hero-nav-link">Why Sidechain</a>
-        <span class="hero-nav-sep">/</span>
+        <a href="#about" class="hero-nav-link">Why Us</a>
         <a href="#compliance" class="hero-nav-link">Compliance</a>
-        <span class="hero-nav-sep">/</span>
         <a href="#pricing" class="hero-nav-link">Pricing</a>
-        <span class="hero-nav-sep">/</span>
         <a href="#contact" class="hero-nav-link">Contact</a>
       </div>
     </div>
@@ -124,59 +140,33 @@
 
   <!-- ==================== TRUST BAR ==================== -->
   <div class="trust-bar">
-    <div class="trust-bar-label">Trusted by Organizations in</div>
+    <div class="trust-bar-label">Certified Vendors &amp; Partners</div>
     <div class="logo-marquee">
       <div class="logo-track">
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 2a9 9 0 00-9 9v1a9 9 0 009 9h0a9 9 0 009-9v-1a9 9 0 00-9-9z" stroke="currentColor" stroke-width="1.5"/><path d="M8 13h8M12 9v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span>Healthcare</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Financial Services</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Insurance</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>Retail</span>
-        </div>
+        <!-- Base Set -->
+        <div class="logo-item"><img src="processed_Thales-Logo.png.png" alt="Thales" class="brand-logo logo-thales" /></div>
+        <div class="logo-item"><img src="processed_Entrust-H-CMYK-1024x512_tcm19-60523.png.png" alt="Entrust" class="brand-logo logo-entrust" /></div>
+        <div class="logo-item"><img src="processed_1639584892-utimaco.png.png" alt="Utimaco" class="brand-logo logo-utimaco" /></div>
+        <div class="logo-item"><img src="processed_fortanix-landscape_1536x1000.jpg.png" alt="Fortanix" class="brand-logo logo-fortanix" /></div>
+        <div class="logo-item"><img src="processed_Amazon_Web_Services_2025.png.png" alt="AWS" class="brand-logo logo-aws" /></div>
+        <div class="logo-item"><img src="processed_AzureLogo.png.png" alt="Azure" class="brand-logo logo-azure" /></div>
+        <div class="logo-item"><img src="processed_Google-Cloud-Platform-Logo-Vector.svg-.png.png" alt="GCP" class="brand-logo logo-gcp" /></div>
         <!-- Clone 1 for seamless loop -->
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 2a9 9 0 00-9 9v1a9 9 0 009 9h0a9 9 0 009-9v-1a9 9 0 00-9-9z" stroke="currentColor" stroke-width="1.5"/><path d="M8 13h8M12 9v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span>Healthcare</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Financial Services</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Insurance</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>Retail</span>
-        </div>
+        <div class="logo-item"><img src="processed_Thales-Logo.png.png" alt="Thales" class="brand-logo logo-thales" /></div>
+        <div class="logo-item"><img src="processed_Entrust-H-CMYK-1024x512_tcm19-60523.png.png" alt="Entrust" class="brand-logo logo-entrust" /></div>
+        <div class="logo-item"><img src="processed_1639584892-utimaco.png.png" alt="Utimaco" class="brand-logo logo-utimaco" /></div>
+        <div class="logo-item"><img src="processed_fortanix-landscape_1536x1000.jpg.png" alt="Fortanix" class="brand-logo logo-fortanix" /></div>
+        <div class="logo-item"><img src="processed_Amazon_Web_Services_2025.png.png" alt="AWS" class="brand-logo logo-aws" /></div>
+        <div class="logo-item"><img src="processed_AzureLogo.png.png" alt="Azure" class="brand-logo logo-azure" /></div>
+        <div class="logo-item"><img src="processed_Google-Cloud-Platform-Logo-Vector.svg-.png.png" alt="GCP" class="brand-logo logo-gcp" /></div>
         <!-- Clone 2 for seamless loop -->
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 2a9 9 0 00-9 9v1a9 9 0 009 9h0a9 9 0 009-9v-1a9 9 0 00-9-9z" stroke="currentColor" stroke-width="1.5"/><path d="M8 13h8M12 9v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span>Healthcare</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Financial Services</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span>Insurance</span>
-        </div>
-        <div class="logo-item">
-          <svg viewBox="0 0 24 24" fill="none" class="logo-icon"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>Retail</span>
-        </div>
+        <div class="logo-item"><img src="processed_Thales-Logo.png.png" alt="Thales" class="brand-logo logo-thales" /></div>
+        <div class="logo-item"><img src="processed_Entrust-H-CMYK-1024x512_tcm19-60523.png.png" alt="Entrust" class="brand-logo logo-entrust" /></div>
+        <div class="logo-item"><img src="processed_1639584892-utimaco.png.png" alt="Utimaco" class="brand-logo logo-utimaco" /></div>
+        <div class="logo-item"><img src="processed_fortanix-landscape_1536x1000.jpg.png" alt="Fortanix" class="brand-logo logo-fortanix" /></div>
+        <div class="logo-item"><img src="processed_Amazon_Web_Services_2025.png.png" alt="AWS" class="brand-logo logo-aws" /></div>
+        <div class="logo-item"><img src="processed_AzureLogo.png.png" alt="Azure" class="brand-logo logo-azure" /></div>
+        <div class="logo-item"><img src="processed_Google-Cloud-Platform-Logo-Vector.svg-.png.png" alt="GCP" class="brand-logo logo-gcp" /></div>
       </div>
     </div>
   </div>
@@ -190,6 +180,7 @@
         <div class="challenge-header">
           <span class="section-label">The Reality</span>
           <h2 class="section-title">Security Is Complex.<br>Regulated Industries Can't Afford to <span class="text-gradient">Figure It Out Alone.</span></h2>
+          <p class="challenge-body-copy">In regulated industries, a missed vulnerability becomes a breach. A failed audit becomes a boardroom crisis. Sidechain's experts help you pass audits the first time — protecting your data, your business, and your revenue.</p>
         </div>
 
         <div class="challenge-grid">
@@ -293,7 +284,6 @@
           <div class="product-card-body">
             <h3>Vulnerability Assessment</h3>
             <p>A systematic scan and expert analysis of your environment to identify security weaknesses before attackers find them. You receive a prioritized remediation roadmap.</p>
-            <a href="#contact" class="card-cta-link shimmer-btn">Schedule an Assessment →</a>
           </div>
           <div class="product-card-glow"></div>
         </div>
@@ -308,7 +298,6 @@
           <div class="product-card-body">
             <h3>Cyber Risk Evaluation</h3>
             <p>A structured review of your overall security posture, including policies, controls, people, and technology, mapped against industry frameworks.</p>
-            <a href="#contact" class="card-cta-link shimmer-btn">Schedule an Evaluation →</a>
           </div>
           <div class="product-card-glow"></div>
         </div>
@@ -323,10 +312,13 @@
           <div class="product-card-body">
             <h3>HIPAA Cyber Risk Assessment</h3>
             <p>Required by the HIPAA Security Rule, this assessment identifies risks to ePHI confidentiality, integrity, and availability. Audit-ready documentation included.</p>
-            <a href="#contact" class="card-cta-link shimmer-btn">Schedule an Assessment →</a>
           </div>
           <div class="product-card-glow"></div>
         </div>
+      </div>
+
+      <div class="reveal reveal-delay-4" style="text-align: center; margin-top: 1rem; margin-bottom: 2rem;">
+        <a href="#contact" class="shimmer-btn" style="min-width: 240px; padding: 0 2rem; font-size: 0.8rem; letter-spacing: 0.1em; height: 3.25rem;">Schedule an Assessment</a>
       </div>
 
       <p class="assess-footnote reveal reveal-delay-4">Each assessment is a standalone engagement. Many clients use them as the starting point for ongoing managed security.</p>
@@ -416,13 +408,13 @@
         </div>
       </div>
 
-      <!-- Node 2: Email -->
+      <!-- Node 2: Email Security -->
       <div class="orbital-node" data-node="1" data-related="0,2">
         <div class="orbital-node-glow"></div>
         <div class="orbital-node-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
-        <div class="orbital-node-label">Email</div>
+        <div class="orbital-node-label">Email Security</div>
 
         <div class="orbital-card">
           <div class="orbital-card-stem"></div>
@@ -436,13 +428,13 @@
         </div>
       </div>
 
-      <!-- Node 3: Patch -->
+      <!-- Node 3: Vulnerability Assessment (was Patch) -->
       <div class="orbital-node" data-node="2" data-related="1,3">
         <div class="orbital-node-glow"></div>
         <div class="orbital-node-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><path d="M12 12v9"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
         </div>
-        <div class="orbital-node-label">Patch</div>
+        <div class="orbital-node-label">Vulnerability Assessment</div>
 
         <div class="orbital-card">
           <div class="orbital-card-stem"></div>
@@ -450,19 +442,19 @@
             <span class="orbital-card-badge orbital-card-badge--active">ACTIVE</span>
             <span class="orbital-card-num">03</span>
           </div>
-          <h3 class="orbital-card-title">Patch Management &amp; Vulnerability Remediation</h3>
+          <h3 class="orbital-card-title">Vulnerability Assessment &amp; Patch Management</h3>
           <p class="orbital-card-desc">Managed patching across OS and applications, prioritizing critical vulnerabilities with documented remediation history. No more scrambling after a CVE drops.</p>
 
         </div>
       </div>
 
-      <!-- Node 4: SIEM -->
+      <!-- Node 4: Threat Monitoring (was SIEM) -->
       <div class="orbital-node" data-node="3" data-related="2,4">
         <div class="orbital-node-glow"></div>
         <div class="orbital-node-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
-        <div class="orbital-node-label">SIEM</div>
+        <div class="orbital-node-label">Threat Monitoring</div>
 
         <div class="orbital-card">
           <div class="orbital-card-stem"></div>
@@ -476,13 +468,13 @@
         </div>
       </div>
 
-      <!-- Node 5: Backup & IR -->
+      <!-- Node 5: Data Protection (was Backup) -->
       <div class="orbital-node" data-node="4" data-related="3,0">
         <div class="orbital-node-glow"></div>
         <div class="orbital-node-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <div class="orbital-node-label">Backup</div>
+        <div class="orbital-node-label">Data Protection</div>
 
         <div class="orbital-card">
           <div class="orbital-card-stem"></div>
@@ -490,8 +482,8 @@
             <span class="orbital-card-badge orbital-card-badge--active">ACTIVE</span>
             <span class="orbital-card-num">05</span>
           </div>
-          <h3 class="orbital-card-title">Backup Integrity &amp; Incident Response</h3>
-          <p class="orbital-card-desc">Backup monitoring, restore validation, incident response planning, and a tested playbook for when (not if) something happens. Not a panic.</p>
+          <h3 class="orbital-card-title">Data Protection &amp; Incident Response</h3>
+          <p class="orbital-card-desc">Protect your data through secure backup, restore validation, incident response planning, and a tested playbook for breach response. No panicking necessary.</p>
 
         </div>
       </div>
@@ -511,8 +503,8 @@
     <div class="container container-relative why-titan-content">
       
       <div class="why-titan-text reveal">
-        <!-- Cinematic Three.js Data Core Mount -->
-        <div style="position: relative; width: 100%; height: 280px; margin-bottom: 2rem;">
+        <!-- Cinematic Three.js Data Vault Core Mount -->
+        <div style="position: relative; width: 100%; height: 320px; margin-bottom: 2rem;">
           <div id="three-cyber-core" style="position: absolute; top: -20px; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 100vh; pointer-events: none; z-index: -1;"></div>
         </div>
         
@@ -556,19 +548,19 @@
 
       <!-- Industry Switcher -->
       <div class="ind-switcher reveal" role="tablist">
-        <button class="ind-switch active" role="tab" data-industry="healthcare" aria-selected="true">
+        <button class="ind-switch active" role="tab" data-industry="healthcare" aria-selected="true" style="--tab-color: 100, 160, 255;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="ind-switch-icon"><path d="M12 2a9 9 0 00-9 9v1a9 9 0 009 9h0a9 9 0 009-9v-1a9 9 0 00-9-9z"/><path d="M8 13h8M12 9v8" stroke-linecap="round"/></svg>
           Healthcare
         </button>
-        <button class="ind-switch" role="tab" data-industry="financial" aria-selected="false">
+        <button class="ind-switch" role="tab" data-industry="financial" aria-selected="false" style="--tab-color: 80, 200, 160;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="ind-switch-icon"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
           Financial Services
         </button>
-        <button class="ind-switch" role="tab" data-industry="retail" aria-selected="false">
+        <button class="ind-switch" role="tab" data-industry="retail" aria-selected="false" style="--tab-color: 200, 140, 80;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="ind-switch-icon"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Retail
         </button>
-        <button class="ind-switch" role="tab" data-industry="other" aria-selected="false">
+        <button class="ind-switch" role="tab" data-industry="other" aria-selected="false" style="--tab-color: 160, 120, 220;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="ind-switch-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           Other Industries
         </button>
@@ -602,26 +594,30 @@
             <span class="ind-details-label">Healthcare</span>
             <h3 class="ind-details-title">HIPAA Security<br>& Risk Management</h3>
             <p class="ind-details-desc">HIPAA Security Rule compliance, required risk assessments, ePHI protection, and OCR-ready documentation. Our Cyber Risk Assessment satisfies 45 CFR § 164.308.</p>
-            <div class="ind-metrics">
-              <div class="ind-metric">
-                <div class="ind-metric-head">
-                  <span class="ind-metric-label">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    ePHI Protection
-                  </span>
-                  <span class="ind-metric-val">98%</span>
+            <div class="stat-bars">
+              <div class="stat-bar-group">
+                <div class="stat-bar-header">
+                  <div class="stat-bar-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                    <span>ePHI Protection</span>
+                  </div>
+                  <span class="stat-bar-value" data-target="100">0%</span>
                 </div>
-                <div class="ind-bar"><div class="ind-bar-fill" style="--bar-width: 98%; --bar-color: 100, 160, 255;"></div></div>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill" data-width="98%" style="background: rgb(100, 160, 255);"></div>
+                </div>
               </div>
-              <div class="ind-metric">
-                <div class="ind-metric-head">
-                  <span class="ind-metric-label">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-                    Audit Readiness
-                  </span>
-                  <span class="ind-metric-val">95%</span>
+              <div class="stat-bar-group">
+                <div class="stat-bar-header">
+                  <div class="stat-bar-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 14h6M9 10h6"/></svg>
+                    <span>Audit Readiness</span>
+                  </div>
+                  <span class="stat-bar-value" data-target="100">0%</span>
                 </div>
-                <div class="ind-bar"><div class="ind-bar-fill" style="--bar-width: 95%; --bar-color: 100, 160, 255;"></div></div>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill" data-width="95%" style="background: rgb(100, 160, 255);"></div>
+                </div>
               </div>
             </div>
             <div class="ind-tags">
@@ -657,26 +653,30 @@
             <span class="ind-details-label">Financial Services & Insurance</span>
             <h3 class="ind-details-title">Multi-Framework<br>Regulatory Compliance</h3>
             <p class="ind-details-desc">NY-DFS Part 500 compliance, PCI-DSS, and SOC 2 readiness. We serve banks, credit unions, RIAs, insurers, and financial entities navigating overlapping requirements.</p>
-            <div class="ind-metrics">
-              <div class="ind-metric">
-                <div class="ind-metric-head">
-                  <span class="ind-metric-label">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                    Data Encryption
-                  </span>
-                  <span class="ind-metric-val">96%</span>
+            <div class="stat-bars">
+              <div class="stat-bar-group">
+                <div class="stat-bar-header">
+                  <div class="stat-bar-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    <span>Data Encryption</span>
+                  </div>
+                  <span class="stat-bar-value" data-target="100">0%</span>
                 </div>
-                <div class="ind-bar"><div class="ind-bar-fill" style="--bar-width: 96%; --bar-color: 80, 200, 160;"></div></div>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill" data-width="96%" style="background: rgb(80, 200, 160);"></div>
+                </div>
               </div>
-              <div class="ind-metric">
-                <div class="ind-metric-head">
-                  <span class="ind-metric-label">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-                    Compliance Score
-                  </span>
-                  <span class="ind-metric-val">94%</span>
+              <div class="stat-bar-group">
+                <div class="stat-bar-header">
+                  <div class="stat-bar-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 14h6M9 10h6"/></svg>
+                    <span>Compliance Score</span>
+                  </div>
+                  <span class="stat-bar-value" data-target="100">0%</span>
                 </div>
-                <div class="ind-bar"><div class="ind-bar-fill" style="--bar-width: 94%; --bar-color: 80, 200, 160;"></div></div>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill" data-width="94%" style="background: rgb(80, 200, 160);"></div>
+                </div>
               </div>
             </div>
             <div class="ind-tags">
@@ -712,26 +712,30 @@
             <span class="ind-details-label">Retail</span>
             <h3 class="ind-details-title">Payment Security<br>at Every Endpoint</h3>
             <p class="ind-details-desc">PCI-DSS compliance, payment data security, and endpoint protection across distributed locations — from flagship stores to remote POS systems.</p>
-            <div class="ind-metrics">
-              <div class="ind-metric">
-                <div class="ind-metric-head">
-                  <span class="ind-metric-label">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-                    Payment Protection
-                  </span>
-                  <span class="ind-metric-val">97%</span>
+            <div class="stat-bars">
+              <div class="stat-bar-group">
+                <div class="stat-bar-header">
+                  <div class="stat-bar-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                    <span>Payment Protection</span>
+                  </div>
+                  <span class="stat-bar-value" data-target="100">0%</span>
                 </div>
-                <div class="ind-bar"><div class="ind-bar-fill" style="--bar-width: 97%; --bar-color: 200, 140, 80;"></div></div>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill" data-width="97%" style="background: rgb(200, 140, 80);"></div>
+                </div>
               </div>
-              <div class="ind-metric">
-                <div class="ind-metric-head">
-                  <span class="ind-metric-label">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/></svg>
-                    Endpoint Coverage
-                  </span>
-                  <span class="ind-metric-val">92%</span>
+              <div class="stat-bar-group">
+                <div class="stat-bar-header">
+                  <div class="stat-bar-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                    <span>Endpoint Coverage</span>
+                  </div>
+                  <span class="stat-bar-value" data-target="100">0%</span>
                 </div>
-                <div class="ind-bar"><div class="ind-bar-fill" style="--bar-width: 92%; --bar-color: 200, 140, 80;"></div></div>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill" data-width="92%" style="background: rgb(200, 140, 80);"></div>
+                </div>
               </div>
             </div>
             <div class="ind-tags">
@@ -765,26 +769,30 @@
             <span class="ind-details-label">Other Regulated Industries</span>
             <h3 class="ind-details-title">Universal Compliance<br>Expertise</h3>
             <p class="ind-details-desc">Our expertise extends to any organization handling sensitive data under regulatory oversight. If you have compliance requirements you're struggling to meet, we'd like to talk.</p>
-            <div class="ind-metrics">
-              <div class="ind-metric">
-                <div class="ind-metric-head">
-                  <span class="ind-metric-label">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    Risk Mitigation
-                  </span>
-                  <span class="ind-metric-val">93%</span>
+            <div class="stat-bars">
+              <div class="stat-bar-group">
+                <div class="stat-bar-header">
+                  <div class="stat-bar-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Risk Mitigation</span>
+                  </div>
+                  <span class="stat-bar-value" data-target="100">0%</span>
                 </div>
-                <div class="ind-bar"><div class="ind-bar-fill" style="--bar-width: 93%; --bar-color: 160, 120, 220;"></div></div>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill" data-width="93%" style="background: rgb(160, 120, 220);"></div>
+                </div>
               </div>
-              <div class="ind-metric">
-                <div class="ind-metric-head">
-                  <span class="ind-metric-label">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    Framework Coverage
-                  </span>
-                  <span class="ind-metric-val">90%</span>
+              <div class="stat-bar-group">
+                <div class="stat-bar-header">
+                  <div class="stat-bar-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                    <span>Framework Coverage</span>
+                  </div>
+                  <span class="stat-bar-value" data-target="100">0%</span>
                 </div>
-                <div class="ind-bar"><div class="ind-bar-fill" style="--bar-width: 90%; --bar-color: 160, 120, 220;"></div></div>
+                <div class="stat-bar-track">
+                  <div class="stat-bar-fill" data-width="90%" style="background: rgb(160, 120, 220);"></div>
+                </div>
               </div>
             </div>
             <div class="ind-tags">
@@ -811,6 +819,28 @@
       </div>
 
       <div class="pricing-grid reveal reveal-delay-2">
+        <!-- Cyber Security Health Check -->
+        <div class="pricing-card">
+          <div class="spotlight-glow"></div>
+          <span class="plan-badge-onetime">ONE-TIME ASSESSMENT</span>
+          <div class="plan-name">Cyber Security Health Check</div>
+          <div class="plan-price-onetime">$1,500</div>
+          <span class="plan-price-qualifier">One-Time</span>
+          <p class="plan-desc">Your organization's 60-point security inspection — delivered as a clear, actionable report.</p>
+          <ul class="plan-features">
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Email security review — SPF, DKIM, DMARC configuration</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> External vulnerability scan — exposed ports &amp; known CVEs</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Website security assessment — SSL/TLS &amp; web headers</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Dark web credential scan</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Endpoint posture review — patching &amp; AV/EDR gaps</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Data risk assessment — encryption &amp; access control</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Cloud configuration review (AWS, Azure, or GCP)</li>
+            <li><svg class="check-icon" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Phishing susceptibility snapshot</li>
+          </ul>
+          <div class="plan-deliverable">Deliverable: Written report with findings, risk ratings, and a prioritized remediation checklist.</div>
+          <a href="#contact" class="btn btn-primary pricing-btn">SCHEDULE A HEALTH CHECK</a>
+        </div>
+
         <!-- Complete Security Management -->
         <div class="pricing-card pricing-card-featured">
           <div class="spotlight-glow"></div>
@@ -834,6 +864,7 @@
         <!-- Custom -->
         <div class="pricing-card">
           <div class="spotlight-glow"></div>
+          <span class="plan-badge-custom">TAILORED SOLUTION</span>
           <div class="plan-name">Custom</div>
           <div class="plan-price">Contact Sales</div>
           <p class="plan-desc">Build a security program around your specific needs and budget.</p>
@@ -847,6 +878,8 @@
           </ul>
           <a href="#contact" class="btn btn-secondary pricing-btn">CONTACT SALES</a>
         </div>
+
+        <p class="plan-small-print plan-small-print-footnote">Most clients complete the Health Check in under two weeks with minimal disruption. Results are often used as the foundation for an ongoing managed security program.</p>
       </div>
 
       <div class="pricing-banner reveal reveal-delay-3">
@@ -983,52 +1016,52 @@
         <!-- Column 1: scrolls down -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--down">
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
             <!-- duplicate for loop -->
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
           </div>
         </div>
 
         <!-- Column 2: scrolls up -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--up">
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
             <!-- duplicate for loop -->
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
           </div>
         </div>
 
         <!-- Column 3: scrolls down -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--down">
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
             <!-- duplicate for loop -->
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
           </div>
         </div>
 
         <!-- Column 4: scrolls up -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--up">
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
             <!-- duplicate for loop -->
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
-            <div class="t-card"><div class="t-card-header"><img src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
           </div>
         </div>
 
@@ -1098,7 +1131,8 @@
             </div>
             <div class="form-submit">
               <button type="submit" class="btn btn-primary" id="contact-submit">
-                SCHEDULE A CONSULTATION →
+                <span>Submit</span>
+                <span class="submit-arrow" aria-hidden="true">→</span>
               </button>
             </div>
           </form>
