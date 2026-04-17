@@ -21,7 +21,18 @@ const PAL_TEAL = [0, 240, 185];
 
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 const lerp = (a, b, t) => a + (b - a) * t;
-const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+const easeOutCubic = (t) => { const u = 1 - t; return 1 - u * u * u; };
+
+// Pre-computed unit hex vertices (rotation = 0, pointy-top). Eliminates
+// 12 trig calls per hex per frame when used instead of inline cos/sin.
+const HEX_COS = new Float64Array(6);
+const HEX_SIN = new Float64Array(6);
+for (let i = 0; i < 6; i++) {
+  const a = (Math.PI / 3) * i - Math.PI / 6;
+  HEX_COS[i] = Math.cos(a);
+  HEX_SIN[i] = Math.sin(a);
+}
+const MOUSE_RADIUS_SQ = MOUSE_RADIUS * MOUSE_RADIUS;
 
 const lerpColor = (a, b, t) => [
   lerp(a[0], b[0], t),
@@ -86,6 +97,7 @@ const HexLattice = () => {
     let particles = [];
     const active = [];
     let quietRects = [];
+    let vigGrad = null;
     let time = 0;
     let lastFrame = performance.now();
     let rafId = 0;
@@ -159,6 +171,12 @@ const HexLattice = () => {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
+      // Cache vignette gradient — only changes on resize, not every frame.
+      vigGrad = ctx.createLinearGradient(0, 0, 0, height);
+      vigGrad.addColorStop(0, 'rgba(19, 19, 24, 0.62)');
+      vigGrad.addColorStop(0.22, 'rgba(19, 19, 24, 0)');
+      vigGrad.addColorStop(0.78, 'rgba(19, 19, 24, 0)');
+      vigGrad.addColorStop(1, 'rgba(19, 19, 24, 0.88)');
       computeQuietRects();
       buildGrid();
     };
@@ -244,21 +262,21 @@ const HexLattice = () => {
       ro.observe(canvas.parentElement);
     }
 
-    const tracePath = (cx, cy, size, rotation) => {
+    // Fast hex path using pre-computed unit vertices — zero trig per call.
+    const tracePath = (cx, cy, size) => {
       ctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const a = rotation + (Math.PI / 3) * i - Math.PI / 6;
-        const x = cx + size * Math.cos(a);
-        const y = cy + size * Math.sin(a);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
+      ctx.moveTo(cx + size * HEX_COS[0], cy + size * HEX_SIN[0]);
+      ctx.lineTo(cx + size * HEX_COS[1], cy + size * HEX_SIN[1]);
+      ctx.lineTo(cx + size * HEX_COS[2], cy + size * HEX_SIN[2]);
+      ctx.lineTo(cx + size * HEX_COS[3], cy + size * HEX_SIN[3]);
+      ctx.lineTo(cx + size * HEX_COS[4], cy + size * HEX_SIN[4]);
+      ctx.lineTo(cx + size * HEX_COS[5], cy + size * HEX_SIN[5]);
       ctx.closePath();
     };
 
     const vertexAt = (cx, cy, size, i) => {
-      const a = (Math.PI / 3) * i - Math.PI / 6;
-      return [cx + size * Math.cos(a), cy + size * Math.sin(a)];
+      const vi = ((i % 6) + 6) % 6;
+      return [cx + size * HEX_COS[vi], cy + size * HEX_SIN[vi]];
     };
 
     const frame = (now) => {
@@ -299,6 +317,10 @@ const HexLattice = () => {
 
       active.length = 0;
 
+      // Hoist per-frame constants out of the hot loop.
+      const liftK = 1 - Math.pow(0.0002, dt);
+      const flashDecay = Math.pow(0.015, dt);
+
       // 3) Hex cells
       for (let i = 0; i < hexagons.length; i++) {
         const hex = hexagons[i];
@@ -308,14 +330,16 @@ const HexLattice = () => {
         // Scan wave — a ribbon of colour radiating from the centre. Wider band
         // + smoothstep front/back gives a defined glowing ring; scanPulse drives
         // alpha boost, palette shift, line weight and shadow glow below.
-        const scanBand = 140;
         const sd = Math.abs(hex.dist - scanRadius);
         let scanPulse = 0;
-        if (sd < scanBand) {
-          const t = 1 - sd / scanBand;
+        if (sd < 140) {
+          const t = 1 - sd / 140;
           scanPulse = t * t * (3 - 2 * t);
         }
-        const scanEffect = scanPulse * 0.55;
+        // Gate the scan wave by the quiet factor so the pulse dims behind
+        // hero text the same way hover and ripple effects do.
+        const vScan = scanPulse * hex.quiet;
+        const scanEffect = vScan * 0.55;
 
         let target = 0;
         let mdx = 0;
@@ -323,24 +347,26 @@ const HexLattice = () => {
         if (smoothMouse.active) {
           mdx = hex.cx - smoothMouse.x;
           mdy = hex.cy - smoothMouse.y;
-          const md = Math.hypot(mdx, mdy);
-          if (md < MOUSE_RADIUS) {
+          const md2 = mdx * mdx + mdy * mdy;
+          if (md2 < MOUSE_RADIUS_SQ) {
+            const md = Math.sqrt(md2);
             target = easeOutCubic(1 - md / MOUSE_RADIUS);
           }
         }
-        const liftK = 1 - Math.pow(0.0002, dt);
         hex.lift += (target - hex.lift) * liftK;
 
         for (let r = 0; r < ripples.length; r++) {
           const rp = ripples[r];
-          const rd = Math.hypot(hex.cx - rp.cx, hex.cy - rp.cy);
+          const rpDx = hex.cx - rp.cx;
+          const rpDy = hex.cy - rp.cy;
+          const rd = Math.sqrt(rpDx * rpDx + rpDy * rpDy);
           const front = Math.abs(rd - rp.r);
           if (front < 45) {
             const k = (1 - front / 45) * rp.life;
             if (k > hex.flash) hex.flash = k;
           }
         }
-        hex.flash *= Math.pow(0.015, dt);
+        hex.flash *= flashDecay;
 
         // Visible lift/flash are gated by the typography quiet factor so
         // hover intensity dims behind hero text without freezing the physics.
@@ -366,65 +392,71 @@ const HexLattice = () => {
         const edgeAlpha = hex.baseAlpha * (0.55 + breathe * 0.35) + scanEffect + activity * 0.55;
         const fillAlpha = hex.baseAlpha * 0.22 + scanEffect * 0.4 + activity * 0.2;
 
-        // Zone gradient: on hover, tiles shift from the cool idle palette into a
-        // vivid hot palette sampled by their x-position within the hover radius.
-        // Blend is weighted by vLift so behind-text tiles stay near idle colors.
+        // Colour — fast-path when neither the scan wave nor the cursor is
+        // touching this cell: reuse the palette colour baked at build time.
+        const waveShift = vScan * 0.4;
+        const blend = easeOutCubic(clamp(vLift, 0, 1));
+        let cr, cg, cb;
         let zoneTx = 0.5;
         if (smoothMouse.active) {
           zoneTx = clamp((hex.cx - smoothMouse.x) / (MOUSE_RADIUS * 2) + 0.5, 0, 1);
         }
-        // As the scan wave passes over a cell, shift its palette sample toward
-        // the brighter end of the ramp (cyan/teal) so the ring reads as a travelling
-        // colour wash, not just a lift in alpha.
-        const waveShift = scanPulse * 0.4;
-        const idleCol = paletteAt(clamp(hex.tx + waveShift, 0, 1));
-        const hoverCol = hoverPaletteAt(zoneTx);
-        const blend = easeOutCubic(clamp(vLift, 0, 1));
-        const cr = Math.round(lerp(idleCol[0], hoverCol[0], blend));
-        const cg = Math.round(lerp(idleCol[1], hoverCol[1], blend));
-        const cb = Math.round(lerp(idleCol[2], hoverCol[2], blend));
+        if (waveShift < 0.001 && blend < 0.001) {
+          cr = hex.r; cg = hex.g; cb = hex.b;
+        } else {
+          const idleCol = paletteAt(clamp(hex.tx + waveShift, 0, 1));
+          if (blend < 0.001) {
+            cr = idleCol[0]; cg = idleCol[1]; cb = idleCol[2];
+          } else {
+            const hoverCol = hoverPaletteAt(zoneTx);
+            cr = Math.round(lerp(idleCol[0], hoverCol[0], blend));
+            cg = Math.round(lerp(idleCol[1], hoverCol[1], blend));
+            cb = Math.round(lerp(idleCol[2], hoverCol[2], blend));
+          }
+        }
 
-        // Activity adds a gentle sheen on top of the base color.
-        const bk = Math.min(1, activity * 0.32);
-        const hr = Math.round(lerp(cr, 255, bk));
-        const hg = Math.round(lerp(cg, 255, bk));
-        const hb = Math.round(lerp(cb, 255, bk));
-
-        tracePath(drawCx, drawCy, size, 0);
+        // Fill pass — always lay down the solid idle base so cells never
+        // vanish; overlay the radial glow on top for active cells.
+        tracePath(drawCx, drawCy, size);
+        const fsb = vScan * 0.4;
+        const fr = Math.round(lerp(cr, 255, fsb));
+        const fg = Math.round(lerp(cg, 255, fsb));
+        const fb = Math.round(lerp(cb, 255, fsb));
+        ctx.fillStyle = `rgba(${fr}, ${fg}, ${fb}, ${fillAlpha * 0.45})`;
+        ctx.fill();
         if (activity > 0.03) {
+          const bk = Math.min(1, activity * 0.32);
+          const hr = Math.round(lerp(cr, 255, bk));
+          const hg = Math.round(lerp(cg, 255, bk));
+          const hb = Math.round(lerp(cb, 255, bk));
           const grd = ctx.createRadialGradient(drawCx, drawCy, 0, drawCx, drawCy, size);
           grd.addColorStop(0, `rgba(${hr}, ${hg}, ${hb}, ${Math.min(0.9, fillAlpha * (0.7 + activity))})`);
           grd.addColorStop(1, `rgba(${cr}, ${cg}, ${cb}, 0)`);
           ctx.fillStyle = grd;
-        } else {
-          // Cells inside the scan wave pick up a brighter tint of their own
-          // colour; those outside stay at the matte idle value.
-          const sb = scanPulse * 0.4;
-          const fr = Math.round(lerp(cr, 255, sb));
-          const fg = Math.round(lerp(cg, 255, sb));
-          const fb = Math.round(lerp(cb, 255, sb));
-          ctx.fillStyle = `rgba(${fr}, ${fg}, ${fb}, ${fillAlpha * 0.45})`;
+          ctx.fill();
         }
-        ctx.fill();
 
-        tracePath(drawCx, drawCy, size, 0);
+        // Stroke pass — separate threshold so edge-of-hover cells keep the
+        // solid idle stroke instead of switching to the dim gradient outline.
+        tracePath(drawCx, drawCy, size);
         if (activity > 0.22) {
+          const bk = Math.min(1, activity * 0.32);
+          const hr = Math.round(lerp(cr, 255, bk));
+          const hg = Math.round(lerp(cg, 255, bk));
+          const hb = Math.round(lerp(cb, 255, bk));
           ctx.strokeStyle = `rgba(${hr}, ${hg}, ${hb}, ${clamp(edgeAlpha * 1.4, 0, 0.95)})`;
           ctx.lineWidth = 1.1 + activity * 0.7;
           ctx.shadowBlur = 16 * Math.min(1, activity);
           ctx.shadowColor = `rgba(${cr}, ${cg}, ${cb}, 0.8)`;
         } else {
-          // Idle stroke — pure matte by default, but the scan front adds a
-          // colour lift, line weight, and a soft glow so the wave actually
-          // radiates rather than merely brightening the outline.
-          const sb = scanPulse * 0.5;
+          const sb = vScan * 0.5;
           const sr = Math.round(lerp(cr, 255, sb));
           const sg = Math.round(lerp(cg, 255, sb));
           const sbb = Math.round(lerp(cb, 255, sb));
           ctx.strokeStyle = `rgba(${sr}, ${sg}, ${sbb}, ${edgeAlpha * 0.72})`;
-          ctx.lineWidth = 0.85 + scanPulse * 0.7;
-          ctx.shadowBlur = 14 * scanPulse;
-          ctx.shadowColor = `rgba(${cr}, ${cg}, ${cb}, ${0.75 * scanPulse})`;
+          ctx.lineWidth = 0.85 + vScan * 0.7;
+          ctx.shadowBlur = 14 * vScan;
+          ctx.shadowColor = `rgba(${cr}, ${cg}, ${cb}, ${0.75 * vScan})`;
         }
         ctx.stroke();
         ctx.shadowBlur = 0;
@@ -529,14 +561,14 @@ const HexLattice = () => {
         ctx.save();
         ctx.translate(rx, ry);
         ctx.rotate(rot);
-        tracePath(0, 0, 19, 0);
+        tracePath(0, 0, 19);
         ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, 0.62)`;
         ctx.lineWidth = 1;
         ctx.shadowBlur = 12;
         ctx.shadowColor = `rgba(${cr}, ${cg}, ${cb}, 0.9)`;
         ctx.stroke();
         ctx.rotate(-rot * 2.1);
-        tracePath(0, 0, 28, 0);
+        tracePath(0, 0, 28);
         ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, 0.22)`;
         ctx.lineWidth = 0.7;
         ctx.shadowBlur = 0;
@@ -544,13 +576,8 @@ const HexLattice = () => {
         ctx.restore();
       }
 
-      // 8) Edge vignette — frames the section and protects text contrast.
-      const vig = ctx.createLinearGradient(0, 0, 0, height);
-      vig.addColorStop(0, 'rgba(19, 19, 24, 0.62)');
-      vig.addColorStop(0.22, 'rgba(19, 19, 24, 0)');
-      vig.addColorStop(0.78, 'rgba(19, 19, 24, 0)');
-      vig.addColorStop(1, 'rgba(19, 19, 24, 0.88)');
-      ctx.fillStyle = vig;
+      // 8) Edge vignette — cached gradient from resize(), no per-frame alloc.
+      ctx.fillStyle = vigGrad;
       ctx.fillRect(0, 0, width, height);
     };
 

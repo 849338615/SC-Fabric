@@ -268,6 +268,7 @@
       const cards = gsap.utils.toArray('.signal-card');
       const pips = gsap.utils.toArray('.signal-pip');
       const threatCore = document.querySelector('#threat-core');
+      const threatGlass = document.querySelector('.threat-glass');
       const statusText = document.querySelector('#status-text');
       const INTERVAL = 4000; // 4 seconds per card
       let currentIndex = 0;
@@ -286,9 +287,9 @@
 
       // Card data: accent color, visualizer state, status text
       const cardStates = [
-        { accent: '#ff6b6b', secure: false, status: 'THREAT ANALYSIS...' },
-        { accent: '#ffaa33', secure: false, status: 'COMPLIANCE BREACH RISK' },
-        { accent: '#00e5c8', secure: true,  status: 'SECURE & COMPLIANT' }
+        { accent: '#ff6b6b', secure: false, status: 'THREAT ANALYSIS...', glow: 'glow-red' },
+        { accent: '#ffaa33', secure: false, status: 'COMPLIANCE BREACH RISK', glow: 'glow-orange' },
+        { accent: '#00e5c8', secure: true,  status: 'SECURE & COMPLIANT', glow: 'glow-green' }
       ];
 
       function activateCard(index) {
@@ -314,6 +315,10 @@
           threatCore.classList.remove('is-secure');
         }
         statusText.innerText = state.status;
+
+        // Outer glow color
+        threatGlass.classList.remove('glow-red', 'glow-orange', 'glow-green');
+        threatGlass.classList.add(state.glow);
 
         currentIndex = index;
       }
