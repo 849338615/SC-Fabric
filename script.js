@@ -165,7 +165,9 @@
           var goingRight = (i % 2 === 0);
 
           if (goingRight) {
-            points.push({ x: 0, y: topY });
+            if (i === 0) {
+              points.push({ x: 0, y: topY });
+            }
             points.push({ x: divX, y: topY });
             points.push({ x: divX, y: bottomY });
             points.push({ x: W, y: bottomY });
@@ -173,7 +175,9 @@
             points.push({ x: W, y: topY });
             points.push({ x: divX, y: topY });
             points.push({ x: divX, y: bottomY });
-            points.push({ x: 0, y: bottomY });
+            if (i === caseRows.length - 1) {
+              points.push({ x: 0, y: bottomY });
+            }
           }
         }
 
@@ -248,7 +252,7 @@
           delay: 0.8
         }).fromTo(path,
           { strokeDashoffset: beamLength },
-          { strokeDashoffset: -(totalLength + beamLength), duration: 6, ease: 'power1.inOut' }
+          { strokeDashoffset: -(totalLength + beamLength), duration: 6, ease: 'none' }
         );
       }
 

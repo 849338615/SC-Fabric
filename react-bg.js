@@ -1,6 +1,6 @@
 /**
  * Sidechain hero hex lattice.
- * Layered canvas animation: depth vignette, idle breathing, radial scan wave,
+ * Layered canvas animation: depth vignette, idle breathing,
  * magnetic cursor repulsion + constellation links, click shockwaves,
  * data-flow particles, and a tracking hex reticle.
  */
@@ -311,10 +311,6 @@ const HexLattice = () => {
       // so the hero reads as the same background, letting the hex grid pop on
       // its own rather than sitting on a blue ambient wash.
 
-      // 2) Scan wave — breathes out from the center on a tight cycle so the
-      // colour pulse repeats often rather than feeling like a rare event.
-      const scanRadius = (time * 220) % (Math.max(width, height) * 0.7);
-
       active.length = 0;
 
       // Hoist per-frame constants out of the hot loop.
@@ -326,20 +322,6 @@ const HexLattice = () => {
         const hex = hexagons[i];
 
         const breathe = Math.sin(time * hex.pulseSpeed + hex.phase) * 0.5 + 0.5;
-
-        // Scan wave — a ribbon of colour radiating from the centre. Wider band
-        // + smoothstep front/back gives a defined glowing ring; scanPulse drives
-        // alpha boost, palette shift, line weight and shadow glow below.
-        const sd = Math.abs(hex.dist - scanRadius);
-        let scanPulse = 0;
-        if (sd < 140) {
-          const t = 1 - sd / 140;
-          scanPulse = t * t * (3 - 2 * t);
-        }
-        // Gate the scan wave by the quiet factor so the pulse dims behind
-        // hero text the same way hover and ripple effects do.
-        const vScan = scanPulse * hex.quiet;
-        const scanEffect = vScan * 0.55;
 
         let target = 0;
         let mdx = 0;
@@ -389,40 +371,30 @@ const HexLattice = () => {
         const scale = 1 + vLift * 0.1 + vFlash * 0.08;
         const size = (HEX_SIZE - 2) * scale;
 
-        const edgeAlpha = hex.baseAlpha * (0.55 + breathe * 0.35) + scanEffect + activity * 0.55;
-        const fillAlpha = hex.baseAlpha * 0.22 + scanEffect * 0.4 + activity * 0.2;
+        const edgeAlpha = hex.baseAlpha * (0.55 + breathe * 0.35) + activity * 0.55;
+        const fillAlpha = hex.baseAlpha * 0.22 + activity * 0.2;
 
         // Colour — fast-path when neither the scan wave nor the cursor is
         // touching this cell: reuse the palette colour baked at build time.
-        const waveShift = vScan * 0.4;
         const blend = easeOutCubic(clamp(vLift, 0, 1));
         let cr, cg, cb;
         let zoneTx = 0.5;
         if (smoothMouse.active) {
           zoneTx = clamp((hex.cx - smoothMouse.x) / (MOUSE_RADIUS * 2) + 0.5, 0, 1);
         }
-        if (waveShift < 0.001 && blend < 0.001) {
+        if (blend < 0.001) {
           cr = hex.r; cg = hex.g; cb = hex.b;
         } else {
-          const idleCol = paletteAt(clamp(hex.tx + waveShift, 0, 1));
-          if (blend < 0.001) {
-            cr = idleCol[0]; cg = idleCol[1]; cb = idleCol[2];
-          } else {
-            const hoverCol = hoverPaletteAt(zoneTx);
-            cr = Math.round(lerp(idleCol[0], hoverCol[0], blend));
-            cg = Math.round(lerp(idleCol[1], hoverCol[1], blend));
-            cb = Math.round(lerp(idleCol[2], hoverCol[2], blend));
-          }
+          const hoverCol = hoverPaletteAt(zoneTx);
+          cr = Math.round(lerp(hex.r, hoverCol[0], blend));
+          cg = Math.round(lerp(hex.g, hoverCol[1], blend));
+          cb = Math.round(lerp(hex.b, hoverCol[2], blend));
         }
 
         // Fill pass — always lay down the solid idle base so cells never
         // vanish; overlay the radial glow on top for active cells.
         tracePath(drawCx, drawCy, size);
-        const fsb = vScan * 0.4;
-        const fr = Math.round(lerp(cr, 255, fsb));
-        const fg = Math.round(lerp(cg, 255, fsb));
-        const fb = Math.round(lerp(cb, 255, fsb));
-        ctx.fillStyle = `rgba(${fr}, ${fg}, ${fb}, ${fillAlpha * 0.45})`;
+        ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, ${fillAlpha * 0.45})`;
         ctx.fill();
         if (activity > 0.03) {
           const bk = Math.min(1, activity * 0.32);
@@ -449,14 +421,9 @@ const HexLattice = () => {
           ctx.shadowBlur = 16 * Math.min(1, activity);
           ctx.shadowColor = `rgba(${cr}, ${cg}, ${cb}, 0.8)`;
         } else {
-          const sb = vScan * 0.5;
-          const sr = Math.round(lerp(cr, 255, sb));
-          const sg = Math.round(lerp(cg, 255, sb));
-          const sbb = Math.round(lerp(cb, 255, sb));
-          ctx.strokeStyle = `rgba(${sr}, ${sg}, ${sbb}, ${edgeAlpha * 0.72})`;
-          ctx.lineWidth = 0.85 + vScan * 0.7;
-          ctx.shadowBlur = 14 * vScan;
-          ctx.shadowColor = `rgba(${cr}, ${cg}, ${cb}, ${0.75 * vScan})`;
+          ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, ${edgeAlpha * 0.72})`;
+          ctx.lineWidth = 0.85;
+          ctx.shadowBlur = 0;
         }
         ctx.stroke();
         ctx.shadowBlur = 0;
@@ -552,31 +519,7 @@ const HexLattice = () => {
         }
       }
 
-      // 7) Tracking reticle — dual counter-rotating hex rings, palette follows cursor.
-      if (smoothMouse.active) {
-        const rx = smoothMouse.x;
-        const ry = smoothMouse.y;
-        const [cr, cg, cb] = paletteAt(rx / Math.max(1, width));
-        const rot = time * 0.55;
-        ctx.save();
-        ctx.translate(rx, ry);
-        ctx.rotate(rot);
-        tracePath(0, 0, 19);
-        ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, 0.62)`;
-        ctx.lineWidth = 1;
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = `rgba(${cr}, ${cg}, ${cb}, 0.9)`;
-        ctx.stroke();
-        ctx.rotate(-rot * 2.1);
-        tracePath(0, 0, 28);
-        ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, 0.22)`;
-        ctx.lineWidth = 0.7;
-        ctx.shadowBlur = 0;
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      // 8) Edge vignette — cached gradient from resize(), no per-frame alloc.
+      // 7) Edge vignette — cached gradient from resize(), no per-frame alloc.
       ctx.fillStyle = vigGrad;
       ctx.fillRect(0, 0, width, height);
     };

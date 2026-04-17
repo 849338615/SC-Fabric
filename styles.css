@@ -1119,14 +1119,20 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   position: relative;
-  -webkit-mask-image:
-    linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 4%, #000 18%, #000 82%, rgba(0,0,0,0.05) 96%, transparent 100%),
-    linear-gradient(to right, transparent 0%, rgba(0,0,0,0.03) 2%, #000 12%, #000 88%, rgba(0,0,0,0.03) 98%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 4%, #000 18%, #000 82%, rgba(0,0,0,0.05) 96%, transparent 100%),
-    linear-gradient(to right, transparent 0%, rgba(0,0,0,0.03) 2%, #000 12%, #000 88%, rgba(0,0,0,0.03) 98%, transparent 100%);
-  mask-composite: intersect;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 60% at 50% 50%,
+    #000 30%,
+    rgba(0, 0, 0, 0.6) 55%,
+    rgba(0, 0, 0, 0.2) 75%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 60% at 50% 50%,
+    #000 30%,
+    rgba(0, 0, 0, 0.6) 55%,
+    rgba(0, 0, 0, 0.2) 75%,
+    transparent 100%
+  );
 }
 
 .marquee-3d-inner {
@@ -1269,8 +1275,6 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
 }
 
-/* Marquee edge fades — handled via mask-image on .marquee-3d-viewport */
-.marquee-fade { display: none; }
 
 /* =============================================
    TRUSTED LOGOS CAROUSEL
@@ -1868,11 +1872,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .case-metric-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--color-text-primary);
 }
 
