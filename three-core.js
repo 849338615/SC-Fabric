@@ -1,14 +1,15 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // DATA VAULT CORE — Cinematic Scroll-Animated Data Security Visualization
 // ═══════════════════════════════════════════════════════════════════════════
-// Replaces the Three.js globe with a layered encryption architecture:
-//   Layer 0: Inner Core — glowing data nucleus (icosahedron)
-//   Layer 1: Encryption Ring — rotating hexagonal lattice shield
-//   Layer 2: Key Orbit — floating key geometry orbiting the core
-//   Layer 3: Data Flow — particle streams between layers
-//   Layer 4: Outer Shell — wireframe dodecahedron sentinel boundary
+// Layered encryption architecture mapped 1:1 to section copy:
+//   Layer 0: Core              — dispersive crystal (data at rest)
+//   Layer 1: Encryption cage   — geodesic hex lattice (encryption layer)
+//   Layer 2: HSM appliances    — 6 hex prisms on equatorial orbit (HSMs)
+//   Layer 3: Key ring          — 12 pulsing hex fragments (key lifecycle)
+//   Layer 4: Sentinel shell    — dodecahedron wireframe (perimeter)
+//   Layer 5: Data streams      — shader-pulsed lines (encrypted data flow)
 //
-// Scroll-driven: layers scatter on approach → condense into unified vault
+// Post-processing: UnrealBloom + FXAA.  Scroll-driven layer assembly via GSAP.
 // ═══════════════════════════════════════════════════════════════════════════
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,24 +18,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Scene, Camera, Renderer ──
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 100);
   camera.position.z = 8;
 
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
+  renderer.toneMappingExposure = 1.15;
+  renderer.outputEncoding = THREE.sRGBEncoding;
   container.appendChild(renderer.domElement);
 
   // ── Color Palette ──
   const TEAL       = 0x00e5c8;
+  const TEAL_SOFT  = 0x5ef0dc;
   const BLUE       = 0x4a7cff;
   const DEEP_BLUE  = 0x1a3a8a;
-  const CYAN       = 0x00b4d8;
   const WHITE      = 0xffffff;
 
-  // ── Helper: Create circular particle texture ──
+  // No scene fog — renderer is alpha:true so empty pixels stay transparent and
+  // the 3D visual blends with the page's radial-gradient background.
+
+  // ── Helper: circular particle glow texture ──
   const createGlowTexture = (color = '255,255,255') => {
     const canvas = document.createElement('canvas');
     canvas.width = 64;
@@ -46,204 +52,290 @@ document.addEventListener('DOMContentLoaded', () => {
     gradient.addColorStop(1, `rgba(${color},0)`);
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 64, 64);
-    return new THREE.CanvasTexture(canvas);
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.encoding = THREE.sRGBEncoding;
+    return tex;
   };
 
-  // ── Master Group ──
+  // ── Master group ──
   const vaultGroup = new THREE.Group();
   scene.add(vaultGroup);
   vaultGroup.scale.set(0.9, 0.9, 0.9);
 
-  // ════════════════════════════════════════════
-  // LAYER 0: INNER DATA CORE — Glowing Nucleus
-  // ════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════════
+  // LAYER 0 — CORE: dispersive crystal + fresnel rim (data at rest)
+  // ════════════════════════════════════════════════════════════════════════
   const coreGroup = new THREE.Group();
-  
-  // Inner solid core — icosahedron for "data crystal"
-  const coreGeo = new THREE.IcosahedronGeometry(0.5, 1);
+
+  // Outer crystal shell — refractive, iridescent
+  const coreGeo = new THREE.IcosahedronGeometry(0.55, 2);
   const coreMat = new THREE.MeshPhysicalMaterial({
     color: TEAL,
     emissive: TEAL,
-    emissiveIntensity: 0.8,
-    roughness: 0.0,
-    metalness: 0.3,
-    transmission: 0.6,
-    thickness: 1.5,
+    emissiveIntensity: 0.35,
+    roughness: 0.05,
+    metalness: 0.2,
+    transmission: 0.95,
+    thickness: 2.0,
+    ior: 2.33,
     clearcoat: 1.0,
     clearcoatRoughness: 0.0,
+    iridescence: 1.0,
+    iridescenceIOR: 1.3,
     transparent: true,
-    opacity: 0.95
+    opacity: 0.92
   });
   const coreMesh = new THREE.Mesh(coreGeo, coreMat);
   coreGroup.add(coreMesh);
 
-  // Core wireframe overlay for "digital data" feel
-  const coreWireGeo = new THREE.IcosahedronGeometry(0.52, 1);
+  // Inner crystal — counter-rotating for parallax refraction
+  const coreInnerGeo = new THREE.IcosahedronGeometry(0.32, 1);
+  const coreInnerMat = new THREE.MeshPhysicalMaterial({
+    color: TEAL_SOFT,
+    emissive: TEAL,
+    emissiveIntensity: 1.2,
+    roughness: 0.0,
+    metalness: 0.0,
+    transmission: 0.6,
+    thickness: 1.0,
+    clearcoat: 1.0,
+    transparent: true,
+    opacity: 0.9
+  });
+  const coreInnerMesh = new THREE.Mesh(coreInnerGeo, coreInnerMat);
+  coreGroup.add(coreInnerMesh);
+
+  // Wireframe overlay — digital facet cues
+  const coreWireGeo = new THREE.IcosahedronGeometry(0.57, 2);
   const coreEdges = new THREE.EdgesGeometry(coreWireGeo);
   const coreWireMat = new THREE.LineBasicMaterial({
     color: WHITE,
     transparent: true,
-    opacity: 0.4,
-    blending: THREE.AdditiveBlending
+    opacity: 0.35,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
   });
   const coreWire = new THREE.LineSegments(coreEdges, coreWireMat);
   coreGroup.add(coreWire);
 
-  // Core point light — illuminates from within
-  const coreLight = new THREE.PointLight(TEAL, 15, 12);
+  // Fresnel rim shell — silhouette glow independent of lighting
+  const fresnelGeo = new THREE.IcosahedronGeometry(0.62, 3);
+  const fresnelMat = new THREE.ShaderMaterial({
+    uniforms: {
+      uColor:     { value: new THREE.Color(TEAL) },
+      uPower:     { value: 2.6 },
+      uIntensity: { value: 1.6 }
+    },
+    vertexShader: /* glsl */ `
+      varying vec3 vNormal;
+      varying vec3 vWorldPos;
+      void main() {
+        vNormal = normalize(normalMatrix * normal);
+        vec4 wp = modelMatrix * vec4(position, 1.0);
+        vWorldPos = wp.xyz;
+        gl_Position = projectionMatrix * viewMatrix * wp;
+      }
+    `,
+    fragmentShader: /* glsl */ `
+      uniform vec3 uColor;
+      uniform float uPower;
+      uniform float uIntensity;
+      varying vec3 vNormal;
+      varying vec3 vWorldPos;
+      void main() {
+        vec3 viewDir = normalize(cameraPosition - vWorldPos);
+        float fres = pow(1.0 - max(dot(vNormal, viewDir), 0.0), uPower) * uIntensity;
+        gl_FragColor = vec4(uColor * fres, fres);
+      }
+    `,
+    transparent: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    side: THREE.FrontSide
+  });
+  const fresnelMesh = new THREE.Mesh(fresnelGeo, fresnelMat);
+  coreGroup.add(fresnelMesh);
+
+  // Core internal point light — adds subtle specular kick
+  const coreLight = new THREE.PointLight(TEAL, 6, 12);
   coreGroup.add(coreLight);
 
   vaultGroup.add(coreGroup);
 
-  // ════════════════════════════════════════════
-  // LAYER 1: ENCRYPTION LATTICE — Hexagonal Shield Rings
-  // ════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════════
+  // LAYER 1 — ENCRYPTION CAGE: geodesic hex lattice
+  // ════════════════════════════════════════════════════════════════════════
   const latticeGroup = new THREE.Group();
 
-  // Create 3 concentric hexagonal torus rings at different axes
-  for (let i = 0; i < 3; i++) {
-    const ringGeo = new THREE.TorusGeometry(1.1 + i * 0.18, 0.012, 6, 6);
-    const ringMat = new THREE.MeshBasicMaterial({
-      color: i === 0 ? TEAL : (i === 1 ? CYAN : BLUE),
-      transparent: true,
-      opacity: 0.7 - i * 0.1,
-      blending: THREE.AdditiveBlending
-    });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
+  const cageGeo = new THREE.IcosahedronGeometry(1.25, 2); // subdivided → geodesic hex/pent pattern
+  const cageEdges = new THREE.EdgesGeometry(cageGeo);
+  const cageMat = new THREE.LineBasicMaterial({
+    color: TEAL,
+    transparent: true,
+    opacity: 0.55,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+  });
+  const cageMesh = new THREE.LineSegments(cageEdges, cageMat);
+  latticeGroup.add(cageMesh);
 
-    // Each ring on a distinct axis for gyroscope effect
-    if (i === 0) { ring.rotation.x = 0; }
-    if (i === 1) { ring.rotation.x = Math.PI / 2.2; ring.rotation.z = Math.PI / 6; }
-    if (i === 2) { ring.rotation.x = Math.PI / 3; ring.rotation.y = Math.PI / 4; }
+  // Secondary cage — slightly larger, blue, inversely rotating for depth
+  const cage2Geo = new THREE.IcosahedronGeometry(1.38, 1);
+  const cage2Edges = new THREE.EdgesGeometry(cage2Geo);
+  const cage2Mat = new THREE.LineBasicMaterial({
+    color: BLUE,
+    transparent: true,
+    opacity: 0.28,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+  });
+  const cage2Mesh = new THREE.LineSegments(cage2Edges, cage2Mat);
+  latticeGroup.add(cage2Mesh);
 
-    ring.userData = {
-      speedX: (0.008 + i * 0.003) * (i % 2 === 0 ? 1 : -1),
-      speedY: (0.006 + i * 0.002) * (i % 2 === 0 ? -1 : 1),
-      baseOpacity: 0.7 - i * 0.1
-    };
-    latticeGroup.add(ring);
-  }
-
-  // Add hexagonal "shield nodes" at ring intersections
-  const shieldNodeGeo = new THREE.OctahedronGeometry(0.04, 0);
+  // 12 shield nodes on the 12 vertices of an icosahedron — disciplined placement
+  const nodeAnchorGeo = new THREE.IcosahedronGeometry(1.25, 0);
+  const nodeVerts = nodeAnchorGeo.getAttribute('position');
+  const shieldNodeGeo = new THREE.OctahedronGeometry(0.055, 0);
   const shieldNodeMat = new THREE.MeshBasicMaterial({
     color: TEAL,
     transparent: true,
-    opacity: 0.9,
+    opacity: 0.95,
     blending: THREE.AdditiveBlending
   });
-
-  for (let i = 0; i < 18; i++) {
-    const angle = (i / 18) * Math.PI * 2;
-    const r = 1.1 + (i % 3) * 0.18;
+  const shieldSeen = new Set();
+  for (let i = 0; i < nodeVerts.count; i++) {
+    const x = nodeVerts.getX(i), y = nodeVerts.getY(i), z = nodeVerts.getZ(i);
+    const key = `${x.toFixed(3)},${y.toFixed(3)},${z.toFixed(3)}`;
+    if (shieldSeen.has(key)) continue;
+    shieldSeen.add(key);
     const node = new THREE.Mesh(shieldNodeGeo, shieldNodeMat.clone());
-    node.position.set(
-      r * Math.cos(angle),
-      r * Math.sin(angle) * Math.cos(i * 0.5),
-      r * Math.sin(angle) * Math.sin(i * 0.5)
-    );
-    node.userData = { orbitAngle: angle, orbitRadius: r, orbitSpeed: 0.005 + (i % 3) * 0.002, axis: i % 3 };
+    node.position.set(x, y, z);
+    node.userData = { basePhase: i * 0.52 };
     latticeGroup.add(node);
   }
 
   vaultGroup.add(latticeGroup);
 
-  // ════════════════════════════════════════════
-  // LAYER 2: KEY ORBIT — Floating Key Geometries
-  // ════════════════════════════════════════════
-  const keyOrbitGroup = new THREE.Group();
+  // ════════════════════════════════════════════════════════════════════════
+  // LAYER 2 — HSM APPLIANCES: 6 hex prisms on equatorial orbit
+  // ════════════════════════════════════════════════════════════════════════
+  const hsmGroup = new THREE.Group();
+  const hsmCount = 6;
+  const hsmRadius = 1.78;
+  const hsmBodyGeo = new THREE.CylinderGeometry(0.11, 0.11, 0.22, 6, 1, false);
+  const hsmBodyMat = new THREE.MeshPhysicalMaterial({
+    color: 0x1b2230,
+    metalness: 0.9,
+    roughness: 0.3,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.2,
+    transparent: true,
+    opacity: 1.0
+  });
+  const hsmEdgeMat = new THREE.LineBasicMaterial({
+    color: TEAL,
+    transparent: true,
+    opacity: 0.9,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+  });
+  const hsmLedGeo = new THREE.SphereGeometry(0.022, 8, 8);
+  const hsmLedMat = new THREE.MeshBasicMaterial({
+    color: TEAL,
+    transparent: true,
+    opacity: 1.0,
+    blending: THREE.AdditiveBlending
+  });
 
-  // Create 5 floating "key" shapes — stylized geometric keys
-  const createKeyShape = () => {
-    const group = new THREE.Group();
+  for (let i = 0; i < hsmCount; i++) {
+    const angle = (i / hsmCount) * Math.PI * 2;
+    const appliance = new THREE.Group();
 
-    // Key body: elongated box
-    const bodyGeo = new THREE.BoxGeometry(0.12, 0.04, 0.02);
-    const bodyMat = new THREE.MeshPhysicalMaterial({
-      color: TEAL,
-      emissive: TEAL,
-      emissiveIntensity: 0.5,
-      metalness: 0.8,
-      roughness: 0.1,
-      transparent: true,
-      opacity: 0.9
-    });
-    const body = new THREE.Mesh(bodyGeo, bodyMat);
-    group.add(body);
+    const body = new THREE.Mesh(hsmBodyGeo, hsmBodyMat.clone());
+    appliance.add(body);
 
-    // Key head: small octahedron
-    const headGeo = new THREE.OctahedronGeometry(0.035, 0);
-    const headMat = new THREE.MeshBasicMaterial({
-      color: WHITE,
-      transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending
-    });
-    const head = new THREE.Mesh(headGeo, headMat);
-    head.position.x = -0.07;
-    group.add(head);
+    const edges = new THREE.EdgesGeometry(hsmBodyGeo);
+    const edgeLines = new THREE.LineSegments(edges, hsmEdgeMat.clone());
+    appliance.add(edgeLines);
 
-    // Key teeth: small boxes
-    for (let t = 0; t < 2; t++) {
-      const toothGeo = new THREE.BoxGeometry(0.015, 0.025, 0.02);
-      const tooth = new THREE.Mesh(toothGeo, bodyMat.clone());
-      tooth.position.set(0.03 + t * 0.025, -0.025, 0);
-      group.add(tooth);
-    }
+    const led = new THREE.Mesh(hsmLedGeo, hsmLedMat.clone());
+    led.position.y = 0.13;
+    appliance.add(led);
 
-    return group;
-  };
+    appliance.position.set(hsmRadius * Math.cos(angle), 0, hsmRadius * Math.sin(angle));
+    // orient hex faces tangent to orbit
+    appliance.rotation.y = -angle;
+    appliance.rotation.z = Math.PI / 2; // lay the cylinder on its side around the orbit
 
-  for (let k = 0; k < 5; k++) {
-    const key = createKeyShape();
-    const angle = (k / 5) * Math.PI * 2;
-    const r = 1.8;
-
-    key.position.set(
-      r * Math.cos(angle),
-      (Math.random() - 0.5) * 0.6,
-      r * Math.sin(angle)
-    );
-    key.rotation.z = angle + Math.PI / 2;
-    key.userData = {
+    appliance.userData = {
       orbitAngle: angle,
-      orbitRadius: r,
-      orbitSpeed: 0.004,
-      floatPhase: Math.random() * Math.PI * 2,
-      floatSpeed: 0.6 + Math.random() * 0.4
+      orbitSpeed: 0.0025,
+      ledMat: led.material,
+      phase: i * (Math.PI * 2 / hsmCount)
     };
-    keyOrbitGroup.add(key);
+    hsmGroup.add(appliance);
   }
+  vaultGroup.add(hsmGroup);
 
-  vaultGroup.add(keyOrbitGroup);
+  // ════════════════════════════════════════════════════════════════════════
+  // LAYER 3 — KEY FRAGMENTS: 12 pulsing hex fragments on tilted inner orbit
+  // ════════════════════════════════════════════════════════════════════════
+  const keyGroup = new THREE.Group();
+  const keyCount = 12;
+  const keyRadius = 1.08;
+  const keyTilt = 0.38;
+  const keyFragGeo = new THREE.CylinderGeometry(0.045, 0.045, 0.07, 6, 1, false);
+  const keyFragMat = new THREE.MeshPhysicalMaterial({
+    color: TEAL,
+    emissive: TEAL,
+    emissiveIntensity: 0.9,
+    metalness: 0.7,
+    roughness: 0.15,
+    transparent: true,
+    opacity: 0.9
+  });
 
-  // ════════════════════════════════════════════
-  // LAYER 3: DATA FLOW — Streaming Particles
-  // ════════════════════════════════════════════
+  for (let i = 0; i < keyCount; i++) {
+    const angle = (i / keyCount) * Math.PI * 2;
+    const frag = new THREE.Mesh(keyFragGeo, keyFragMat.clone());
+    frag.position.set(
+      keyRadius * Math.cos(angle),
+      Math.sin(angle) * Math.sin(keyTilt) * keyRadius * 0.3,
+      keyRadius * Math.sin(angle)
+    );
+    frag.rotation.x = keyTilt;
+    frag.rotation.z = angle;
+    frag.userData = {
+      orbitAngle: angle,
+      orbitSpeed: 0.0018,
+      phase: (i / keyCount) * Math.PI * 2
+    };
+    keyGroup.add(frag);
+  }
+  keyGroup.rotation.x = keyTilt;
+  vaultGroup.add(keyGroup);
+
+  // ════════════════════════════════════════════════════════════════════════
+  // LAYER 3b — PARTICLES: tight inner cocoon + equatorial perimeter ring
+  // ════════════════════════════════════════════════════════════════════════
   const particleGroup = new THREE.Group();
 
-  // Inner shell particles (tight cluster around core)
-  const innerParticleCount = 600;
-  const innerPositions = new Float32Array(innerParticleCount * 3);
-  const innerSizes = new Float32Array(innerParticleCount);
-
-  for (let i = 0; i < innerParticleCount; i++) {
-    const r = 0.7 + Math.random() * 1.2;
+  // Inner cocoon — thin shell around the encryption cage
+  const innerCount = 250;
+  const innerPos = new Float32Array(innerCount * 3);
+  for (let i = 0; i < innerCount; i++) {
+    const r = 1.0 + Math.random() * 0.4;
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos((Math.random() * 2) - 1);
-
-    innerPositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    innerPositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-    innerPositions[i * 3 + 2] = r * Math.cos(phi);
-    innerSizes[i] = 0.03 + Math.random() * 0.05;
+    innerPos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+    innerPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    innerPos[i * 3 + 2] = r * Math.cos(phi);
   }
-
   const innerParticleGeo = new THREE.BufferGeometry();
-  innerParticleGeo.setAttribute('position', new THREE.BufferAttribute(innerPositions, 3));
-  // Note: PointsMaterial doesnt support per-particle size without shaders, use uniform size
+  innerParticleGeo.setAttribute('position', new THREE.BufferAttribute(innerPos, 3));
   const innerParticleMat = new THREE.PointsMaterial({
     color: TEAL,
-    size: 0.06,
+    size: 0.05,
     map: createGlowTexture('0,229,200'),
     transparent: true,
     opacity: 0.7,
@@ -253,140 +345,229 @@ document.addEventListener('DOMContentLoaded', () => {
   const innerParticles = new THREE.Points(innerParticleGeo, innerParticleMat);
   particleGroup.add(innerParticles);
 
-  // Outer sentinel particles (wide field, smaller, dimmer)
-  const outerParticleCount = 1200;
-  const outerPositions = new Float32Array(outerParticleCount * 3);
-
-  for (let i = 0; i < outerParticleCount; i++) {
-    const isShell = Math.random() > 0.5;
-    const r = isShell ? (2.2 + Math.random() * 0.5) : (3.0 + Math.random() * 5.0);
+  // Equatorial perimeter ring — Saturn-like band at r~2.1 (perimeter glow)
+  const ringCount = 350;
+  const ringPos = new Float32Array(ringCount * 3);
+  for (let i = 0; i < ringCount; i++) {
     const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos((Math.random() * 2) - 1);
-
-    outerPositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    outerPositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-    outerPositions[i * 3 + 2] = r * Math.cos(phi);
+    const r = 2.05 + Math.random() * 0.18;
+    const y = (Math.random() - 0.5) * 0.08;
+    ringPos[i * 3]     = r * Math.cos(theta);
+    ringPos[i * 3 + 1] = y;
+    ringPos[i * 3 + 2] = r * Math.sin(theta);
   }
-
-  const outerParticleGeo = new THREE.BufferGeometry();
-  outerParticleGeo.setAttribute('position', new THREE.BufferAttribute(outerPositions, 3));
-  const outerParticleMat = new THREE.PointsMaterial({
+  const ringParticleGeo = new THREE.BufferGeometry();
+  ringParticleGeo.setAttribute('position', new THREE.BufferAttribute(ringPos, 3));
+  const ringParticleMat = new THREE.PointsMaterial({
     color: BLUE,
-    size: 0.04,
-    map: createGlowTexture('74,124,255'),
+    size: 0.045,
+    map: createGlowTexture('120,170,255'),
     transparent: true,
-    opacity: 0.5,
+    opacity: 0.6,
     blending: THREE.AdditiveBlending,
     depthWrite: false
   });
-  const outerParticles = new THREE.Points(outerParticleGeo, outerParticleMat);
-  particleGroup.add(outerParticles);
+  const ringParticles = new THREE.Points(ringParticleGeo, ringParticleMat);
+  ringParticles.rotation.x = 0.25;
+  particleGroup.add(ringParticles);
 
   vaultGroup.add(particleGroup);
 
-  // ════════════════════════════════════════════
-  // LAYER 4: OUTER SENTINEL SHELL — Wireframe Dodecahedron
-  // ════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════════
+  // LAYER 4 — SENTINEL SHELL: single dodecahedron wireframe + vertex lights
+  // ════════════════════════════════════════════════════════════════════════
   const shellGroup = new THREE.Group();
 
-  const shellGeo = new THREE.DodecahedronGeometry(2.0, 0);
+  const shellGeo = new THREE.DodecahedronGeometry(2.05, 0);
   const shellEdges = new THREE.EdgesGeometry(shellGeo);
   const shellMat = new THREE.LineBasicMaterial({
     color: BLUE,
     transparent: true,
-    opacity: 0.3,
-    blending: THREE.AdditiveBlending
+    opacity: 0.4,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
   });
   const shellMesh = new THREE.LineSegments(shellEdges, shellMat);
   shellGroup.add(shellMesh);
 
-  // Secondary inner shell — dodecahedron rotated for interlocking pattern
-  const shell2Geo = new THREE.DodecahedronGeometry(1.7, 0);
-  const shell2Edges = new THREE.EdgesGeometry(shell2Geo);
-  const shell2Mat = new THREE.LineBasicMaterial({
+  // Vertex sentinel lights — small glowing octahedra at each unique vertex
+  const shellVerts = shellGeo.getAttribute('position');
+  const sentinelGeo = new THREE.OctahedronGeometry(0.04, 0);
+  const sentinelMat = new THREE.MeshBasicMaterial({
     color: TEAL,
     transparent: true,
-    opacity: 0.2,
+    opacity: 0.9,
     blending: THREE.AdditiveBlending
   });
-  const shell2Mesh = new THREE.LineSegments(shell2Edges, shell2Mat);
-  shell2Mesh.rotation.y = Math.PI / 5;
-  shell2Mesh.rotation.x = Math.PI / 7;
-  shellGroup.add(shell2Mesh);
-
-  // Vertex highlight nodes on outer shell
-  const shellVertices = shellGeo.getAttribute('position');
-  const vertexNodeGeo = new THREE.SphereGeometry(0.025, 8, 8);
-  const vertexNodeMat = new THREE.MeshBasicMaterial({
-    color: TEAL,
-    transparent: true,
-    opacity: 0.6,
-    blending: THREE.AdditiveBlending
-  });
-
-  // Track unique vertices (dodecahedron has repeated verts)
-  const uniqueVerts = new Set();
-  for (let i = 0; i < shellVertices.count; i++) {
-    const key = `${shellVertices.getX(i).toFixed(2)},${shellVertices.getY(i).toFixed(2)},${shellVertices.getZ(i).toFixed(2)}`;
-    if (!uniqueVerts.has(key)) {
-      uniqueVerts.add(key);
-      const node = new THREE.Mesh(vertexNodeGeo, vertexNodeMat);
-      node.position.set(shellVertices.getX(i), shellVertices.getY(i), shellVertices.getZ(i));
-      shellGroup.add(node);
-    }
+  const uniqueShellVerts = [];
+  const shellSeen = new Set();
+  for (let i = 0; i < shellVerts.count; i++) {
+    const x = shellVerts.getX(i), y = shellVerts.getY(i), z = shellVerts.getZ(i);
+    const key = `${x.toFixed(3)},${y.toFixed(3)},${z.toFixed(3)}`;
+    if (shellSeen.has(key)) continue;
+    shellSeen.add(key);
+    uniqueShellVerts.push(new THREE.Vector3(x, y, z));
+    const sentinel = new THREE.Mesh(sentinelGeo, sentinelMat.clone());
+    sentinel.position.set(x, y, z);
+    sentinel.userData = { basePhase: i * 0.7 };
+    shellGroup.add(sentinel);
   }
 
   vaultGroup.add(shellGroup);
 
-  // ════════════════════════════════════════════
-  // LAYER 5: DATA STREAM LINES — Connecting Core to Shell
-  // ════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════════
+  // LAYER 5 — DATA STREAMS: shader-pulsed lines from core to sentinels
+  // ════════════════════════════════════════════════════════════════════════
   const streamGroup = new THREE.Group();
 
-  // Create radial "data stream" lines from core to shell vertices
-  const streamMat = new THREE.LineBasicMaterial({
-    color: TEAL,
+  // Custom shader material with traveling pulse via per-vertex progress attribute.
+  // Each line: vertex 0 at core (progress=0), vertex 1 at sentinel (progress=1).
+  // Per-line phase randomises when each stream "fires."
+  const streamMat = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime:    { value: 0 },
+      uColor:   { value: new THREE.Color(TEAL) },
+      uOpacity: { value: 0.0 }  // tween via GSAP
+    },
+    vertexShader: /* glsl */ `
+      attribute float aProgress;
+      attribute float aPhase;
+      varying float vProgress;
+      varying float vPhase;
+      void main() {
+        vProgress = aProgress;
+        vPhase = aPhase;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: /* glsl */ `
+      uniform float uTime;
+      uniform vec3  uColor;
+      uniform float uOpacity;
+      varying float vProgress;
+      varying float vPhase;
+      void main() {
+        // Two traveling pulses per line, phase-offset per stream
+        float wave = sin(vProgress * 6.2831 - uTime * 1.6 + vPhase);
+        float pulse = pow(max(wave, 0.0), 4.0);
+        // Base gradient: brighter near core, dimmer at perimeter
+        float base = mix(0.5, 0.08, vProgress);
+        float alpha = (base + pulse * 0.9) * uOpacity;
+        gl_FragColor = vec4(uColor, alpha);
+      }
+    `,
     transparent: true,
-    opacity: 0.08,
-    blending: THREE.AdditiveBlending
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    fog: false
   });
 
-  let vertIdx = 0;
-  uniqueVerts.forEach(key => {
-    if (vertIdx % 3 === 0) { // Only draw every 3rd for subtlety
-      const [x, y, z] = key.split(',').map(Number);
-      const lineGeo = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(0, 0, 0),
-        new THREE.Vector3(x, y, z)
-      ]);
-      const line = new THREE.LineSegments(lineGeo, streamMat);
-      streamGroup.add(line);
-    }
-    vertIdx++;
+  uniqueShellVerts.forEach((v, idx) => {
+    const positions = new Float32Array([0, 0, 0, v.x, v.y, v.z]);
+    const progress  = new Float32Array([0, 1]);
+    const phase     = new Float32Array([idx * 0.91, idx * 0.91]);
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute('position',  new THREE.BufferAttribute(positions, 3));
+    lineGeo.setAttribute('aProgress', new THREE.BufferAttribute(progress, 1));
+    lineGeo.setAttribute('aPhase',    new THREE.BufferAttribute(phase, 1));
+    const line = new THREE.LineSegments(lineGeo, streamMat);
+    streamGroup.add(line);
   });
 
   vaultGroup.add(streamGroup);
 
-  // ════════════════════════════════════════════
-  // LIGHTING — Cinematic 3-Point Setup
-  // ════════════════════════════════════════════
-  const ambient = new THREE.AmbientLight(WHITE, 1.5);
+  // ════════════════════════════════════════════════════════════════════════
+  // LIGHTING — cinematic 3-point (tuned lower; bloom amplifies emissives)
+  // ════════════════════════════════════════════════════════════════════════
+  const ambient = new THREE.AmbientLight(WHITE, 0.9);
   scene.add(ambient);
 
-  const hemi = new THREE.HemisphereLight(WHITE, DEEP_BLUE, 3);
+  const hemi = new THREE.HemisphereLight(WHITE, DEEP_BLUE, 2.0);
   scene.add(hemi);
 
-  const keyLight = new THREE.PointLight(WHITE, 15, 20);
+  const keyLight = new THREE.PointLight(WHITE, 10, 20);
   keyLight.position.set(4, 5, 6);
   scene.add(keyLight);
 
-  const rimLight = new THREE.PointLight(BLUE, 8, 15);
+  const rimLight = new THREE.PointLight(BLUE, 6, 18);
   rimLight.position.set(-4, -2, -5);
   scene.add(rimLight);
 
-  // ════════════════════════════════════════════
-  // ANIMATION LOOP — Premium Idle Motion
-  // ════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════════
+  // POST-PROCESSING — UnrealBloom + FXAA
+  // ════════════════════════════════════════════════════════════════════════
+  const hasComposer = typeof THREE.EffectComposer !== 'undefined'
+    && typeof THREE.UnrealBloomPass !== 'undefined'
+    && typeof THREE.ShaderPass !== 'undefined'
+    && typeof THREE.FXAAShader !== 'undefined';
+
+  let composer = null;
+  let bloomPass = null;
+  let fxaaPass = null;
+
+  if (hasComposer) {
+    composer = new THREE.EffectComposer(renderer);
+    composer.addPass(new THREE.RenderPass(scene, camera));
+
+    bloomPass = new THREE.UnrealBloomPass(
+      new THREE.Vector2(container.clientWidth, container.clientHeight),
+      0.85,  // strength — final target; tweened 0→this on scroll
+      0.6,   // radius
+      0.12   // threshold
+    );
+    composer.addPass(bloomPass);
+
+    fxaaPass = new THREE.ShaderPass(THREE.FXAAShader);
+    const pr = renderer.getPixelRatio();
+    fxaaPass.material.uniforms.resolution.value.set(
+      1 / (container.clientWidth * pr),
+      1 / (container.clientHeight * pr)
+    );
+    composer.addPass(fxaaPass);
+
+    // Luminance-to-alpha pass: UnrealBloomPass writes an opaque black backdrop,
+    // which shows up as a black box around the 3D object. Remap alpha from
+    // max(R,G,B) so dark pixels become transparent and the page background
+    // shows through, while bright emissive pixels stay fully visible.
+    const alphaPass = new THREE.ShaderPass(new THREE.ShaderMaterial({
+      uniforms: { tDiffuse: { value: null } },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D tDiffuse;
+        varying vec2 vUv;
+        void main() {
+          vec4 c = texture2D(tDiffuse, vUv);
+          float a = max(max(c.r, c.g), c.b);
+          gl_FragColor = vec4(c.rgb, a);
+        }
+      `
+    }));
+    alphaPass.renderToScreen = true;
+    composer.addPass(alphaPass);
+  }
+
+  // ════════════════════════════════════════════════════════════════════════
+  // INTERACTION — gentle mouse parallax on vault rotation
+  // ════════════════════════════════════════════════════════════════════════
+  const parallax = { targetX: 0, targetY: 0, curX: 0, curY: 0 };
+  const onPointerMove = (e) => {
+    const rect = container.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width)  * 2 - 1;
+    const ny = ((e.clientY - rect.top)  / rect.height) * 2 - 1;
+    parallax.targetY =  nx * 0.18;
+    parallax.targetX =  ny * 0.12;
+  };
+  window.addEventListener('pointermove', onPointerMove, { passive: true });
+
+  // ════════════════════════════════════════════════════════════════════════
+  // ANIMATION LOOP
+  // ════════════════════════════════════════════════════════════════════════
   const clock = new THREE.Clock();
 
   let vaultVisible = true;
@@ -398,216 +579,208 @@ document.addEventListener('DOMContentLoaded', () => {
       vaultRafId = requestAnimationFrame(animate);
     }
   }, { threshold: 0 });
-  if (container) vaultIO.observe(container);
+  vaultIO.observe(container);
 
   const animate = () => {
     if (!vaultVisible) { vaultRafId = 0; return; }
     vaultRafId = requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
-    // Core breathing
-    const coreScale = 1 + Math.sin(t * 1.8) * 0.03;
-    coreGroup.scale.set(coreScale, coreScale, coreScale);
-    coreGroup.rotation.y = t * 0.15;
-    coreGroup.rotation.x = Math.sin(t * 0.3) * 0.1;
+    // Core — nested counter-rotation + breathing
+    const coreScale = 1 + Math.sin(t * 1.8) * 0.025;
+    coreMesh.scale.setScalar(coreScale);
+    coreMesh.rotation.y = t * 0.18;
+    coreMesh.rotation.x = Math.sin(t * 0.3) * 0.12;
 
-    // Lattice ring rotation (gyroscope)
+    coreInnerMesh.rotation.y = -t * 0.35;
+    coreInnerMesh.rotation.z =  t * 0.22;
+
+    coreWire.rotation.y = t * 0.18;
+    coreWire.rotation.x = Math.sin(t * 0.3) * 0.12;
+
+    // Lattice — single cohesive rotation; shield nodes pulse opacity
+    latticeGroup.rotation.y = t * 0.08;
+    latticeGroup.rotation.x = Math.sin(t * 0.15) * 0.08;
     latticeGroup.children.forEach(child => {
-      if (child.userData.speedX !== undefined) {
-        child.rotation.x += child.userData.speedX;
-        child.rotation.y += child.userData.speedY;
+      if (child.userData.basePhase !== undefined && child.material) {
+        child.material.opacity = 0.6 + Math.sin(t * 1.4 + child.userData.basePhase) * 0.35;
       }
-      // Orbit shield nodes
-      if (child.userData.orbitAngle !== undefined) {
-        child.userData.orbitAngle += child.userData.orbitSpeed;
-        const a = child.userData.orbitAngle;
-        const r = child.userData.orbitRadius;
-        const ax = child.userData.axis;
-        if (ax === 0) {
-          child.position.set(r * Math.cos(a), r * Math.sin(a), 0);
-        } else if (ax === 1) {
-          child.position.set(0, r * Math.cos(a), r * Math.sin(a));
-        } else {
-          child.position.set(r * Math.sin(a), 0, r * Math.cos(a));
-        }
+    });
+    // Counter-rotation on secondary cage for depth
+    cage2Mesh.rotation.y = -t * 0.12;
+    cage2Mesh.rotation.z =  t * 0.05;
+
+    // HSM orbit
+    hsmGroup.children.forEach(app => {
+      const ud = app.userData;
+      ud.orbitAngle += ud.orbitSpeed;
+      app.position.x = hsmRadius * Math.cos(ud.orbitAngle);
+      app.position.z = hsmRadius * Math.sin(ud.orbitAngle);
+      app.rotation.y = -ud.orbitAngle;
+      // Status LED pulse (traveling wave around the ring)
+      if (ud.ledMat) {
+        ud.ledMat.opacity = 0.5 + Math.sin(t * 2.2 + ud.phase) * 0.5;
       }
     });
 
-    // Key orbit rotation
-    keyOrbitGroup.children.forEach(key => {
-      const ud = key.userData;
-      if (ud.orbitAngle !== undefined) {
-        ud.orbitAngle += ud.orbitSpeed;
-        const a = ud.orbitAngle;
-        const r = ud.orbitRadius;
-        key.position.x = r * Math.cos(a);
-        key.position.z = r * Math.sin(a);
-        key.position.y = Math.sin(t * ud.floatSpeed + ud.floatPhase) * 0.3;
-        key.rotation.y = a + Math.PI / 2;
-        // Subtle scale pulse
-        const kScale = 1 + Math.sin(t * 2 + ud.floatPhase) * 0.1;
-        key.scale.set(kScale, kScale, kScale);
+    // Key fragments — traveling-wave opacity pulse around the ring
+    keyGroup.rotation.y = t * 0.35;
+    keyGroup.children.forEach(frag => {
+      const ud = frag.userData;
+      const wave = Math.sin(t * 1.8 - ud.phase * 2);
+      frag.material.opacity = 0.35 + Math.max(wave, 0) * 0.75;
+      frag.material.emissiveIntensity = 0.6 + Math.max(wave, 0) * 1.4;
+      const s = 1 + Math.max(wave, 0) * 0.15;
+      frag.scale.setScalar(s);
+    });
+
+    // Particles — slow drift
+    innerParticles.rotation.y = t * 0.05;
+    innerParticles.rotation.x = Math.sin(t * 0.2) * 0.04;
+    ringParticles.rotation.y = t * 0.035;
+
+    // Shell — slow rotation + dashed-feel opacity pulse, vertex sentinels blink
+    shellMesh.rotation.y = -t * 0.035;
+    shellMesh.rotation.z =  t * 0.012;
+    shellMesh.material.opacity = 0.3 + Math.sin(t * 0.8) * 0.12;
+    shellGroup.children.forEach(child => {
+      if (child.userData.basePhase !== undefined && child.material) {
+        child.material.opacity = 0.55 + Math.sin(t * 1.6 + child.userData.basePhase) * 0.4;
       }
     });
 
-    // Particle rotation
-    innerParticles.rotation.y = t * 0.06;
-    innerParticles.rotation.z = Math.sin(t * 0.2) * 0.05;
-    outerParticles.rotation.y = t * 0.02;
-    outerParticles.rotation.x = Math.sin(t * 0.15) * 0.03;
+    // Streams — advance shader time
+    streamMat.uniforms.uTime.value = t;
 
-    // Shell rotation (slow, majestic)
-    shellMesh.rotation.y = -t * 0.04;
-    shellMesh.rotation.z = t * 0.015;
-    shell2Mesh.rotation.y = t * 0.03 + Math.PI / 5;
-    shell2Mesh.rotation.z = -t * 0.01 + Math.PI / 7;
+    // Core light breathing
+    coreLight.intensity = 5 + Math.sin(t * 2) * 2.5;
 
-    // Stream group subtle breathing
-    streamGroup.rotation.y = t * 0.01;
+    // Ambient vertical float
+    vaultGroup.position.y = Math.sin(t * 0.6) * 0.1;
 
-    // Ambient floating of entire vault
-    vaultGroup.position.y = Math.sin(t * 0.6) * 0.12;
+    // Mouse parallax (lerped, additive on top of scroll-driven rotation)
+    parallax.curX += (parallax.targetX - parallax.curX) * 0.06;
+    parallax.curY += (parallax.targetY - parallax.curY) * 0.06;
+    // Apply as delta each frame — re-set rotation relative to GSAP target.
+    // GSAP sets vaultGroup.rotation.y/.z directly; we only add to .x which GSAP doesn't touch.
+    vaultGroup.rotation.x = parallax.curX;
+    // Blend parallax Y into scroll Y by modifying a child wrapper would be cleaner,
+    // but GSAP overwrites .y each tick, so add parallax via a subtle camera shift instead:
+    camera.position.x = parallax.curY * 0.6;
+    camera.position.y = parallax.curX * 0.6;
+    camera.lookAt(0, 0, 0);
 
-    // Core light pulse
-    coreLight.intensity = 12 + Math.sin(t * 2) * 5;
-
-    renderer.render(scene, camera);
+    if (composer) {
+      composer.render();
+    } else {
+      renderer.render(scene, camera);
+    }
   };
 
   vaultRafId = requestAnimationFrame(animate);
 
-  // ════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════════
   // RESPONSIVE
-  // ════════════════════════════════════════════
-  window.addEventListener('resize', () => {
+  // ════════════════════════════════════════════════════════════════════════
+  const onResize = () => {
     if (!container) return;
-    camera.aspect = container.clientWidth / container.clientHeight;
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
-  });
+    renderer.setSize(w, h);
+    if (composer) {
+      composer.setSize(w, h);
+      const pr = renderer.getPixelRatio();
+      if (fxaaPass) {
+        fxaaPass.material.uniforms.resolution.value.set(1 / (w * pr), 1 / (h * pr));
+      }
+    }
+  };
+  window.addEventListener('resize', onResize);
 
-  // ════════════════════════════════════════════
-  // GSAP SCROLL ANIMATION — Cinematic Assembly
-  // ════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════════
+  // GSAP SCROLL ASSEMBLY — layers scatter → condense → bloom lights up
+  // ════════════════════════════════════════════════════════════════════════
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 
-    // Initial scattered state — layers exploded outward
+    // Initial scattered state — layers exploded outward, faded
     latticeGroup.scale.set(2.5, 2.5, 2.5);
-    latticeGroup.children.forEach(child => {
-      if (child.material) child.material.opacity = 0;
-    });
+    latticeGroup.children.forEach(c => { if (c.material) c.material.opacity = 0; });
 
-    keyOrbitGroup.scale.set(3.5, 3.5, 3.5);
-    keyOrbitGroup.children.forEach(key => {
-      key.traverse(child => {
-        if (child.material) child.material.opacity = 0;
-      });
-    });
+    hsmGroup.scale.set(3.2, 3.2, 3.2);
+    hsmGroup.children.forEach(app => app.traverse(c => { if (c.material) c.material.opacity = 0; }));
+
+    keyGroup.scale.set(2.6, 2.6, 2.6);
+    keyGroup.children.forEach(f => { if (f.material) f.material.opacity = 0; });
 
     shellGroup.scale.set(4.0, 4.0, 4.0);
-    shellGroup.children.forEach(child => {
-      if (child.material) child.material.opacity = 0;
-    });
+    shellGroup.children.forEach(c => { if (c.material) c.material.opacity = 0; });
 
-    particleGroup.scale.set(5.0, 5.0, 5.0);
-
-    streamGroup.children.forEach(child => {
-      if (child.material) child.material.opacity = 0;
-    });
+    particleGroup.scale.set(4.0, 4.0, 4.0);
 
     coreGroup.scale.set(0.3, 0.3, 0.3);
 
-    // ── Phase 1: Core ignites + inner particles condense ──
+    if (bloomPass) bloomPass.strength = 0;
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: '.why-titan',
         start: 'top 120%',
         end: 'top 10%',
-        scrub: 1.5,
+        scrub: 1.5
       }
     });
 
-    // Core scales up from tiny seed to full size
-    tl.to(coreGroup.scale, {
-      x: 1, y: 1, z: 1,
-      duration: 0.3,
-      ease: 'power2.out'
-    }, 0);
+    // Core ignites first
+    tl.to(coreGroup.scale, { x: 1, y: 1, z: 1, duration: 0.3, ease: 'power2.out' }, 0);
 
-    // Particles condense from massive cloud to tight orbit
-    tl.to(particleGroup.scale, {
-      x: 1, y: 1, z: 1,
-      duration: 0.5,
-      ease: 'power2.inOut'
-    }, 0.05);
+    // Particles condense
+    tl.to(particleGroup.scale, { x: 1, y: 1, z: 1, duration: 0.5, ease: 'power2.inOut' }, 0.05);
 
-    // Lattice rings condense and fade in
-    tl.to(latticeGroup.scale, {
-      x: 1, y: 1, z: 1,
-      duration: 0.4,
-      ease: 'power2.inOut'
-    }, 0.15);
-
-    latticeGroup.children.forEach(child => {
-      if (child.material && child.userData.baseOpacity !== undefined) {
-        tl.to(child.material, {
-          opacity: child.userData.baseOpacity,
-          duration: 0.3,
-        }, 0.15);
-      } else if (child.material) {
-        tl.to(child.material, {
-          opacity: 0.9,
-          duration: 0.3,
-        }, 0.15);
+    // Lattice cage condenses + fades in
+    tl.to(latticeGroup.scale, { x: 1, y: 1, z: 1, duration: 0.4, ease: 'power2.inOut' }, 0.15);
+    tl.to(cageMat,  { opacity: 0.55, duration: 0.3 }, 0.15);
+    tl.to(cage2Mat, { opacity: 0.28, duration: 0.3 }, 0.15);
+    // Shield nodes fade via their cloned materials
+    latticeGroup.children.forEach(c => {
+      if (c.userData.basePhase !== undefined && c.material) {
+        tl.to(c.material, { opacity: 0.9, duration: 0.3 }, 0.18);
       }
     });
 
-    // Key orbit condenses and reveals
-    tl.to(keyOrbitGroup.scale, {
-      x: 1, y: 1, z: 1,
-      duration: 0.4,
-      ease: 'power2.inOut'
-    }, 0.25);
-
-    keyOrbitGroup.children.forEach(key => {
-      key.traverse(child => {
-        if (child.material) {
-          tl.to(child.material, {
-            opacity: child === key.children[0] ? 0.9 : 0.8,
-            duration: 0.3,
-          }, 0.3);
-        }
+    // HSM appliances assemble
+    tl.to(hsmGroup.scale, { x: 1, y: 1, z: 1, duration: 0.4, ease: 'power2.inOut' }, 0.25);
+    hsmGroup.children.forEach(app => {
+      app.traverse(c => {
+        if (c.material) tl.to(c.material, { opacity: c.material.blending === THREE.AdditiveBlending ? 0.95 : 1.0, duration: 0.3 }, 0.28);
       });
     });
 
-    // Outer shell condenses last (sentinel boundary closes)
-    tl.to(shellGroup.scale, {
-      x: 1, y: 1, z: 1,
-      duration: 0.4,
-      ease: 'power3.inOut'
-    }, 0.35);
+    // Key fragments reveal
+    tl.to(keyGroup.scale, { x: 1, y: 1, z: 1, duration: 0.4, ease: 'power2.inOut' }, 0.3);
+    keyGroup.children.forEach(f => {
+      if (f.material) tl.to(f.material, { opacity: 0.85, duration: 0.3 }, 0.33);
+    });
 
-    shellGroup.children.forEach(child => {
-      if (child.material) {
-        const targetOpacity = child === shellMesh ? 0.3 : (child === shell2Mesh ? 0.2 : 0.6);
-        tl.to(child.material, {
-          opacity: targetOpacity,
-          duration: 0.3,
-        }, 0.4);
+    // Sentinel shell closes last
+    tl.to(shellGroup.scale, { x: 1, y: 1, z: 1, duration: 0.4, ease: 'power3.inOut' }, 0.4);
+    tl.to(shellMat, { opacity: 0.4, duration: 0.3 }, 0.42);
+    shellGroup.children.forEach(c => {
+      if (c.userData.basePhase !== undefined && c.material) {
+        tl.to(c.material, { opacity: 0.85, duration: 0.3 }, 0.45);
       }
     });
 
-    // Data streams fade in last
-    streamGroup.children.forEach(child => {
-      if (child.material) {
-        tl.to(child.material, {
-          opacity: 0.08,
-          duration: 0.2,
-        }, 0.5);
-      }
-    });
+    // Streams flicker to life
+    tl.to(streamMat.uniforms.uOpacity, { value: 0.45, duration: 0.3 }, 0.5);
 
-    // ── Phase 2: Continuous epic rotation through section ──
+    // Bloom strength rises with the assembly — the scene literally lights up
+    if (bloomPass) {
+      tl.to(bloomPass, { strength: 0.85, duration: 0.6, ease: 'power2.inOut' }, 0.1);
+    }
+
+    // Phase 2 — continuous majestic rotation driven by scroll
     gsap.to(vaultGroup.rotation, {
       y: Math.PI * 3,
       z: Math.PI / 5,
@@ -615,8 +788,12 @@ document.addEventListener('DOMContentLoaded', () => {
         trigger: '.why-titan',
         start: 'top 120%',
         end: 'bottom top',
-        scrub: 1.5,
+        scrub: 1.5
       }
     });
+  } else {
+    // No GSAP — reveal all layers immediately
+    if (bloomPass) bloomPass.strength = 0.85;
+    streamMat.uniforms.uOpacity.value = 0.45;
   }
 });
