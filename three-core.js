@@ -12,7 +12,7 @@
 // Post-processing: UnrealBloom + FXAA.  Scroll-driven layer assembly via GSAP.
 // ═══════════════════════════════════════════════════════════════════════════
 
-document.addEventListener('DOMContentLoaded', () => {
+const __initVaultCore = () => {
   const container = document.getElementById('three-cyber-core');
   if (!container || typeof THREE === 'undefined') return;
 
@@ -796,4 +796,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bloomPass) bloomPass.strength = 0.85;
     streamMat.uniforms.uOpacity.value = 0.45;
   }
-});
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', __initVaultCore);
+} else {
+  __initVaultCore();
+}

@@ -25,6 +25,10 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3E%3Cg stroke='%23ffffff' stroke-width='18' fill='none' stroke-linecap='butt'%3E%3Cline x1='50' y1='75' x2='50' y2='125'/%3E%3Cline x1='175' y1='250' x2='225' y2='250'/%3E%3Cline x1='167.68' y1='67.68' x2='232.32' y2='132.32'/%3E%3Cline x1='67.68' y1='167.68' x2='132.32' y2='232.32'/%3E%3Ccircle cx='50' cy='50' r='25'/%3E%3Ccircle cx='150' cy='50' r='25'/%3E%3Ccircle cx='250' cy='50' r='25'/%3E%3Ccircle cx='50' cy='150' r='25'/%3E%3Ccircle cx='150' cy='150' r='25'/%3E%3Ccircle cx='250' cy='150' r='25'/%3E%3Ccircle cx='50' cy='250' r='25'/%3E%3Ccircle cx='150' cy='250' r='25'/%3E%3Ccircle cx='250' cy='250' r='25'/%3E%3C/g%3E%3C/svg%3E">
 
+  <!-- Google Fonts — preconnect + single stylesheet (replaces CSS @import) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Mono:wght@400;700&display=swap">
   <link rel="stylesheet" href="styles.css">
   <script>
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -35,12 +39,8 @@
       var y = parseInt(sessionStorage.getItem('scrollY') || '0', 10);
       if (!y || window.location.hash) return;
       window.scrollTo(0, y);
-      setTimeout(function () { window.scrollTo(0, y); }, 300);
     });
   </script>
-  <!-- React -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 </head>
 <body>
 
@@ -144,29 +144,29 @@
     <div class="logo-marquee">
       <div class="logo-track">
         <!-- Base Set -->
-        <div class="logo-item"><img src="processed_Thales-Logo.png.png" alt="Thales" class="brand-logo logo-thales" /></div>
-        <div class="logo-item"><img src="processed_Entrust-H-CMYK-1024x512_tcm19-60523.png.png" alt="Entrust" class="brand-logo logo-entrust" /></div>
-        <div class="logo-item"><img src="processed_1639584892-utimaco.png.png" alt="Utimaco" class="brand-logo logo-utimaco" /></div>
-        <div class="logo-item"><img src="processed_fortanix-landscape_1536x1000.jpg.png" alt="Fortanix" class="brand-logo logo-fortanix" /></div>
-        <div class="logo-item"><img src="processed_Amazon_Web_Services_2025.png.png" alt="AWS" class="brand-logo logo-aws" /></div>
-        <div class="logo-item"><img src="processed_AzureLogo.png.png" alt="Azure" class="brand-logo logo-azure" /></div>
-        <div class="logo-item"><img src="processed_Google-Cloud-Platform-Logo-Vector.svg-.png.png" alt="GCP" class="brand-logo logo-gcp" /></div>
+        <div class="logo-item"><img src="processed_Thales-Logo.png.png" alt="Thales" class="brand-logo logo-thales" width="3750" height="450" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_Entrust-H-CMYK-1024x512_tcm19-60523.png.png" alt="Entrust" class="brand-logo logo-entrust" width="824" height="200" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_1639584892-utimaco.png.png" alt="Utimaco" class="brand-logo logo-utimaco" width="665" height="150" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_fortanix-landscape_1536x1000.jpg.png" alt="Fortanix" class="brand-logo logo-fortanix" width="1324" height="262" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_Amazon_Web_Services_2025.png.png" alt="AWS" class="brand-logo logo-aws" width="1280" height="854" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_AzureLogo.png.png" alt="Azure" class="brand-logo logo-azure" width="693" height="200" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_Google-Cloud-Platform-Logo-Vector.svg-.png.png" alt="GCP" class="brand-logo logo-gcp" width="1874" height="205" loading="lazy" decoding="async" /></div>
         <!-- Clone 1 for seamless loop -->
-        <div class="logo-item"><img src="processed_Thales-Logo.png.png" alt="Thales" class="brand-logo logo-thales" /></div>
-        <div class="logo-item"><img src="processed_Entrust-H-CMYK-1024x512_tcm19-60523.png.png" alt="Entrust" class="brand-logo logo-entrust" /></div>
-        <div class="logo-item"><img src="processed_1639584892-utimaco.png.png" alt="Utimaco" class="brand-logo logo-utimaco" /></div>
-        <div class="logo-item"><img src="processed_fortanix-landscape_1536x1000.jpg.png" alt="Fortanix" class="brand-logo logo-fortanix" /></div>
-        <div class="logo-item"><img src="processed_Amazon_Web_Services_2025.png.png" alt="AWS" class="brand-logo logo-aws" /></div>
-        <div class="logo-item"><img src="processed_AzureLogo.png.png" alt="Azure" class="brand-logo logo-azure" /></div>
-        <div class="logo-item"><img src="processed_Google-Cloud-Platform-Logo-Vector.svg-.png.png" alt="GCP" class="brand-logo logo-gcp" /></div>
+        <div class="logo-item"><img src="processed_Thales-Logo.png.png" alt="Thales" class="brand-logo logo-thales" width="3750" height="450" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_Entrust-H-CMYK-1024x512_tcm19-60523.png.png" alt="Entrust" class="brand-logo logo-entrust" width="824" height="200" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_1639584892-utimaco.png.png" alt="Utimaco" class="brand-logo logo-utimaco" width="665" height="150" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_fortanix-landscape_1536x1000.jpg.png" alt="Fortanix" class="brand-logo logo-fortanix" width="1324" height="262" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_Amazon_Web_Services_2025.png.png" alt="AWS" class="brand-logo logo-aws" width="1280" height="854" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_AzureLogo.png.png" alt="Azure" class="brand-logo logo-azure" width="693" height="200" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_Google-Cloud-Platform-Logo-Vector.svg-.png.png" alt="GCP" class="brand-logo logo-gcp" width="1874" height="205" loading="lazy" decoding="async" /></div>
         <!-- Clone 2 for seamless loop -->
-        <div class="logo-item"><img src="processed_Thales-Logo.png.png" alt="Thales" class="brand-logo logo-thales" /></div>
-        <div class="logo-item"><img src="processed_Entrust-H-CMYK-1024x512_tcm19-60523.png.png" alt="Entrust" class="brand-logo logo-entrust" /></div>
-        <div class="logo-item"><img src="processed_1639584892-utimaco.png.png" alt="Utimaco" class="brand-logo logo-utimaco" /></div>
-        <div class="logo-item"><img src="processed_fortanix-landscape_1536x1000.jpg.png" alt="Fortanix" class="brand-logo logo-fortanix" /></div>
-        <div class="logo-item"><img src="processed_Amazon_Web_Services_2025.png.png" alt="AWS" class="brand-logo logo-aws" /></div>
-        <div class="logo-item"><img src="processed_AzureLogo.png.png" alt="Azure" class="brand-logo logo-azure" /></div>
-        <div class="logo-item"><img src="processed_Google-Cloud-Platform-Logo-Vector.svg-.png.png" alt="GCP" class="brand-logo logo-gcp" /></div>
+        <div class="logo-item"><img src="processed_Thales-Logo.png.png" alt="Thales" class="brand-logo logo-thales" width="3750" height="450" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_Entrust-H-CMYK-1024x512_tcm19-60523.png.png" alt="Entrust" class="brand-logo logo-entrust" width="824" height="200" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_1639584892-utimaco.png.png" alt="Utimaco" class="brand-logo logo-utimaco" width="665" height="150" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_fortanix-landscape_1536x1000.jpg.png" alt="Fortanix" class="brand-logo logo-fortanix" width="1324" height="262" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_Amazon_Web_Services_2025.png.png" alt="AWS" class="brand-logo logo-aws" width="1280" height="854" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_AzureLogo.png.png" alt="Azure" class="brand-logo logo-azure" width="693" height="200" loading="lazy" decoding="async" /></div>
+        <div class="logo-item"><img src="processed_Google-Cloud-Platform-Logo-Vector.svg-.png.png" alt="GCP" class="brand-logo logo-gcp" width="1874" height="205" loading="lazy" decoding="async" /></div>
       </div>
     </div>
   </div>
@@ -1016,52 +1016,52 @@
         <!-- Column 1: scrolls down -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--down">
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
             <!-- duplicate for loop -->
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
           </div>
         </div>
 
         <!-- Column 2: scrolls up -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--up">
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
             <!-- duplicate for loop -->
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
           </div>
         </div>
 
         <!-- Column 3: scrolls down -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--down">
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
             <!-- duplicate for loop -->
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=11" alt="Matthew C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Matthew C.</span><span class="t-card-role">Director of IT and Security</span></div></div><p class="t-card-quote">"Thank you for your superb expertise and service. Your work enables our business to continue to be secure and compliant."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=5" alt="Sarah C." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Sarah C.</span><span class="t-card-role">CISO</span></div></div><p class="t-card-quote">"Sidechain transformed our encryption nightmare into a seamless solution. Finally, data security that just works."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=52" alt="Chris K." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Chris K.</span><span class="t-card-role">CIO</span></div></div><p class="t-card-quote">"Sidechain's team are great communicators, they know their products, and they're knowledgeable. They're also just nice people, the kind of people you want to work with."</p></div>
           </div>
         </div>
 
         <!-- Column 4: scrolls up -->
         <div class="marquee-col">
           <div class="marquee-track marquee-track--up">
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
             <!-- duplicate for loop -->
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
-            <div class="t-card"><div class="t-card-header"><img loading="lazy" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=33" alt="James V." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">James V.</span><span class="t-card-role">Executive Software Architect</span></div></div><p class="t-card-quote">"Sidechain brought expertise and innovation to bear in a niche area for sensitive data encryption. Their work is of exceptionally high quality."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=15" alt="Michael R." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Michael R.</span><span class="t-card-role">IT Director</span></div></div><p class="t-card-quote">"After two years of trying to manage our encryption platform alone, Sidechain operates it smoother than I ever thought possible."</p></div>
+            <div class="t-card"><div class="t-card-header"><img loading="lazy" decoding="async" width="64" height="64" src="https://i.pravatar.cc/64?img=25" alt="Peter M." class="t-card-avatar"><div class="t-card-info"><span class="t-card-name">Peter M.</span><span class="t-card-role">VP Information Technology</span></div></div><p class="t-card-quote">"Of the countless things on my team's plate, managing encryption infrastructure isn't a priority. I'm happy to let Sidechain handle all of that so my engineers can focus on what moves our business forward."</p></div>
           </div>
         </div>
 
@@ -1152,7 +1152,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="#" class="footer-logo">
-            <img src="assets/sidechain-logo.png" alt="Sidechain Security Logo" class="footer-logo-img">
+            <img src="assets/sidechain-logo.png" alt="Sidechain Security Logo" class="footer-logo-img" width="500" height="83" loading="lazy" decoding="async">
           </a>
           <p class="footer-tagline">Security You Can Defend.</p>
           <div class="footer-address">
@@ -1237,23 +1237,81 @@
     </div>
   </footer>
 
-  <!-- GSAP Animation Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <!-- Three.js Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <!-- Three.js r134 post-processing addons (UnrealBloom + FXAA) -->
-  <script src="https://unpkg.com/three@0.134.0/examples/js/shaders/CopyShader.js"></script>
-  <script src="https://unpkg.com/three@0.134.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-  <script src="https://unpkg.com/three@0.134.0/examples/js/shaders/FXAAShader.js"></script>
-  <script src="https://unpkg.com/three@0.134.0/examples/js/postprocessing/EffectComposer.js"></script>
-  <script src="https://unpkg.com/three@0.134.0/examples/js/postprocessing/RenderPass.js"></script>
-  <script src="https://unpkg.com/three@0.134.0/examples/js/postprocessing/ShaderPass.js"></script>
-  <script src="https://unpkg.com/three@0.134.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+  <!-- React (deferred; needed for hero canvas + case-row beam) -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin defer></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin defer></script>
 
-  <script src="script.js"></script>
-  <script src="react-bg.js"></script>
-  <script src="react-beam.js"></script>
-  <script src="three-core.js"></script>
+  <!-- GSAP Animation Library (deferred; preserves execution order) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+
+  <!-- Local scripts (deferred) -->
+  <script src="script.js" defer></script>
+  <script src="react-bg.js" defer></script>
+  <script src="react-beam.js" defer></script>
+
+  <!-- Three.js + data-vault: lazy-loaded when #three-cyber-core enters the viewport.
+       The entire ~620 KB Three.js bundle is kept off the critical path. -->
+  <script>
+    (function () {
+      var THREE_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
+      var ADDONS = [
+        'https://unpkg.com/three@0.134.0/examples/js/shaders/CopyShader.js',
+        'https://unpkg.com/three@0.134.0/examples/js/shaders/LuminosityHighPassShader.js',
+        'https://unpkg.com/three@0.134.0/examples/js/shaders/FXAAShader.js',
+        'https://unpkg.com/three@0.134.0/examples/js/postprocessing/EffectComposer.js',
+        'https://unpkg.com/three@0.134.0/examples/js/postprocessing/RenderPass.js',
+        'https://unpkg.com/three@0.134.0/examples/js/postprocessing/ShaderPass.js',
+        'https://unpkg.com/three@0.134.0/examples/js/postprocessing/UnrealBloomPass.js'
+      ];
+      var CORE = 'three-core.js';
+
+      var loaded = false;
+      function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+          var s = document.createElement('script');
+          s.src = src;
+          s.onload = resolve;
+          s.onerror = reject;
+          document.body.appendChild(s);
+        });
+      }
+      function loadVault() {
+        if (loaded) return;
+        loaded = true;
+        loadScript(THREE_CDN)
+          .then(function () {
+            // Sequential to respect THREE.* global dependencies among addons.
+            return ADDONS.reduce(function (p, src) {
+              return p.then(function () { return loadScript(src); });
+            }, Promise.resolve());
+          })
+          .then(function () { return loadScript(CORE); })
+          .catch(function (e) { console.warn('Vault scripts failed to load', e); });
+      }
+
+      function boot() {
+        var target = document.getElementById('three-cyber-core');
+        if (!target) { loadVault(); return; }
+        if (!('IntersectionObserver' in window)) { loadVault(); return; }
+        var io = new IntersectionObserver(function (entries) {
+          for (var i = 0; i < entries.length; i++) {
+            if (entries[i].isIntersecting) {
+              io.disconnect();
+              loadVault();
+              return;
+            }
+          }
+        }, { rootMargin: '400px 0px' });
+        io.observe(target);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+      } else {
+        boot();
+      }
+    })();
+  </script>
 </body>
 </html>

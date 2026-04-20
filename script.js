@@ -34,9 +34,8 @@
       const valEl = group.querySelector('.stat-bar-value');
       if (!fill || !valEl) return;
       
-      const targetWidth = "100%";
       const targetVal = parseInt(valEl.getAttribute('data-target'), 10) || 0;
-      
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: group,
@@ -44,11 +43,11 @@
           toggleActions: "play none none none"
         }
       });
-      
-      // Animate the bar width
-      tl.fromTo(fill, 
-        { width: "0%" },
-        { width: targetWidth, duration: 1.6, ease: "power3.out" },
+
+      // Animate the bar via transform (compositor-only; no layout reflow).
+      tl.fromTo(fill,
+        { scaleX: 0 },
+        { scaleX: 1, duration: 1.6, ease: "power3.out" },
         0
       );
       
@@ -95,27 +94,34 @@
     const heroSection = document.querySelector('.hero');
     const heroHeadline = document.querySelector('.hero h1');
     if (heroSection && heroHeadline) {
+      // Cache bounding rects; invalidate on scroll/resize to avoid forced
+      // reflow on every mousemove tick.
+      let heroRect = heroSection.getBoundingClientRect();
+      let textRect = heroHeadline.getBoundingClientRect();
+      const refreshRects = () => {
+        heroRect = heroSection.getBoundingClientRect();
+        textRect = heroHeadline.getBoundingClientRect();
+      };
+      window.addEventListener('scroll', refreshRects, { passive: true });
+      window.addEventListener('resize', refreshRects);
+
       heroSection.addEventListener('mousemove', (e) => {
-        const rect = heroSection.getBoundingClientRect();
-        // Mouse position relative to hero section (0 to 1)
-        const xPercent = (e.clientX - rect.left) / rect.width;
-        const yPercent = (e.clientY - rect.top) / rect.height;
+        const xPercent = (e.clientX - heroRect.left) / heroRect.width;
+        const yPercent = (e.clientY - heroRect.top) / heroRect.height;
 
         // Calculate slight 3D tilt amount (centered at 0.5)
-        const tiltX = (yPercent - 0.5) * -12; // tilt degrees up/down
-        const tiltY = (xPercent - 0.5) * 16;  // tilt degrees left/right
+        const tiltX = (yPercent - 0.5) * -12;
+        const tiltY = (xPercent - 0.5) * 16;
 
         gsap.to(heroHeadline, {
           rotationX: tiltX,
           rotationY: tiltY,
-          x: (xPercent - 0.5) * -15, // slight opposite translation
+          x: (xPercent - 0.5) * -15,
           transformPerspective: 900,
           ease: "power2.out",
           duration: 0.6
         });
 
-        // Pass exact coordinates relative to the text block for the metallic glare spotlight
-        const textRect = heroHeadline.getBoundingClientRect();
         const textX = e.clientX - textRect.left;
         const textY = e.clientY - textRect.top;
 
