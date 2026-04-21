@@ -30,6 +30,13 @@ const __initVaultCore = () => {
   renderer.outputEncoding = THREE.sRGBEncoding;
   container.appendChild(renderer.domElement);
 
+  // Radial feather mask — fades the canvas rectangle edges to transparent so
+  // the 3D visual blends into the page with no perceivable box boundary.
+  // Compositor-only; no per-frame cost.
+  const featherMask = 'radial-gradient(ellipse 65% 65% at 50% 50%, black 45%, transparent 92%)';
+  renderer.domElement.style.maskImage = featherMask;
+  renderer.domElement.style.webkitMaskImage = featherMask;
+
   // ── Color Palette ──
   const TEAL       = 0x00e5c8;
   const TEAL_SOFT  = 0x5ef0dc;
@@ -512,7 +519,7 @@ const __initVaultCore = () => {
     bloomPass = new THREE.UnrealBloomPass(
       new THREE.Vector2(container.clientWidth, container.clientHeight),
       0.85,  // strength — final target; tweened 0→this on scroll
-      0.6,   // radius
+      0.5,   // radius — slightly tighter to keep bloom crisp inside the feather mask
       0.12   // threshold
     );
     composer.addPass(bloomPass);
