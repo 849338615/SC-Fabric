@@ -272,90 +272,257 @@
       });
     }
 
-    // 4. The Challenge — Auto-Rotating Signal Showcase
+    // 4. The Challenge — Security Operations Monitor (layered visualizer)
     const challengeSection = document.querySelector('.challenge-pin-wrapper');
     if (challengeSection) {
-      const cards = gsap.utils.toArray('.signal-card');
-      const pips = gsap.utils.toArray('.signal-pip');
-      const threatCore = document.querySelector('#threat-core');
-      const threatGlass = document.querySelector('.threat-glass');
-      const statusText = document.querySelector('#status-text');
-      const INTERVAL = 4000; // 4 seconds per card
-      let currentIndex = 0;
-      let timer = null;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Continuous ring rotation (always active)
-      gsap.to('.core-ring', {
-        rotationY: "360deg",
-        rotationX: "180deg",
-        rotationZ: "360deg",
-        duration: 8,
-        repeat: -1,
-        ease: "none",
-        stagger: 0.5
-      });
+      const cards          = gsap.utils.toArray('.signal-card');
+      const pips           = gsap.utils.toArray('.signal-pip');
+      const threatGlass    = document.querySelector('#threat-glass');
+      const statusText     = document.querySelector('#status-text');
+      const scanTimerEl    = document.querySelector('#scan-timer');
+      const threatBarsEl   = document.querySelector('#threat-bars');
+      const threatPctEl    = document.querySelector('#threat-pct');
+      const pulseWaveEl    = document.querySelector('.lock-pulse-wave');
+      const lockWrapEl     = document.querySelector('.lock-wrap');
+      const lockShackleEl  = document.querySelector('#lock-shackle');
+      const lockShackleHaloEl = document.querySelector('#lock-shackle-halo');
+      const particlesGroup = document.querySelector('#threat-particles-group');
+      const bezelTicksEl   = document.querySelector('#threat-bezel-ticks');
 
-      // Card data: accent color, visualizer state, status text
+      const INTERVAL = 4800;
+      let currentIndex    = -1;
+      let autoTimer       = null;
+      let typeTimer       = null;
+      let scanTimerIv     = null;
+      let pctTween        = null;
+      let paused          = false;
+
+      // Open = shackle raised 1px above the body (visible gap, reads as unlocked)
+      // Closed = shackle seated flush into the body (reads as engaged)
+      const SHACKLE_OPEN   = 'M8 10V6a4 4 0 0 1 8 0v4';
+      const SHACKLE_CLOSED = 'M8 11V7a4 4 0 0 1 8 0v4';
+
       const cardStates = [
-        { accent: '#ff6b6b', secure: false, status: 'THREAT ANALYSIS...', glow: 'glow-red' },
-        { accent: '#ffaa33', secure: false, status: 'COMPLIANCE BREACH RISK', glow: 'glow-orange' },
-        { accent: '#00e5c8', secure: true,  status: 'SECURE & COMPLIANT', glow: 'glow-green' }
+        { stateClass: 'state-breach', status: 'THREAT ANALYSIS',       threatLevel: 0.78, jitter: true,  pulse: false },
+        { stateClass: 'state-risk',   status: 'COMPLIANCE BREACH RISK', threatLevel: 0.58, jitter: false, pulse: false },
+        { stateClass: 'state-secure', status: 'SECURE & COMPLIANT',     threatLevel: 0,    jitter: false, pulse: true  }
       ];
 
+      // ── Build 60 bezel ticks (major at cardinals) ──
+      function buildBezelTicks() {
+        if (!bezelTicksEl) return;
+        const ns = 'http://www.w3.org/2000/svg';
+        const cx = 200, cy = 200;
+        const frag = document.createDocumentFragment();
+        for (let i = 0; i < 60; i++) {
+          const deg = i * 6;
+          const rad = (deg - 90) * Math.PI / 180;
+          const major = (i % 15 === 0);
+          const a = major ? 176 : 180;
+          const b = major ? 192 : 188;
+          const line = document.createElementNS(ns, 'line');
+          line.setAttribute('x1', (cx + Math.cos(rad) * a).toFixed(2));
+          line.setAttribute('y1', (cy + Math.sin(rad) * a).toFixed(2));
+          line.setAttribute('x2', (cx + Math.cos(rad) * b).toFixed(2));
+          line.setAttribute('y2', (cy + Math.sin(rad) * b).toFixed(2));
+          if (major) line.setAttribute('class', 'major');
+          frag.appendChild(line);
+        }
+        bezelTicksEl.appendChild(frag);
+      }
+
+      // ── Build ambient particles (deterministic so layout is stable) ──
+      function buildParticles() {
+        if (!particlesGroup) return;
+        const ns = 'http://www.w3.org/2000/svg';
+        const positions = [
+          [ 86, 120, 1.2], [142,  70, 1.7], [220,  85, 1.0], [310,  95, 1.4],
+          [345, 150, 1.1], [320, 260, 1.6], [360, 210, 1.0], [270, 320, 1.3],
+          [160, 340, 1.5], [ 90, 295, 1.0], [ 55, 220, 1.3], [ 75, 170, 1.0],
+          [115, 240, 1.6], [135, 180, 1.0], [255, 140, 1.2], [290, 200, 1.4],
+          [235, 250, 1.0], [175, 120, 1.3], [195, 280, 1.0], [265,  75, 1.1],
+          [310, 170, 1.0], [115,  90, 1.2]
+        ];
+        const frag = document.createDocumentFragment();
+        positions.forEach(([cx, cy, r], i) => {
+          const c = document.createElementNS(ns, 'circle');
+          c.setAttribute('cx', cx);
+          c.setAttribute('cy', cy);
+          c.setAttribute('r', r);
+          const dx   = ((i * 37) % 13) - 6;
+          const dy   = ((i * 53) % 11) - 5;
+          const dur  = (5 + (i % 7) * 0.8).toFixed(2);
+          const del  = ((i % 5) * 0.4).toFixed(2);
+          const pmin = (0.12 + (i % 4) * 0.05).toFixed(2);
+          const pmax = (0.45 + (i % 3) * 0.1).toFixed(2);
+          c.setAttribute('style',
+            `--dx:${dx}px;--dy:${dy}px;--pdur:${dur}s;--pdelay:${del}s;--pmin:${pmin};--pmax:${pmax}`);
+          frag.appendChild(c);
+        });
+        particlesGroup.appendChild(frag);
+      }
+
+      // ── Type-on for status text ──
+      function typeOn(el, text) {
+        clearInterval(typeTimer);
+        if (prefersReducedMotion) { el.textContent = text; return; }
+        el.textContent = '';
+        let i = 0;
+        typeTimer = setInterval(() => {
+          i++;
+          el.textContent = text.slice(0, i);
+          if (i >= text.length) clearInterval(typeTimer);
+        }, 32);
+      }
+
+      // ── Threat-level bars + percent counter ──
+      function setThreatLevel(level) {
+        if (threatBarsEl) {
+          const bars = threatBarsEl.querySelectorAll('span');
+          const filled = Math.round(level * bars.length);
+          bars.forEach((b, i) => b.classList.toggle('filled', i < filled));
+        }
+        if (!threatPctEl) return;
+        if (pctTween) pctTween.kill();
+        const obj = { v: parseFloat(threatPctEl.textContent) || 0 };
+        const target = Math.round(level * 100);
+        if (prefersReducedMotion) {
+          threatPctEl.textContent = target + '%';
+        } else {
+          pctTween = gsap.to(obj, {
+            v: target,
+            duration: 0.7,
+            ease: 'power2.out',
+            onUpdate: () => { threatPctEl.textContent = Math.round(obj.v) + '%'; }
+          });
+        }
+      }
+
+      // ── Shackle morph — updates main shackle + halo path together so the
+      //    thickened glow shadow stays aligned during the transition ──
+      function setShackle(closed) {
+        const d = closed ? SHACKLE_CLOSED : SHACKLE_OPEN;
+        if (lockShackleEl)     lockShackleEl.setAttribute('d', d);
+        if (lockShackleHaloEl) lockShackleHaloEl.setAttribute('d', d);
+      }
+
+      // ── Scan timer (elapsed since init, HH:MM:SS) ──
+      function startScanTimer() {
+        clearInterval(scanTimerIv);
+        if (!scanTimerEl) return;
+        const start = Date.now();
+        const pad = n => String(n).padStart(2, '0');
+        const tick = () => {
+          const s = Math.floor((Date.now() - start) / 1000);
+          scanTimerEl.textContent = `${pad(Math.floor(s / 3600))}:${pad(Math.floor((s % 3600) / 60))}:${pad(s % 60)}`;
+        };
+        tick();
+        scanTimerIv = setInterval(tick, 1000);
+      }
+
+      // ── Replay a one-shot CSS animation by toggling a class ──
+      function replayClass(el, className, duration) {
+        if (!el || prefersReducedMotion) return;
+        el.classList.remove(className);
+        void el.offsetWidth; // force reflow
+        el.classList.add(className);
+        if (duration) {
+          clearTimeout(el['__replayT_' + className]);
+          el['__replayT_' + className] = setTimeout(() => {
+            el.classList.remove(className);
+          }, duration);
+        }
+      }
+
+      // ── Stagger ring color transitions for craft ──
+      function staggerRings() {
+        if (prefersReducedMotion) return;
+        const rings = gsap.utils.toArray('.orbit ellipse');
+        rings.forEach((ring, i) => {
+          ring.style.transitionDelay = `${i * 60}ms`;
+          setTimeout(() => { ring.style.transitionDelay = ''; }, 900 + i * 60);
+        });
+      }
+
+      // ── Activate a state (choreographed) ──
       function activateCard(index) {
+        if (index === currentIndex) return;
         const state = cardStates[index];
 
-        // Cards: crossfade
         cards.forEach((card, i) => {
           card.classList.toggle('active', i === index);
-          // Inject the accent CSS variable for theming each card
-          const accent = card.getAttribute('data-accent');
-          card.style.setProperty('--card-accent', accent);
+          card.style.setProperty('--card-accent', card.getAttribute('data-accent'));
         });
+        pips.forEach((pip, i) => pip.classList.toggle('active', i === index));
 
-        // Pips: reset animation
-        pips.forEach((pip, i) => {
-          pip.classList.toggle('active', i === index);
-        });
+        threatGlass.classList.remove('state-breach', 'state-risk', 'state-secure');
+        threatGlass.classList.add(state.stateClass);
 
-        // Visualizer state sync
-        if (state.secure) {
-          threatCore.classList.add('is-secure');
-        } else {
-          threatCore.classList.remove('is-secure');
+        staggerRings();
+        setShackle(state.stateClass === 'state-secure');
+        typeOn(statusText, state.status);
+        setThreatLevel(state.threatLevel);
+
+        if (state.jitter) replayClass(lockWrapEl, 'jitter', 480);
+        if (state.pulse)  {
+          replayClass(pulseWaveEl, 'pulse', 960);
+          replayClass(threatGlass, 'bezel-flash', 700);
         }
-        statusText.innerText = state.status;
 
-        // Outer glow color
-        threatGlass.classList.remove('glow-red', 'glow-orange', 'glow-green');
-        threatGlass.classList.add(state.glow);
+        // New threat cycle → restart the scan timer from 00:00:00
+        if (state.stateClass === 'state-breach') startScanTimer();
 
         currentIndex = index;
       }
 
-      function nextCard() {
-        activateCard((currentIndex + 1) % cards.length);
-      }
+      function nextCard() { activateCard((currentIndex + 1) % cardStates.length); }
+      function startAuto()  { clearInterval(autoTimer); autoTimer = setInterval(nextCard, INTERVAL); }
+      function stopAuto()   { clearInterval(autoTimer); autoTimer = null; }
 
-      function startTimer() {
-        clearInterval(timer);
-        timer = setInterval(nextCard, INTERVAL);
-      }
-
-      // Pip click: jump to card
       pips.forEach((pip, i) => {
-        pip.addEventListener('click', () => {
-          activateCard(i);
-          startTimer(); // Reset timer on manual click
-        });
+        pip.addEventListener('click', () => { activateCard(i); startAuto(); });
       });
 
-      // Initialize: set accent vars and start
-      cards.forEach(card => {
-        card.style.setProperty('--card-accent', card.getAttribute('data-accent'));
+      // ── Pause when off-screen or tab hidden — saves main-thread + compositor work ──
+      function pause() {
+        if (paused) return;
+        paused = true;
+        stopAuto();
+        clearInterval(typeTimer);
+        clearInterval(scanTimerIv);
+        threatGlass.classList.add('is-paused');
+      }
+      function resume() {
+        if (!paused) return;
+        paused = false;
+        threatGlass.classList.remove('is-paused');
+        startAuto();
+        startScanTimer();
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { entry.isIntersecting ? resume() : pause(); });
+      }, { rootMargin: '200px' });
+      observer.observe(challengeSection);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          pause();
+        } else {
+          const rect = challengeSection.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight + 200 && rect.bottom > -200;
+          if (inView) resume();
+        }
       });
+
+      // ── Init ──
+      buildBezelTicks();
+      buildParticles();
+      cards.forEach(card => card.style.setProperty('--card-accent', card.getAttribute('data-accent')));
       activateCard(0);
-      startTimer();
+      startAuto();
     }
 
   } else {

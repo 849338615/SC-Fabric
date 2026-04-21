@@ -232,20 +232,102 @@
           </div>
 
           <!-- Right Column: The Visualizer -->
-          <div class="challenge-visualizer">
-            <div class="threat-glass">
+          <div class="challenge-visualizer" id="challenge-visualizer">
+            <div class="threat-glass" id="threat-glass">
+
+              <!-- Layer 0 — volumetric radar sweep (behind everything) -->
+              <div class="threat-sweep" aria-hidden="true"></div>
+
+              <!-- Layer 1 — ambient depth particles (populated by JS) -->
+              <svg class="threat-particles" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <g id="threat-particles-group"></g>
+              </svg>
+
+              <!-- Layer 2 — state-driven core (orbits + central symbol) -->
               <div class="threat-core" id="threat-core">
-                <div class="core-ring ring-1"></div>
-                <div class="core-ring ring-2"></div>
-                <div class="core-ring ring-3"></div>
+
+                <!-- Orbital belt: 6 SVG ellipses with gradient-alpha strokes for depth -->
+                <svg class="threat-orbits" viewBox="0 0 400 400" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="orbit-grad-h" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%"  stop-color="currentColor" stop-opacity="0"></stop>
+                      <stop offset="42%" stop-color="currentColor" stop-opacity="0.9"></stop>
+                      <stop offset="58%" stop-color="currentColor" stop-opacity="0.9"></stop>
+                      <stop offset="100%" stop-color="currentColor" stop-opacity="0"></stop>
+                    </linearGradient>
+                    <linearGradient id="orbit-grad-v" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%"  stop-color="currentColor" stop-opacity="0"></stop>
+                      <stop offset="42%" stop-color="currentColor" stop-opacity="0.75"></stop>
+                      <stop offset="58%" stop-color="currentColor" stop-opacity="0.75"></stop>
+                      <stop offset="100%" stop-color="currentColor" stop-opacity="0"></stop>
+                    </linearGradient>
+                  </defs>
+
+                  <g class="orbit orbit-1"><ellipse cx="200" cy="200" rx="182" ry="58"  stroke="url(#orbit-grad-h)" stroke-width="1.5" fill="none"/></g>
+                  <g class="orbit orbit-2"><ellipse cx="200" cy="200" rx="172" ry="92"  stroke="url(#orbit-grad-h)" stroke-width="1.5" fill="none"/></g>
+                  <g class="orbit orbit-3"><ellipse cx="200" cy="200" rx="152" ry="126" stroke="currentColor" stroke-width="1"   fill="none" stroke-dasharray="2 7"  stroke-opacity="0.45"/></g>
+                  <g class="orbit orbit-4"><ellipse cx="200" cy="200" rx="132" ry="158" stroke="currentColor" stroke-width="1"   fill="none" stroke-dasharray="3 10" stroke-opacity="0.35"/></g>
+                  <g class="orbit orbit-5"><ellipse cx="200" cy="200" rx="70"  ry="162" stroke="url(#orbit-grad-v)" stroke-width="1.5" fill="none"/></g>
+                  <g class="orbit orbit-6"><ellipse cx="200" cy="200" rx="95"  ry="95"  stroke="currentColor" stroke-width="1.2" fill="none" stroke-dasharray="3 5" stroke-opacity="0.6"/></g>
+                </svg>
+
+                <!-- Central padlock + HUD micro-readout -->
                 <div class="center-lock">
-                  <svg viewBox="0 0 24 24" width="60" height="60" stroke="currentColor" stroke-width="1.5" fill="none" class="lock-icon" id="status-lock">
-                    <rect x="5" y="11" width="14" height="10" rx="2" ry="2"></rect>
-                    <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
-                  </svg>
-                  <div class="status-readout" id="status-text">INITIALIZING...</div>
+                  <div class="lock-wrap">
+                    <svg class="lock-icon" viewBox="0 0 24 26" width="72" height="78" fill="none" stroke="currentColor" aria-hidden="true">
+                      <!-- soft halo underneath (pulses via opacity, not filter) -->
+                      <rect class="lock-halo" x="5" y="11" width="14" height="10" rx="2" stroke-width="4" stroke-linejoin="round"/>
+                      <path class="lock-halo" id="lock-shackle-halo" d="M8 10V6a4 4 0 0 1 8 0v4" stroke-width="4" stroke-linecap="round"/>
+                      <!-- main body + shackle (shackle morphs open↔closed per state) -->
+                      <rect class="lock-body" x="5" y="11" width="14" height="10" rx="2" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path class="lock-shackle" id="lock-shackle" d="M8 10V6a4 4 0 0 1 8 0v4" stroke-width="1.5" stroke-linecap="round"/>
+                      <!-- keyhole -->
+                      <circle class="lock-keyhole" cx="12" cy="15.4" r="1.1" fill="currentColor" stroke="none" fill-opacity="0.95"/>
+                      <line class="lock-keyslot" x1="12" y1="15.8" x2="12" y2="18.2" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                    <span class="lock-scanline" aria-hidden="true"></span>
+                    <span class="lock-pulse-wave" aria-hidden="true"></span>
+                  </div>
+
+                  <div class="status-readout" id="status-readout">
+                    <div class="hud-line hud-line-status">
+                      <span class="hud-key">STATUS</span>
+                      <span class="hud-dot" aria-hidden="true"></span>
+                      <span class="hud-val hud-val-primary" id="status-text">INITIALIZING</span>
+                    </div>
+                    <div class="hud-line hud-line-meta">
+                      <span class="hud-key">SCAN</span>
+                      <span class="hud-val" id="scan-timer">00:00:00</span>
+                    </div>
+                    <div class="hud-line hud-line-threat">
+                      <span class="hud-key">THREAT</span>
+                      <span class="hud-bars" id="threat-bars" aria-hidden="true">
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                      </span>
+                      <span class="hud-val hud-threat-pct" id="threat-pct">00%</span>
+                    </div>
+                  </div>
                 </div>
+
               </div>
+
+              <!-- Layer 3 — outer instrumentation bezel (above core, inside the rim) -->
+              <svg class="threat-bezel" viewBox="0 0 400 400" aria-hidden="true">
+                <g class="bezel-rotating">
+                  <g class="bezel-ticks" id="threat-bezel-ticks"></g>
+                  <g class="bezel-scanner">
+                    <circle cx="200" cy="26" r="2.8"/>
+                  </g>
+                </g>
+                <g class="bezel-cardinals">
+                  <text class="bezel-label" x="200" y="16" text-anchor="middle">N 000</text>
+                  <text class="bezel-label" x="384" y="204" text-anchor="end">E 090</text>
+                  <text class="bezel-label" x="200" y="394" text-anchor="middle">S 180</text>
+                  <text class="bezel-label" x="16"  y="204" text-anchor="start">W 270</text>
+                </g>
+              </svg>
+
             </div>
           </div>
           

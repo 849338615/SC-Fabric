@@ -710,6 +710,11 @@ const __initVaultCore = () => {
   // GSAP SCROLL ASSEMBLY — layers scatter → condense → bloom lights up
   // ════════════════════════════════════════════════════════════════════════
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    // Belt-and-suspenders: UMD auto-registers, but calling explicitly
+    // guarantees scrollTrigger configs in tweens resolve correctly.
+    if (typeof gsap.registerPlugin === 'function') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
 
     // Initial scattered state — layers exploded outward, faded
     latticeGroup.scale.set(2.5, 2.5, 2.5);
@@ -798,6 +803,22 @@ const __initVaultCore = () => {
         scrub: 1.5
       }
     });
+
+    // Re-measure trigger boundaries once layout stabilizes. The vault is
+    // lazy-loaded, so fonts/images/reveal classes may settle *after* the
+    // triggers are created, leaving their cached start/end pixel offsets
+    // stale — which locks a scrubbed timeline at an incorrect mid-progress.
+    const refreshTriggers = () => {
+      try { ScrollTrigger.refresh(); } catch (_) {}
+    };
+    if (document.readyState === 'complete') {
+      requestAnimationFrame(refreshTriggers);
+    } else {
+      window.addEventListener('load', refreshTriggers, { once: true });
+    }
+    if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === 'function') {
+      document.fonts.ready.then(refreshTriggers).catch(() => {});
+    }
   } else {
     // No GSAP — reveal all layers immediately
     if (bloomPass) bloomPass.strength = 0.85;

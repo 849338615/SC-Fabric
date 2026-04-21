@@ -3504,49 +3504,48 @@ h1, h2, h3, h4, h5, h6 {
   perspective: 1000px;
 }
 
+/* =============================================
+   THREAT VISUALIZER — Security Operations Monitor
+   Layered composition: sweep → particles → orbits → symbol → bezel
+   All animations are transform/opacity only (GPU-composited)
+   ============================================= */
+
 .threat-glass {
+  /* State tokens — redefined per state class below */
+  --threat-color:  #ff5050;
+  --threat-soft:   rgba(255, 80, 80, 0.55);
+  --threat-glow:   rgba(255, 80, 80, 0.18);
+  --threat-sweep:  rgba(255, 80, 80, 0.32);
+  --threat-dim:    rgba(255, 80, 80, 0.12);
+  --threat-rgb:    255, 80, 80;
+
   position: relative;
   width: 100%;
   aspect-ratio: 1;
-  max-width: 420px;
-  max-height: 420px;
+  max-width: 440px;
+  max-height: 440px;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 35% 35%, rgba(255,255,255, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at center, rgba(30, 60, 160, 0.08) 0%, rgba(10, 15, 30, 0.6) 70%, rgba(0,0,0, 0.8) 100%);
+    radial-gradient(circle at 32% 30%, rgba(255,255,255, 0.035) 0%, transparent 42%),
+    radial-gradient(circle at 50% 50%, rgba(30, 60, 140, 0.10) 0%, rgba(8, 12, 22, 0.6) 62%, rgba(0,0,0, 0.9) 100%);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  /* Atmospheric bloom: three stacked shadows with exponentially wider blur and
+     lower opacity produce a smooth, natural falloff. No absorbing dark halo
+     outside the rim — that's what created the ringed/textured edge before. */
   box-shadow:
-    inset 0 0 60px rgba(0, 0, 0, 0.6),
-    0 0 80px rgba(0,0,0, 0.8),
-    0 0 120px var(--threat-glow, rgba(255, 80, 80, 0.08));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-style: preserve-3d;
+    inset 0 0 110px rgba(0, 0, 0, 0.62),
+    inset 0 0 28px  rgba(0, 0, 0, 0.35),
+    0 0 55px   rgba(var(--threat-rgb), 0.14),
+    0 0 140px  rgba(var(--threat-rgb), 0.085),
+    0 0 260px  rgba(var(--threat-rgb), 0.04);
+  display: block;
   overflow: hidden;
-  transition: box-shadow 0.8s ease;
+  color: var(--threat-color);
+  transition: box-shadow 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              color 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Radar sweep */
-.threat-glass::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 340deg,
-    var(--threat-sweep, rgba(255, 80, 80, 0.06)) 355deg,
-    transparent 360deg
-  );
-  animation: radarSweep 4s linear infinite;
-  z-index: 1;
-  pointer-events: none;
-  transition: background 0.8s ease;
-}
-
-/* Scan-line overlay */
+/* Subtle CRT scanlines, kept from the original */
 .threat-glass::after {
   content: '';
   position: absolute;
@@ -3554,34 +3553,102 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 50%;
   background: repeating-linear-gradient(
     0deg,
-    transparent,
-    transparent 3px,
-    rgba(0, 0, 0, 0.08) 3px,
-    rgba(0, 0, 0, 0.08) 4px
+    transparent 0 3px,
+    rgba(0, 0, 0, 0.07) 3px 4px
   );
-  z-index: 2;
+  mix-blend-mode: multiply;
   pointer-events: none;
+  z-index: 20;
 }
 
-@keyframes radarSweep {
-  from { transform: rotate(0deg); }
+/* Inner vignette sits above all content to soften the rim */
+.threat-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, transparent 55%, rgba(0,0,0, 0.55) 100%);
+  pointer-events: none;
+  z-index: 19;
+}
+
+/* State tokens */
+.threat-glass.state-breach {
+  --threat-color: #ff5050;
+  --threat-soft:  rgba(255, 80, 80, 0.6);
+  --threat-glow:  rgba(255, 80, 80, 0.22);
+  --threat-sweep: rgba(255, 80, 80, 0.4);
+  --threat-dim:   rgba(255, 80, 80, 0.12);
+  --threat-rgb:   255, 80, 80;
+}
+.threat-glass.state-risk {
+  --threat-color: #ffaa33;
+  --threat-soft:  rgba(255, 170, 51, 0.6);
+  --threat-glow:  rgba(255, 170, 51, 0.22);
+  --threat-sweep: rgba(255, 170, 51, 0.4);
+  --threat-dim:   rgba(255, 170, 51, 0.12);
+  --threat-rgb:   255, 170, 51;
+}
+.threat-glass.state-secure {
+  --threat-color: #00e5c8;
+  --threat-soft:  rgba(0, 229, 200, 0.65);
+  --threat-glow:  rgba(0, 229, 200, 0.25);
+  --threat-sweep: rgba(0, 229, 200, 0.38);
+  --threat-dim:   rgba(0, 229, 200, 0.14);
+  --threat-rgb:   0, 229, 200;
+}
+
+/* ── Layer 0: Volumetric radar sweep ─────────────── */
+.threat-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 270deg,
+    var(--threat-dim) 310deg,
+    var(--threat-sweep) 352deg,
+    transparent 360deg
+  );
+  mix-blend-mode: screen;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+  transition:
+    background 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity    1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: threatSweep 7s linear infinite;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+@keyframes threatSweep {
   to { transform: rotate(360deg); }
 }
 
-/* State-aware glow colors */
-.threat-glass.glow-red {
-  --threat-glow: rgba(255, 80, 80, 0.12);
-  --threat-sweep: rgba(255, 80, 80, 0.08);
+/* ── Layer 1: Ambient depth particles ───────────── */
+.threat-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.threat-glass.glow-orange {
-  --threat-glow: rgba(255, 170, 51, 0.12);
-  --threat-sweep: rgba(255, 170, 51, 0.08);
+.threat-particles circle {
+  fill: rgba(255, 255, 255, 0.5);
+  animation: particleDrift var(--pdur, 8s) ease-in-out var(--pdelay, 0s) infinite alternate;
+  transform-origin: center;
+  transform-box: fill-box;
 }
-.threat-glass.glow-green {
-  --threat-glow: rgba(0, 229, 200, 0.15);
-  --threat-sweep: rgba(0, 229, 200, 0.10);
+@keyframes particleDrift {
+  from { transform: translate(0, 0);                       opacity: var(--pmin, 0.15); }
+  to   { transform: translate(var(--dx, 0px), var(--dy, 0px)); opacity: var(--pmax, 0.55); }
 }
 
+/* ── Layer 2: Core wrapper (orbits + symbol) ────── */
 .threat-core {
   position: absolute;
   inset: 0;
@@ -3589,105 +3656,403 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  z-index: 3;
 }
 
-.core-ring {
+/* ── Orbital belt: 6 SVG ellipses with gradient-alpha depth ── */
+.threat-orbits {
   position: absolute;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 80, 80, 0.4);
-  box-shadow: 0 0 20px rgba(255, 80, 80, 0.1), inset 0 0 15px rgba(255, 80, 80, 0.05);
-  transition: border-color 0.8s ease, box-shadow 0.8s ease;
-  transform-style: preserve-3d;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  color: var(--threat-color);
+  filter: drop-shadow(0 0 4px var(--threat-dim));
+  transition: color 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 3;
+}
+.orbit {
+  transform-box: view-box;
+  transform-origin: 200px 200px;
+  will-change: transform;
+}
+/* Explicit rx/ry baseline so the state→state transition has a defined
+   starting value. Matches the attribute geometry on each <ellipse>. */
+.orbit-1 ellipse { rx: 182px; ry: 58px;  }
+.orbit-2 ellipse { rx: 172px; ry: 92px;  }
+.orbit-3 ellipse { rx: 152px; ry: 126px; }
+.orbit-4 ellipse { rx: 132px; ry: 158px; }
+.orbit-5 ellipse { rx: 70px;  ry: 162px; }
+.orbit-6 ellipse { rx: 95px;  ry: 95px;  }
+
+/* Shape morph timing — rings settle from tumbling ellipses to concentric
+   circles on the secure beat; the long curve lets each ring arrive at a
+   different moment (gradient masks + slight geometry diff stagger it). */
+.orbit ellipse {
+  transition:
+    rx 1400ms cubic-bezier(0.22, 1, 0.36, 1),
+    ry 1400ms cubic-bezier(0.22, 1, 0.36, 1),
+    stroke-opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.threat-core.is-secure .core-ring {
-  border-color: rgba(0, 229, 200, 0.6) !important;
-  box-shadow: 0 0 30px rgba(0, 229, 200, 0.3) !important;
-}
+/* Solid primary rings: very slow drift rotation — feels alive, not spinning */
+.orbit-1 { animation: orbitDrift 48s linear infinite; }
+.orbit-2 { animation: orbitDrift 74s linear infinite reverse; }
+.orbit-5 { animation: orbitDrift 92s linear infinite; }
+/* Dashed data-stream rings: flow via stroke-dashoffset */
+.orbit-3 ellipse { animation: dashFlow 9s linear infinite; }
+.orbit-4 ellipse { animation: dashFlow 13s linear infinite reverse; }
+.orbit-6 ellipse { animation: dashFlow 6s linear infinite; }
 
-.threat-core.is-secure .lock-icon {
-  color: #00e5c8 !important;
-}
+@keyframes orbitDrift { to { transform: rotate(360deg); } }
+@keyframes dashFlow   { to { stroke-dashoffset: -120; } }
 
-.ring-1 {
-  width: 90%;
-  height: 90%;
-  border-top-color: transparent !important;
-  border-bottom-color: transparent !important;
-}
-
-.ring-2 {
-  width: 70%;
-  height: 70%;
-  border-left-color: transparent !important;
-  border-right-color: transparent !important;
-}
-
-.ring-3 {
-  width: 45%;
-  height: 45%;
-  border: 2px dashed rgba(255, 80, 80, 0.5);
-  box-shadow: 0 0 12px rgba(255, 80, 80, 0.08);
-}
-
-.threat-core.is-secure .ring-3 {
-  border-color: rgba(0, 229, 200, 0.5) !important;
-  border-style: solid;
-}
-
+/* ── Central symbol ──────────────────────────────── */
+/* Lock is anchored to the exact center of the orb; HUD is parked below
+   it as a separate absolute layer. Decoupling them lets the padlock sit
+   on the true geometric center (where the orbits converge) while the
+   readout floats beneath without dragging the lock off-axis. */
 .center-lock {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 10;
+}
+
+.lock-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 78px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  overflow: visible;
 }
 
 .lock-icon {
-  width: 4rem;
-  height: 4rem;
-  color: #ff5050;
-  transition: color 0.5s ease;
-  filter: drop-shadow(0 0 8px rgba(255, 80, 80, 0.5));
-  animation: lockPulse 2.5s ease-in-out infinite;
+  color: var(--threat-color);
+  transition: color 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(0 0 10px var(--threat-dim));
 }
 
-@keyframes lockPulse {
-  0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 80, 80, 0.4)); }
-  50% { filter: drop-shadow(0 0 18px rgba(255, 80, 80, 0.7)); }
+/* Halo: wider soft stroke, opacity-pulsed (no filter keyframes) */
+.lock-halo {
+  stroke: var(--threat-color);
+  fill: none;
+  stroke-opacity: 0.22;
+  animation: haloPulse 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes haloPulse {
+  0%, 100% { stroke-opacity: 0.14; }
+  50%      { stroke-opacity: 0.38; }
 }
 
-.threat-core.is-secure .lock-icon {
-  animation: lockPulseSecure 2.5s ease-in-out infinite;
+.lock-body,
+.lock-shackle,
+#lock-shackle-halo {
+  stroke-linejoin: round;
+  transition: d 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes lockPulseSecure {
-  0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 229, 200, 0.5)); }
-  50% { filter: drop-shadow(0 0 20px rgba(0, 229, 200, 0.9)); }
+/* Vertical scanning line sweeping across the lock */
+.lock-scanline {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: 2px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    var(--threat-soft) 20%,
+    var(--threat-color) 50%,
+    var(--threat-soft) 80%,
+    transparent 100%);
+  opacity: 0;
+  filter: blur(0.6px);
+  pointer-events: none;
+  animation: lockScan 3.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform, opacity;
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes lockScan {
+  0%   { transform: translateX(-4px);  opacity: 0; }
+  15%  {                                opacity: 0.9; }
+  50%  { transform: translateX(74px);   opacity: 0.9; }
+  65%  {                                opacity: 0; }
+  100% { transform: translateX(74px);   opacity: 0; }
 }
 
+/* Pulse wave — emits once on enter-secure (JS toggles .pulse class) */
+.lock-pulse-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--threat-color);
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.4);
+  will-change: transform, opacity;
+}
+.lock-pulse-wave.pulse {
+  animation: pulseWave 900ms cubic-bezier(0.22, 1, 0.36, 1) 1 forwards;
+}
+@keyframes pulseWave {
+  0%   { transform: scale(0.3); opacity: 0.9; }
+  80%  {                          opacity: 0.15; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+/* Breach jitter — applied once per breach-enter (JS toggles .jitter class) */
+.lock-wrap.jitter .lock-icon {
+  animation: lockJitter 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97) 1;
+}
+@keyframes lockJitter {
+  0%, 100% { transform: translate(0, 0); }
+  15%      { transform: translate(-2px, 1px); }
+  30%      { transform: translate(2px, -1px); }
+  45%      { transform: translate(-1.5px, -1px); }
+  60%      { transform: translate(1.5px, 1px); }
+  75%      { transform: translate(-1px, 0.5px); }
+}
+
+/* ── HUD micro-readout ───────────────────────────── */
 .status-readout {
+  /* Anchored below the centered lock — translate(-50%) centers the box
+     horizontally, the Y offset = lock half-height + breathing gap. */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 52px);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  /* Isolating panel: dark translucent backdrop lifts the HUD off the
+     orbits/particles behind it without fighting the floating aesthetic. */
+  padding: 0.55rem 0.9rem 0.6rem;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(4, 9, 17, 0.78) 0%, rgba(4, 9, 17, 0.62) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
   font-family: var(--font-mono, monospace);
-  font-size: 0.85rem;
-  letter-spacing: 2px;
-  color: var(--text-dim);
+  font-size: 0.66rem;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  min-width: 220px;
+  align-items: stretch;
+}
+.hud-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
 }
 
-.status-readout::after {
+.hud-key {
+  flex: 0 0 54px;
+  color: rgba(255, 255, 255, 0.62);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.hud-val {
+  color: rgba(255, 255, 255, 0.92);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.hud-val-primary {
+  color: var(--threat-color);
+  text-shadow:
+    0 0 10px rgba(var(--threat-rgb), 0.45),
+    0 1px 2px rgba(0, 0, 0, 0.85);
+  transition: color 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  font-weight: 700;
+}
+.hud-val-primary::after {
   content: '█';
+  display: inline-block;
+  margin-left: 3px;
+  font-size: 0.85em;
   animation: cursorBlink 1s steps(1) infinite;
-  margin-left: 2px;
-  font-size: 0.75rem;
-  opacity: 0.6;
+  vertical-align: baseline;
+}
+.hud-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--threat-color);
+  box-shadow: 0 0 8px var(--threat-color), 0 0 2px var(--threat-color);
+  transition: background 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: hudDotPulse 2s ease-in-out infinite;
+}
+@keyframes hudDotPulse {
+  0%, 100% { opacity: 0.75; }
+  50%      { opacity: 1; }
+}
+
+.hud-bars {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+}
+.hud-bars span {
+  width: 6px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.18);
+  transition: background 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hud-bars span.filled {
+  background: var(--threat-color);
+  box-shadow: 0 0 6px rgba(var(--threat-rgb), 0.7);
+}
+.hud-threat-pct {
+  color: var(--threat-color);
+  min-width: 2.5em;
+  text-align: right;
+  font-weight: 700;
+  text-shadow:
+    0 0 8px rgba(var(--threat-rgb), 0.4),
+    0 1px 2px rgba(0, 0, 0, 0.85);
+  transition: color 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes cursorBlink {
-  0%, 50% { opacity: 0.6; }
+  0%, 50%   { opacity: 0.75; }
   51%, 100% { opacity: 0; }
 }
 
+/* ── Layer 3: Outer instrumentation bezel ─────────── */
+.threat-bezel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 12;
+}
+.bezel-rotating {
+  transform-box: view-box;
+  transform-origin: 200px 200px;
+  animation: bezelDrift 90s linear infinite;
+  will-change: transform;
+}
+@keyframes bezelDrift { to { transform: rotate(360deg); } }
+
+.bezel-ticks line {
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+.bezel-ticks line.major {
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 1.4;
+}
+
+.bezel-cardinals text {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  fill: rgba(255, 255, 255, 0.45);
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.bezel-scanner circle {
+  fill: var(--threat-color);
+  filter: drop-shadow(0 0 4px var(--threat-color));
+  transition: fill 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Secure-state: brief bezel brighten pulse (JS toggles .bezel-flash) */
+.threat-glass.bezel-flash .bezel-ticks line {
+  animation: bezelFlash 600ms cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+@keyframes bezelFlash {
+  0%   { stroke: rgba(255, 255, 255, 0.25); }
+  40%  { stroke: var(--threat-color); }
+  100% { stroke: rgba(255, 255, 255, 0.25); }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   SECURE STATE — steady-state calm.
+   Design intent: the system has finished its work. Motion should
+   retreat, not stop — still ambient, but visibly at rest. Every
+   layer slows; the active-scan cues (scanline, bright sweep) retire;
+   the lock becomes the visual anchor.
+   ═════════════════════════════════════════════════════════════════ */
+.threat-glass.state-secure .threat-sweep {
+  animation-duration: 14s;   /* patrol, not search */
+  opacity: 0.24;
+}
+.threat-glass.state-secure .orbit-1           { animation-duration: 96s;  }
+.threat-glass.state-secure .orbit-2           { animation-duration: 148s; }
+.threat-glass.state-secure .orbit-5           { animation-duration: 184s; }
+.threat-glass.state-secure .orbit-3 ellipse   { animation-duration: 18s;  }
+.threat-glass.state-secure .orbit-4 ellipse   { animation-duration: 26s;  }
+.threat-glass.state-secure .orbit-6 ellipse   { animation-duration: 12s;  }
+.threat-glass.state-secure .lock-halo         { animation-duration: 4.5s; }
+.threat-glass.state-secure .lock-scanline     { opacity: 0; }
+.threat-glass.state-secure .threat-particles  { opacity: 0.55; }
+
+/* ── Secure-state radial unfold ─────────────────────────────────────
+   The six tumbling ellipses smoothly morph their rx/ry into equal
+   values — resolving the composition into clean concentric rings
+   centered on the padlock. Rotation continues invisibly on the now-
+   circular geometry; the gradient-masked strokes on orbits 1/2/5
+   become slowly phasing arcs, giving the "radar at rest" feel.
+   Radii are chosen to echo the reference: tight inner ring hugging
+   the lock, comfortable mid-band, one outer ring near the bezel. */
+.threat-glass.state-secure .orbit-6 ellipse { rx: 65px;  ry: 65px;  }
+.threat-glass.state-secure .orbit-5 ellipse { rx: 96px;  ry: 96px;  }
+.threat-glass.state-secure .orbit-4 ellipse { rx: 125px; ry: 125px; }
+.threat-glass.state-secure .orbit-3 ellipse { rx: 152px; ry: 152px; }
+.threat-glass.state-secure .orbit-2 ellipse { rx: 174px; ry: 174px; }
+.threat-glass.state-secure .orbit-1 ellipse { rx: 190px; ry: 190px; }
+
+/* ── Off-screen / tab-hidden pause: freeze all child animations ── */
+.threat-glass.is-paused,
+.threat-glass.is-paused *,
+.threat-glass.is-paused *::before,
+.threat-glass.is-paused *::after {
+  animation-play-state: paused !important;
+}
+
+/* ── Reduced-motion: keep legibility, drop all looped motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .threat-sweep,
+  .threat-particles circle,
+  .orbit,
+  .orbit ellipse,
+  .lock-halo,
+  .lock-scanline,
+  .hud-dot,
+  .hud-val-primary::after,
+  .bezel-rotating {
+    animation: none !important;
+  }
+  /* Reduced motion: disable the radial-unfold morph, keep color crossfade */
+  .orbit ellipse { transition: stroke-opacity 300ms linear !important; }
+  .threat-sweep { opacity: 0.3; }
+  .lock-scanline { display: none; }
+  .center-lock,
+  .threat-orbits,
+  .threat-bezel,
+  .threat-particles {
+    transition: none !important;
+  }
+}
+
+/* ── Responsive ──────────────────────────────────── */
 @media (max-width: 992px) {
   .challenge-grid {
     grid-template-columns: 1fr;
@@ -3695,15 +4060,45 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     gap: 3rem;
   }
-  
+
   .challenge-visualizer {
-    height: 350px;
+    height: auto;
+    min-height: 360px;
     margin-top: 2rem;
   }
 
   .threat-glass {
-    max-width: 350px;
-    max-height: 350px;
+    max-width: 360px;
+    max-height: 360px;
+    margin: 0 auto;
+  }
+
+  .status-readout {
+    font-size: 0.6rem;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .threat-glass {
+    max-width: 320px;
+    max-height: 320px;
+  }
+  .lock-wrap {
+    width: 60px;
+    height: 66px;
+  }
+  .lock-icon {
+    width: 60px;
+    height: 66px;
+  }
+  .status-readout {
+    font-size: 0.55rem;
+    min-width: 180px;
+    transform: translate(-50%, 44px);
+  }
+  .hud-key {
+    flex: 0 0 44px;
   }
 }
 
