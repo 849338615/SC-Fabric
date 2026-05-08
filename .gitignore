@@ -1,1 +1,21 @@
-.vercel
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+
+# Local environment / dependency folders
+.venv/
+node_modules/
+
+# Hosting / build artifacts
+.vercel/
+dist/
+build/
+
+# Local agent / tooling state
+.agent/
+.claude/
