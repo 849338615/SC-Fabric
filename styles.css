@@ -1149,22 +1149,25 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
   height: 620px;
   min-width: 0;
+  contain: paint;
 }
 
 .marquee-track {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .marquee-track--up {
   animation: marquee-vert-up 30s linear infinite;
-  will-change: transform;
 }
 
 .marquee-track--down {
   animation: marquee-vert-down 32s linear infinite;
-  will-change: transform;
 }
 
 .marquee-col:hover .marquee-track {
@@ -1183,11 +1186,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Testimonial Card */
 .t-card {
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 14px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -4106,6 +4107,11 @@ h1, h2, h3, h4, h5, h6 {
   .threat-bezel,
   .threat-particles {
     transition: none !important;
+  }
+  .marquee-track--up,
+  .marquee-track--down,
+  .logo-track {
+    animation: none !important;
   }
 }
 
