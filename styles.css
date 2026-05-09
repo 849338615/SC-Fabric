@@ -90,8 +90,12 @@ body {
   line-height: 1.6;
   color: var(--color-text-secondary);
   background: radial-gradient(ellipse at 50% 50%, #2e3642 0%, #11161d 60%, var(--color-bg) 100%);
-  background-attachment: fixed;
   overflow-x: hidden;
+}
+
+/* Fixed background only on desktop — causes scroll jank on iOS Safari. */
+@media (min-width: 769px) {
+  body { background-attachment: fixed; }
 }
 
 p, li {
@@ -117,7 +121,11 @@ a:hover { opacity: 0.7; }
 
 /* --- Scroll targets — offset for fixed nav --- */
 section[id] {
-  scroll-margin-top: 100px;
+  scroll-margin-top: 64px;
+}
+
+@media (min-width: 769px) {
+  section[id] { scroll-margin-top: 100px; }
 }
 
 /* --- Utility --- */
@@ -3212,6 +3220,20 @@ h1, h2, h3, h4, h5, h6 {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Three.js Data Vault Core mount — extracted from inline style in index.html
+   so its sizing can be controlled from CSS. */
+.three-core-mount {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150vw;
+  height: 140vh;
+  pointer-events: none;
+  z-index: -1;
+  will-change: transform;
+}
+
 /* =============================================
    RESPONSIVE
    ============================================= */
@@ -3267,6 +3289,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
+  /* Scale spacing tokens down so every section that uses var(--space-*)
+     for vertical padding tightens automatically — single highest-leverage
+     mobile rule on the page. */
+  :root {
+    --space-3xl: 5rem;
+    --space-2xl: 3.5rem;
+    --space-xl:  2.5rem;
+    --space-lg:  1.75rem;
+  }
+
   .container {
     padding: 0 var(--space-md);
   }
@@ -3277,7 +3309,18 @@ h1, h2, h3, h4, h5, h6 {
 
   .nav-hamburger {
     display: flex;
+    padding: 12px;
+    min-width: 44px;
+    min-height: 44px;
+    margin-right: -8px;
   }
+
+  .nav-logo { padding: 8px 0; }
+
+  /* The challenge wrapper hardcodes its own padding instead of using tokens. */
+  .challenge-pin-wrapper { padding: 4rem 0 3rem; }
+
+  .contact-form-wrapper { padding: var(--space-lg); }
 
   .hero h1 {
     font-size: clamp(2rem, 8vw, 3rem);
@@ -3292,7 +3335,10 @@ h1, h2, h3, h4, h5, h6 {
 
   .hero-nav-link {
     font-size: 0.68rem;
-    padding: 0.35rem 0.65rem;
+    padding: 0.6rem 0.75rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
   }
 
   .hero-bottom {
@@ -3356,6 +3402,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 480px) {
+  /* Tighten the spacing scale further on the smallest phones. */
+  :root {
+    --space-3xl: 3.5rem;
+    --space-2xl: 2.5rem;
+    --space-xl:  2rem;
+    --space-lg:  1.5rem;
+  }
+
+  .container { padding: 0 var(--space-sm); }
+
   .hero-nav-bar {
     padding: 0.3rem 0.5rem;
   }
@@ -3366,8 +3422,11 @@ h1, h2, h3, h4, h5, h6 {
 
   .hero-nav-link {
     font-size: 0.62rem;
-    padding: 0.35rem 0.5rem;
+    padding: 0.55rem 0.65rem;
+    min-height: 36px;
   }
+
+  .nav-logo-icon { width: 28px; height: 28px; }
 
   .hero-bottom {
     bottom: var(--space-md);
@@ -4113,6 +4172,11 @@ h1, h2, h3, h4, h5, h6 {
   .logo-track {
     animation: none !important;
   }
+  .marquee-3d-viewport,
+  .marquee-col {
+    animation: none !important;
+  }
+  html { scroll-behavior: auto; }
 }
 
 /* ── Responsive ──────────────────────────────────── */

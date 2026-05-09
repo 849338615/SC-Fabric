@@ -91,9 +91,15 @@
     });
 
     // 3. Hero Headline Interactive Spotlight & Parallax
+    // Tilt + spotlight depend on a real mouse cursor and meaningful pointer
+    // precision — gate behind hover/fine-pointer and reduced-motion so the
+    // listeners never attach on phones (where they'd waste cycles for an
+    // effect touch users can't perceive).
+    const canTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+                 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const heroSection = document.querySelector('.hero');
     const heroHeadline = document.querySelector('.hero h1');
-    if (heroSection && heroHeadline) {
+    if (heroSection && heroHeadline && canTilt) {
       // Cache bounding rects; invalidate on scroll/resize to avoid forced
       // reflow on every mousemove tick.
       let heroRect = heroSection.getBoundingClientRect();

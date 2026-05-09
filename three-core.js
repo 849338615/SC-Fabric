@@ -16,6 +16,12 @@ const __initVaultCore = () => {
   const container = document.getElementById('three-cyber-core');
   if (!container || typeof THREE === 'undefined') return;
 
+  // Respect reduced-motion preference — the vault is decorative ornament.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    container.style.display = 'none';
+    return;
+  }
+
   // ── Scene, Camera, Renderer ──
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 100);

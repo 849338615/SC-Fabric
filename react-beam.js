@@ -89,6 +89,12 @@ const BeamLine = () => {
     const core = coreRef.current;
     if (!glow || !core || !dims) return;
 
+    // Skip on mobile (case rows collapse to single column so the beam path
+    // is broken anyway) and on reduced-motion preference.
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isMobile || reduced) return;
+
     const totalLen = glow.getTotalLength();
     const beamLen = Math.min(totalLen * 0.18, 600);
     const gap = totalLen;

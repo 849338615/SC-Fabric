@@ -80,13 +80,19 @@ const HexLattice = () => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { alpha: true });
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const isTouch  = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+    // Mobile uses a sparser grid — halves the hex count, saves both fill
+    // and the O(n²) constellation-link pass below.
+    const hexSize = isMobile ? 88 : HEX_SIZE;
 
     let width = 0;
     let height = 0;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    const hexWidth = SQRT3 * HEX_SIZE;
-    const hexHeight = 2 * HEX_SIZE;
+    const hexWidth = SQRT3 * hexSize;
+    const hexHeight = 2 * hexSize;
     const vertDist = hexHeight * 0.75;
 
     const mouse = { x: 0, y: 0, inside: false };
@@ -252,8 +258,13 @@ const HexLattice = () => {
       if (ripples.length > 5) ripples.shift();
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('mouseout', handleMouseLeave);
+    // Skip mouse tracking on touch devices — synthesized mouse events from
+    // taps would only briefly trigger then leak; the magnetic effect needs
+    // a real cursor. Click shockwaves still work because click fires from tap.
+    if (!isTouch) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      window.addEventListener('mouseout', handleMouseLeave);
+    }
     canvas.addEventListener('click', handleClick);
     window.addEventListener('resize', resize);
     let ro = null;
@@ -281,7 +292,8 @@ const HexLattice = () => {
 
     const frame = (now) => {
       if (!heroVisible) { rafId = 0; return; }
-      rafId = requestAnimationFrame(frame);
+      // Reduced-motion: render one static frame, then stop the loop.
+      rafId = prefersReduced ? 0 : requestAnimationFrame(frame);
       const dt = Math.min(0.05, (now - lastFrame) / 1000);
       lastFrame = now;
       time += dt;
@@ -369,7 +381,7 @@ const HexLattice = () => {
         const drawCy = hex.cy + oy + parY * hex.depth;
         const activity = vLift + vFlash;
         const scale = 1 + vLift * 0.1 + vFlash * 0.08;
-        const size = (HEX_SIZE - 2) * scale;
+        const size = (hexSize - 2) * scale;
 
         const edgeAlpha = hex.baseAlpha * (0.55 + breathe * 0.35) + activity * 0.55;
         const fillAlpha = hex.baseAlpha * 0.22 + activity * 0.2;
@@ -441,7 +453,9 @@ const HexLattice = () => {
       }
 
       // 4) Constellation links between active cells near the cursor.
-      if (active.length >= 8) {
+      // Skipped on mobile — O(n²) per-frame link pass is the heaviest cost
+      // on the page and touch users don't trigger the cursor-driven activity.
+      if (!isMobile && active.length >= 8) {
         const maxLinkDist = hexWidth * 1.28;
         const maxLinkSq = maxLinkDist * maxLinkDist;
         for (let i = 0; i < active.length; i += 4) {
@@ -499,7 +513,7 @@ const HexLattice = () => {
           }
           const hex = hexagons[p.hex];
           if (!hex) { particles[i] = newParticle(); continue; }
-          const vertSize = HEX_SIZE - 2;
+          const vertSize = hexSize - 2;
           const [ax, ay] = vertexAt(hex.cx + parX * hex.depth, hex.cy + parY * hex.depth, vertSize, p.edge);
           const [bx, by] = vertexAt(hex.cx + parX * hex.depth, hex.cy + parY * hex.depth, vertSize, p.edge + 1);
           const x = lerp(ax, bx, p.t);
