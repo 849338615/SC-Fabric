@@ -81,6 +81,14 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* iOS Safari needs overflow-x clipping on html, not just body — body alone
+     fails to contain transformed/absolute children (e.g. the 150vw Three.js
+     mount in .data-vault, which intentionally spills via overflow: visible).
+     Without this, mobile Safari sees a >100vw document and shrinks-to-fit.
+     `clip` is preferred (no scroll container side-effect); `hidden` is the
+     fallback for older Safari (<16). */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -91,6 +99,7 @@ body {
   color: var(--color-text-secondary);
   background: radial-gradient(ellipse at 50% 50%, #2e3642 0%, #11161d 60%, var(--color-bg) 100%);
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Fixed background only on desktop — causes scroll jank on iOS Safari. */
@@ -976,7 +985,7 @@ h1, h2, h3, h4, h5, h6 {
 /* =============================================
    WHY FABRIC
    ============================================= */
-.why-titan {
+.data-vault {
   position: relative;
   z-index: 5; /* Creates definitive stacking context to cleanly overlay preceding sections */
   margin-top: 150px; /* Forces distance between this section and the one above it */
@@ -988,7 +997,7 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 
-.why-titan-bg {
+.data-vault-bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -1000,7 +1009,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Add a geometric/jet shape placeholder in the background */
-.why-titan-bg::after {
+.data-vault-bg::after {
   content: '';
   position: absolute;
   bottom: -10%;
@@ -1011,7 +1020,7 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-.why-titan-content {
+.data-vault-content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1021,18 +1030,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-.why-titan-text {
+.data-vault-text {
   max-width: 800px;
   margin-top: auto;
 }
 
-.why-titan-header {
+.data-vault-header {
   position: relative;
   /* Ambient glow effect perfectly synced with other section headers */
   background: radial-gradient(ellipse 70% 60% at 30% 50%, rgba(30, 60, 160, 0.12), transparent 70%);
 }
 
-.why-titan-heading {
+.data-vault-heading {
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 300;
   line-height: 1.1;
@@ -1040,7 +1049,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
 }
 
-.why-titan-points {
+.data-vault-points {
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
@@ -1049,12 +1058,12 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: var(--space-2xl);
 }
 
-.why-titan-point {
+.data-vault-point {
   border-left: 1px solid rgba(255,255,255,0.1);
   padding-left: var(--space-md);
 }
 
-.why-titan-point h3 {
+.data-vault-point h3 {
   font-size: 1rem;
   font-weight: 400;
   font-family: var(--font-mono);
@@ -1075,18 +1084,18 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 10px var(--color-accent);
 }
 
-.why-titan-point p {
+.data-vault-point p {
   color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.6;
 }
 
 @media (min-width: 900px) {
-  .why-titan-content {
+  .data-vault-content {
     flex-direction: row;
     align-items: flex-end;
   }
-  .why-titan-points {
+  .data-vault-points {
     margin-top: 0;
     margin-bottom: 2rem;
   }
@@ -2120,47 +2129,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .form-success.show {
   display: block;
-}
-
-/* =============================================
-   FOOTER
-   ============================================= */
-.footer-titan {
-  padding: var(--space-2xl) 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  background: transparent;
-}
-
-.footer-titan-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-titan-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  text-decoration: none;
-}
-
-.footer-titan-copy,
-.footer-titan-links a {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--color-text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.footer-titan-links {
-  display: flex;
-  gap: var(--space-xl);
-  list-style: none;
 }
 
 /* =============================================
@@ -3358,7 +3326,7 @@ h1, h2, h3, h4, h5, h6 {
     gap: var(--space-2xl);
   }
 
-  .why-titan-content {
+  .data-vault-content {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -3377,8 +3345,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .pricing-grid,
-  .form-row,
-  .footer-titan-inner {
+  .form-row {
     flex-direction: column;
     grid-template-columns: 1fr;
     gap: var(--space-lg);
@@ -4308,7 +4275,7 @@ h1, h2, h3, h4, h5, h6 {
 /* =============================================
    OUR DIFFERENTIATOR — Enhanced prominence
    ============================================= */
-.why-titan .section-label {
+.data-vault .section-label {
   font-size: 1rem;
   font-weight: 800;
   letter-spacing: 0.25em;

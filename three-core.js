@@ -743,7 +743,7 @@ const __initVaultCore = () => {
 
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: '.why-titan',
+        trigger: '.data-vault',
         start: 'top 120%',
         end: 'top 10%',
         scrub: 1.5
@@ -803,7 +803,7 @@ const __initVaultCore = () => {
       y: Math.PI * 3,
       z: Math.PI / 5,
       scrollTrigger: {
-        trigger: '.why-titan',
+        trigger: '.data-vault',
         start: 'top 120%',
         end: 'bottom top',
         scrub: 0.5
