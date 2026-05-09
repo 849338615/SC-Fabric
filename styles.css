@@ -3338,14 +3338,26 @@ h1, h2, h3, h4, h5, h6 {
     align-items: flex-start;
   }
 
+  /* Testimonials marquee on mobile: drop the 3D perspective tilt (designed
+     for 4 wide columns on desktop — at narrow widths it crushes cards into
+     unreadable diagonals) and show a single full-width column. The card
+     itself still scrolls vertically so the marquee motion is preserved. */
   .marquee-3d-viewport {
-    height: 320px;
+    height: 380px;
+    perspective: none;
+  }
+
+  .marquee-3d-inner {
+    transform: none;
+    padding: 0 var(--space-md);
+    max-width: 100%;
   }
 
   .marquee-col {
-    height: 320px;
+    height: 380px;
   }
 
+  .marquee-col:nth-child(2),
   .marquee-col:nth-child(3),
   .marquee-col:nth-child(4) {
     display: none;
