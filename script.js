@@ -304,8 +304,17 @@
       // Wait for layout to fully settle before measuring
       setTimeout(initBeam, 100);
 
+      // iOS Safari fires `resize` repeatedly while the URL bar collapses/
+      // expands during scroll, even though the layout width doesn't change.
+      // Re-running initBeam on each one kills the GSAP tween and makes the
+      // beam disappear mid-scroll. Only re-init when the container width
+      // actually changes (orientation flip, breakpoint crossing, true reflow).
       var resizeTimer;
+      var lastBeamW = caseRowsContainer.offsetWidth;
       window.addEventListener('resize', function() {
+        var newW = caseRowsContainer.offsetWidth;
+        if (newW === lastBeamW) return;
+        lastBeamW = newW;
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(initBeam, 200);
       });

@@ -107,9 +107,22 @@ const BeamLine = () => {
     return pts.join(' ');
   }, []);
 
-  // Measure on mount + resize
+  // Measure on mount + resize. iOS Safari fires `resize` continuously while
+  // the URL bar shows/hides during scroll — without the width guard, every
+  // one of those events would re-render and kill the RAF tween, causing the
+  // beam to flicker or disappear mid-scroll.
   useEffect(() => {
-    const update = () => setDims(measure());
+    let lastW = -1;
+    const update = () => {
+      const next = measure();
+      if (!next) return;
+      if (next.W === lastW) {
+        // Width unchanged → just an iOS URL bar movement; ignore.
+        return;
+      }
+      lastW = next.W;
+      setDims(next);
+    };
     const timer = setTimeout(update, 400);
     window.addEventListener('resize', update);
     return () => { clearTimeout(timer); window.removeEventListener('resize', update); };
