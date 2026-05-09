@@ -164,31 +164,57 @@
         var W = caseRowsContainer.offsetWidth;
         var points = [];
 
-        for (var i = 0; i < caseRows.length; i++) {
-          var row = caseRows[i];
-          // Use offset-based positions (relative to offsetParent = case-rows)
-          var topY = row.offsetTop;
-          var bottomY = row.offsetTop + row.offsetHeight;
+        // Detect single-column layout. The CSS collapses the case-row grid to
+        // 1fr at ≤1024px, so .case-content fills the full width and the
+        // desktop "vertical divider in the middle" doesn't exist. Produce a
+        // proper edge-to-edge zigzag along the actual horizontal dividers
+        // instead of the desktop snake (which collapses to right-edge only).
+        var stacked = window.matchMedia('(max-width: 1024px)').matches;
 
-          // Vertical divider = border-right on .case-content
-          var content = row.querySelector('.case-content');
-          var divX = content.offsetLeft + content.offsetWidth;
-
-          var goingRight = (i % 2 === 0);
-
-          if (goingRight) {
-            if (i === 0) {
-              points.push({ x: 0, y: topY });
+        if (stacked) {
+          var topY0 = caseRows[0].offsetTop;
+          points.push({ x: 0, y: topY0 });
+          points.push({ x: W, y: topY0 });
+          var atRight = true;
+          for (var s = 0; s < caseRows.length; s++) {
+            var rowS = caseRows[s];
+            var bottomYS = rowS.offsetTop + rowS.offsetHeight;
+            if (atRight) {
+              points.push({ x: W, y: bottomYS }); // down right edge
+              points.push({ x: 0, y: bottomYS }); // sweep left across divider
+            } else {
+              points.push({ x: 0, y: bottomYS }); // down left edge
+              points.push({ x: W, y: bottomYS }); // sweep right across divider
             }
-            points.push({ x: divX, y: topY });
-            points.push({ x: divX, y: bottomY });
-            points.push({ x: W, y: bottomY });
-          } else {
-            points.push({ x: W, y: topY });
-            points.push({ x: divX, y: topY });
-            points.push({ x: divX, y: bottomY });
-            if (i === caseRows.length - 1) {
-              points.push({ x: 0, y: bottomY });
+            atRight = !atRight;
+          }
+        } else {
+          for (var i = 0; i < caseRows.length; i++) {
+            var row = caseRows[i];
+            // Use offset-based positions (relative to offsetParent = case-rows)
+            var topY = row.offsetTop;
+            var bottomY = row.offsetTop + row.offsetHeight;
+
+            // Vertical divider = border-right on .case-content
+            var content = row.querySelector('.case-content');
+            var divX = content.offsetLeft + content.offsetWidth;
+
+            var goingRight = (i % 2 === 0);
+
+            if (goingRight) {
+              if (i === 0) {
+                points.push({ x: 0, y: topY });
+              }
+              points.push({ x: divX, y: topY });
+              points.push({ x: divX, y: bottomY });
+              points.push({ x: W, y: bottomY });
+            } else {
+              points.push({ x: W, y: topY });
+              points.push({ x: divX, y: topY });
+              points.push({ x: divX, y: bottomY });
+              if (i === caseRows.length - 1) {
+                points.push({ x: 0, y: bottomY });
+              }
             }
           }
         }

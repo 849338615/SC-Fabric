@@ -42,11 +42,14 @@ const BeamLine = () => {
     const { W, hLines, vSegs } = d;
     const pts = [];
 
-    // Detect single-column layout (mobile): case-content takes full width, so
-    // every vertical divider sits at the right edge. The desktop snake logic
-    // collapses into overlapping back-and-forth segments here, so use a
-    // proper edge-to-edge zigzag instead.
-    const stacked = !vSegs.length || vSegs.every(v => v.x >= W - 4);
+    // Detect single-column layout: case-content takes (nearly) full width,
+    // so the desktop "vertical divider in the middle" doesn't exist. Use a
+    // proper edge-to-edge zigzag instead. Threshold is generous (within 20%
+    // of right edge) so subpixel rendering or padding doesn't break detection.
+    const stacked =
+      !vSegs.length ||
+      vSegs.every(v => v.x >= W * 0.8) ||
+      window.matchMedia('(max-width: 1024px)').matches;
 
     if (stacked) {
       pts.push(`M 0 ${hLines[0]}`);
