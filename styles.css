@@ -3447,17 +3447,20 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 10;
 }
 
-/* Signal Deck: stacked crossfade container */
+/* Signal Deck: stacked crossfade container.
+   Uses CSS Grid stacking so the deck auto-sizes to the tallest card at any
+   viewport width — absolutely-positioned children would let the longer
+   "Breach Exposure" copy spill past the deck on mobile and overlap the pips. */
 .signal-deck {
-  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
   min-height: 260px;
 }
 
 .signal-card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  grid-column: 1;
+  grid-row: 1;
   min-height: 260px;
   display: flex;
   align-items: center;
