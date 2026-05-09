@@ -52,17 +52,23 @@ const BeamLine = () => {
       window.matchMedia('(max-width: 1024px)').matches;
 
     if (stacked) {
-      pts.push(`M 0 ${hLines[0]}`);
-      pts.push(`L ${W} ${hLines[0]}`);
+      // Inset the beam OUTSIDE the case-rows box so it sits in the parent
+      // container's padding gutter, away from the body text. SVG has
+      // overflow: visible so negative-x renders into the gutter cleanly.
+      const OFFSET = 16;
+      const leftX = -OFFSET;
+      const rightX = W + OFFSET;
+      pts.push(`M ${leftX} ${hLines[0]}`);
+      pts.push(`L ${rightX} ${hLines[0]}`);
       let atRight = true;
       for (let i = 1; i < hLines.length; i++) {
         const y = hLines[i];
         if (atRight) {
-          pts.push(`L ${W} ${y}`); // down the right edge
-          pts.push(`L 0 ${y}`);    // sweep left across the divider
+          pts.push(`L ${rightX} ${y}`); // down the right edge
+          pts.push(`L ${leftX} ${y}`);  // sweep left across the divider
         } else {
-          pts.push(`L 0 ${y}`);    // down the left edge
-          pts.push(`L ${W} ${y}`); // sweep right across the divider
+          pts.push(`L ${leftX} ${y}`);  // down the left edge
+          pts.push(`L ${rightX} ${y}`); // sweep right across the divider
         }
         atRight = !atRight;
       }

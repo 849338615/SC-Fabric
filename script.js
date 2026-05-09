@@ -172,19 +172,26 @@
         var stacked = window.matchMedia('(max-width: 1024px)').matches;
 
         if (stacked) {
+          // Inset the beam OUTSIDE the .case-rows box on both edges so it
+          // sits in the parent container's padding gutter rather than flush
+          // against the text. .beam-svg has overflow: visible so negative-x
+          // and >W coordinates render past the SVG bounds into the gutter.
+          var OFFSET = 16;
+          var leftX = -OFFSET;
+          var rightX = W + OFFSET;
           var topY0 = caseRows[0].offsetTop;
-          points.push({ x: 0, y: topY0 });
-          points.push({ x: W, y: topY0 });
+          points.push({ x: leftX, y: topY0 });
+          points.push({ x: rightX, y: topY0 });
           var atRight = true;
           for (var s = 0; s < caseRows.length; s++) {
             var rowS = caseRows[s];
             var bottomYS = rowS.offsetTop + rowS.offsetHeight;
             if (atRight) {
-              points.push({ x: W, y: bottomYS }); // down right edge
-              points.push({ x: 0, y: bottomYS }); // sweep left across divider
+              points.push({ x: rightX, y: bottomYS }); // down right edge
+              points.push({ x: leftX, y: bottomYS });  // sweep left across divider
             } else {
-              points.push({ x: 0, y: bottomYS }); // down left edge
-              points.push({ x: W, y: bottomYS }); // sweep right across divider
+              points.push({ x: leftX, y: bottomYS });  // down left edge
+              points.push({ x: rightX, y: bottomYS }); // sweep right across divider
             }
             atRight = !atRight;
           }
