@@ -42,9 +42,32 @@ const BeamLine = () => {
     const { W, hLines, vSegs } = d;
     const pts = [];
 
-    // Snake through the grid: horizontal line → vertical divider → next horizontal (reversed direction)
-    let goingRight = true;
+    // Detect single-column layout (mobile): case-content takes full width, so
+    // every vertical divider sits at the right edge. The desktop snake logic
+    // collapses into overlapping back-and-forth segments here, so use a
+    // proper edge-to-edge zigzag instead.
+    const stacked = !vSegs.length || vSegs.every(v => v.x >= W - 4);
 
+    if (stacked) {
+      pts.push(`M 0 ${hLines[0]}`);
+      pts.push(`L ${W} ${hLines[0]}`);
+      let atRight = true;
+      for (let i = 1; i < hLines.length; i++) {
+        const y = hLines[i];
+        if (atRight) {
+          pts.push(`L ${W} ${y}`); // down the right edge
+          pts.push(`L 0 ${y}`);    // sweep left across the divider
+        } else {
+          pts.push(`L 0 ${y}`);    // down the left edge
+          pts.push(`L ${W} ${y}`); // sweep right across the divider
+        }
+        atRight = !atRight;
+      }
+      return pts.join(' ');
+    }
+
+    // Desktop: snake through the 2-column grid via the inner vertical divider.
+    let goingRight = true;
     for (let i = 0; i < hLines.length; i++) {
       const y = hLines[i];
 
@@ -89,11 +112,10 @@ const BeamLine = () => {
     const core = coreRef.current;
     if (!glow || !core || !dims) return;
 
-    // Skip on mobile (case rows collapse to single column so the beam path
-    // is broken anyway) and on reduced-motion preference.
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (isMobile || reduced) return;
+    // Skip on reduced-motion preference. Mobile gets the animated zigzag —
+    // buildPath has a stacked-layout branch that produces a clean edge-to-edge
+    // zigzag along the horizontal row dividers.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const totalLen = glow.getTotalLength();
     const beamLen = Math.min(totalLen * 0.18, 600);
